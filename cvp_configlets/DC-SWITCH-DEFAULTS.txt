@@ -3,15 +3,9 @@ alias tail bash sudo tail -f /var/log/messages
 !
 event-monitor
 !
-transceiver qsfp default-mode 4x10G
-!
-service routing protocols model multi-agent
-!
 daemon TerminAttr
    exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvcompression=gzip -cvvrf=management -taillogs -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent
    no shutdown
-!
-!queue-monitor length
 !
 logging host 10.112.112.31 514
 logging source-interface Management1
@@ -31,25 +25,14 @@ ip access-list standard SSH-ACL
    100 permit 10.0.0.0/8
 !
 ip domain lookup vrf management source-interface Management1
-!ip name-server vrf management 10.112.112.30
-ip name-server vrf management 1.1.1.1
 dns domain dime-a-tron.com
 !
 ntp local-interface vrf management Management1
 ntp server vrf management 0.pool.ntp.org iburst
 !
-spanning-tree mode rapid-pvst
-!
-clock timezone US/Central
-!
 mac address-table aging-time 1300
 !
-ip routing
-!
 arp aging timeout default 900
-!
-!queue-monitor streaming
-!   no shutdown
 !
 banner login
 ************************************************************************
