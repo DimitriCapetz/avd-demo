@@ -37,21 +37,6 @@ local_users:
 #  MLAG_IPv4_UNDERLAY_PEER:
 #    password: "vnEaG8gMeQf3d3cN6PktXQ=="
 #
-##### Override for vEOS Lab Caveats ####
-#
-## Disable update wait-for-convergence and update wait-for-install,
-## which is not supported in vEOS-LAB.
-## Refer to design guide
-#
-## Update p2p mtu 9000 -> 1500
-## p2p_uplinks_mtu: 1500
-#
-## Adjust default bfd values
-#bfd_multihop:
-#  interval: 1200
-#  min_rx: 1200
-#  multiplier: 3
-
 # List of additional CVP configlets to bind to devices and containers
 # Configlets MUST be configured on CVP before running AVD playbooks.
 
