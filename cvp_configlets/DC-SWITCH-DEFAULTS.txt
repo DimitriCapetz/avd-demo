@@ -3,10 +3,6 @@ alias tail bash sudo tail -f /var/log/messages
 !
 event-monitor
 !
-daemon TerminAttr
-   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvcompression=gzip -cvvrf=management -taillogs -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-   no shutdown
-!
 logging host 10.112.112.31 514
 logging source-interface Management1
 logging buffered 100000000 informational
