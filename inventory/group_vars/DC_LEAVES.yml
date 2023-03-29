@@ -12,7 +12,7 @@ l3leaf:
     mgmt_interface: Management1
     loopback_ipv4_pool: 10.255.254.0/24
     vtep_loopback_ipv4_pool: 10.255.255.0/24
-    uplink_ipv4_pool: 10.0.0.0/24
+    uplink_ipv4_pool: 10.0.0.0/23
     uplink_interfaces: ['Ethernet49/1', 'Ethernet50/1']
     uplink_switches: ['DC-SPINE1', 'DC-SPINE2']
     mlag_interfaces: [ Ethernet55/1, Ethernet56/1 ]
@@ -62,11 +62,11 @@ l3leaf:
     DC_BORDER_LEAVES:
       bgp_as: 65199
       nodes:
-        DC-LEAF5:
-          id: 254
+        DC-BORDER1:
+          id: 127
           mgmt_ip: 10.99.99.186/24
           uplink_switch_interfaces: ['Ethernet7/1', 'Ethernet7/1']
-        DC-LEAF6:
-          id: 255
+        DC-BORDER2:
+          id: 128
           mgmt_ip: 10.99.99.187/24
           uplink_switch_interfaces: ['Ethernet8/1', 'Ethernet8/1']

@@ -8,17 +8,17 @@
     - arista.cvp
   tasks:
     - name: 'reset local folders for output'
-      tags: [build, generate]
+      tags: [build, provision]
       import_role:
         name: arista.avd.build_output_folders
 
     - name: generate intended variables
-      tags: [build, generate]
+      tags: [build, provision]
       import_role:
         name: arista.avd.eos_designs
 
     - name: generate device intended config and documentation
-      tags: [build, generate]
+      tags: [build, provision]
       import_role:
         name: eos_cli_config_gen
 
@@ -31,6 +31,7 @@
     - arista.cvp
   tasks:
     - name: run CVP provisioning
+      tags: [provision]
       import_role:
         name: arista.avd.eos_config_deploy_cvp
       vars:

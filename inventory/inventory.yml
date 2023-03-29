@@ -23,10 +23,10 @@ all:
                   hosts:
                     DC-LEAF3:
                     DC-LEAF4:
-                DC_COMPUTE_POD3:
-                  hosts:
-                    DC-LEAF5:
-                    DC-LEAF6:
+                #DC_COMPUTE_POD3:
+                #  hosts:
+                #    DC-LEAF5:
+                #    DC-LEAF6:
             DC_BORDER_LEAVES:
               hosts:
                 DC-BORDER1:
