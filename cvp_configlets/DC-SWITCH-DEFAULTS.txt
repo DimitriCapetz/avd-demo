@@ -1,0 +1,76 @@
+alias 1min show log last 1 minute
+alias tail bash sudo tail -f /var/log/messages
+!
+event-monitor
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+daemon TerminAttr
+   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvcompression=gzip -cvvrf=management -taillogs -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+   no shutdown
+!
+!queue-monitor length
+!
+logging host 10.112.112.31 514
+logging source-interface Management1
+logging buffered 100000000 informational
+!
+snmp-server ipv4 access-list SNMP-ACL vrf management
+snmp-server community COMMUNITY ro SNMP-ACL
+snmp-server enable traps
+snmp-server community public ro
+snmp-server vrf management local-interface Management1
+!
+ip access-list standard SNMP-ACL
+   permit 10.0.0.0/8
+   permit any
+!
+ip access-list standard SSH-ACL
+   100 permit 10.0.0.0/8
+!
+ip domain lookup vrf management source-interface Management1
+!ip name-server vrf management 10.112.112.30
+ip name-server vrf management 1.1.1.1
+dns domain dime-a-tron.com
+!
+ntp local-interface vrf management Management1
+ntp server vrf management 0.pool.ntp.org iburst
+!
+spanning-tree mode rapid-pvst
+!
+clock timezone US/Central
+!
+mac address-table aging-time 1300
+!
+ip routing
+!
+arp aging timeout default 900
+!
+!queue-monitor streaming
+!   no shutdown
+!
+banner login
+************************************************************************
+
+   WARNING: This system is for the use of authorized clients only.
+            Individuals using the computer network system without
+            authorization, or in excess of their authorization, are
+            subject to having all their activity on this computer
+            network system monitored and recorded by system
+            personnel.  To protect the computer network system from
+            unauthorized use and to ensure the computer network systems
+            is functioning properly, system administrators monitor this
+            system.  Anyone using this computer network system
+            expressly consents to such monitoring and is advised that
+            if such monitoring reveals possible conduct of criminal
+            activity, system personnel may provide the evidence of
+            such activity to law enforcement officers.
+
+            Access is restricted to authorized users only.
+            Unauthorized access is a violation of state and federal,
+            civil and criminal laws.
+
+**************************************************************************
+EOF

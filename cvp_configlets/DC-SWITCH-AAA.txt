@@ -1,0 +1,27 @@
+aaa root secret sha512 $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1
+!
+username admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0
+username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/
+username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU= dcapetz@dcapetz
+!
+tacacs-server host home-ise.dime-a-tron.com key 7 014354560C2F052B220D
+!
+ip tacacs vrf management source-interface Management1
+!
+aaa group server tacacs+ home-ise
+   server home-ise.dime-a-tron.com vrf management
+!
+aaa authentication login default local
+aaa authentication login console local
+aaa authorization exec default local
+aaa authorization commands all default local
+aaa accounting exec console start-stop logging
+aaa accounting commands all console start-stop logging
+!aaa accounting exec default start-stop group home-ise logging
+!aaa accounting commands all default start-stop group home-ise logging
+!
+role config-admin
+   permit command configure session.*
+   deny mode exec command configure|bash|python-shell|\|
+   permit mode exec command .*
+   permit mode config-all command .*

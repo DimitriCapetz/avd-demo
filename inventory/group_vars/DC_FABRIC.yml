@@ -1,0 +1,41 @@
+---
+# L3LS Fabric Values - update these values with caution,
+# SOME CHANGES COULD BE DISRUPTIVE.
+
+fabric_name: DC_FABRIC
+
+## Enable vlan aware bundles
+#vxlan_vlan_aware_bundles: true
+#
+## bgp peer groups passwords
+#bgp_peer_groups:
+#  IPv4_UNDERLAY_PEERS:
+#    password: "AQQvKeimxJu+uGQ/yYvv9w=="
+#  EVPN_OVERLAY_PEERS:
+#    password: "q+VNViP5i4rVjW1cxFv2wA=="
+#  MLAG_IPv4_UNDERLAY_PEER:
+#    password: "vnEaG8gMeQf3d3cN6PktXQ=="
+#
+##### Override for vEOS Lab Caveats ####
+#
+## Disable update wait-for-convergence and update wait-for-install,
+## which is not supported in vEOS-LAB.
+## Refer to design guide
+#
+## Update p2p mtu 9000 -> 1500
+## p2p_uplinks_mtu: 1500
+#
+## Adjust default bfd values
+#bfd_multihop:
+#  interval: 1200
+#  min_rx: 1200
+#  multiplier: 3
+
+# List of additional CVP configlets to bind to devices and containers
+# Configlets MUST be configured on CVP before running AVD playbooks.
+
+cv_configlets:
+  containers:
+    DC_L3LEAFS:
+      - AVD_DC-SWITCH-AAA
+      - AVD_DC-SWITCH-DEFAULTS
