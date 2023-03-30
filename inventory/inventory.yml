@@ -25,10 +25,6 @@ all:
                       hosts:
                         DC-LEAF3:
                         DC-LEAF4:
-                    #DC_COMPUTE_POD3:
-                    #  hosts:
-                    #    DC-LEAF5:
-                    #    DC-LEAF6:
                 DC_BORDER_LEAVES:
                   hosts:
                     DC-BORDER1:
@@ -37,7 +33,7 @@ all:
           children:
             DC_COMPUTE_LEAVES:
             DC_BORDER_LEAVES:
-        DC_SERVERS:
+        DC_ENDPOINTS:
           children:
             DC_COMPUTE_LEAVES:
             DC_BORDER_LEAVES:
