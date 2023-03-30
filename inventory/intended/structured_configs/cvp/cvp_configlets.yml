@@ -1,0 +1,845 @@
+CVP_CONFIGLETS:
+  AVD-L3LSV_DC-BORDER1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-BORDER1\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree\
+    \ mst 0 priority 32768\n!\ntacacs-server host home-ise.dime-a-tron.com vrf management\
+    \ key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n   server\
+    \ home-ise.dime-a-tron.com vrf management\n!\naaa authentication login default\
+    \ local\naaa authentication login console local\naaa authorization exec default\
+    \ local\naaa authorization commands all default local\naaa accounting commands\
+    \ all console start-stop logging\n!\nno enable password\naaa root secret sha512\
+    \ $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
+    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
+    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
+    \ MLAG_PEER_DC-BORDER2_Po551\n   no shutdown\n   switchport\n   switchport trunk\
+    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
+    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet7/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.249/31\n\
+    !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet7/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.251/31\n\
+    !\ninterface Ethernet55/1\n   description MLAG_PEER_DC-BORDER2_Ethernet55/1\n\
+    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Ethernet56/1\n\
+    \   description MLAG_PEER_DC-BORDER2_Ethernet56/1\n   no shutdown\n   channel-group\
+    \ 551 mode active\n!\ninterface Loopback0\n   description EVPN_Overlay_Peering\n\
+    \   no shutdown\n   ip address 10.255.254.127/32\n!\ninterface Loopback1\n   description\
+    \ VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address 10.255.255.127/32\n\
+    !\ninterface Management1\n   description oob_management\n   no shutdown\n   vrf\
+    \ management\n   ip address 10.99.99.186/24\n!\ninterface Vlan4093\n   description\
+    \ MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address 10.1.1.252/31\n\
+    !\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n   mtu 1500\n\
+    \   no autostate\n   ip address 10.1.0.252/31\n!\ninterface Vxlan1\n   description\
+    \ DC-BORDER1_VTEP\n   vxlan source-interface Loopback1\n   vxlan virtual-router\
+    \ encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n!\nmac address-table\
+    \ aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip access-list\
+    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip routing vrf\
+    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.255.254.0/24\
+    \ eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n!\nmlag configuration\n   domain-id\
+    \ DC_BORDER_LEAVES\n   local-interface Vlan4094\n   peer-address 10.1.0.253\n\
+    \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
+    \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
+    \ 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    !\nroute-map RM-MLAG-PEER-IN permit 10\n   description Make routes learned over\
+    \ MLAG Peer-link less preferred on spines to ensure optimal routing\n   set origin\
+    \ incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx 1200 multiplier\
+    \ 3\n!\nrouter bgp 65199\n   router-id 10.255.254.127\n   no bgp default ipv4-unicast\n\
+    \   distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n\
+    \   maximum-paths 4 ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor\
+    \ EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n\
+    \   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS\
+    \ send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor\
+    \ IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n\
+    \   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65199\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
+    \ DC-BORDER2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.1.248 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 10.0.1.248 remote-as 65000\n   neighbor 10.0.1.248 description DC-SPINE1_Ethernet7/1\n\
+    \   neighbor 10.0.1.250 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.250\
+    \ remote-as 65000\n   neighbor 10.0.1.250 description DC-SPINE2_Ethernet7/1\n\
+    \   neighbor 10.1.1.253 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.253\
+    \ description DC-BORDER2\n   neighbor 10.255.252.1 peer group EVPN-OVERLAY-PEERS\n\
+    \   neighbor 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description\
+    \ DC-SPINE1\n   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor\
+    \ 10.255.252.2 remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n\
+    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n\
+    \      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n  \
+    \    no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+  AVD-L3LSV_DC-BORDER2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-BORDER2\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree\
+    \ mst 0 priority 32768\n!\ntacacs-server host home-ise.dime-a-tron.com vrf management\
+    \ key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n   server\
+    \ home-ise.dime-a-tron.com vrf management\n!\naaa authentication login default\
+    \ local\naaa authentication login console local\naaa authorization exec default\
+    \ local\naaa authorization commands all default local\naaa accounting commands\
+    \ all console start-stop logging\n!\nno enable password\naaa root secret sha512\
+    \ $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
+    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
+    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
+    \ MLAG_PEER_DC-BORDER1_Po551\n   no shutdown\n   switchport\n   switchport trunk\
+    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
+    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet8/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.253/31\n\
+    !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet8/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.255/31\n\
+    !\ninterface Ethernet55/1\n   description MLAG_PEER_DC-BORDER1_Ethernet55/1\n\
+    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Ethernet56/1\n\
+    \   description MLAG_PEER_DC-BORDER1_Ethernet56/1\n   no shutdown\n   channel-group\
+    \ 551 mode active\n!\ninterface Loopback0\n   description EVPN_Overlay_Peering\n\
+    \   no shutdown\n   ip address 10.255.254.128/32\n!\ninterface Loopback1\n   description\
+    \ VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address 10.255.255.127/32\n\
+    !\ninterface Management1\n   description oob_management\n   no shutdown\n   vrf\
+    \ management\n   ip address 10.99.99.187/24\n!\ninterface Vlan4093\n   description\
+    \ MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address 10.1.1.253/31\n\
+    !\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n   mtu 1500\n\
+    \   no autostate\n   ip address 10.1.0.253/31\n!\ninterface Vxlan1\n   description\
+    \ DC-BORDER2_VTEP\n   vxlan source-interface Loopback1\n   vxlan virtual-router\
+    \ encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n!\nmac address-table\
+    \ aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip access-list\
+    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip routing vrf\
+    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.255.254.0/24\
+    \ eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n!\nmlag configuration\n   domain-id\
+    \ DC_BORDER_LEAVES\n   local-interface Vlan4094\n   peer-address 10.1.0.252\n\
+    \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
+    \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
+    \ 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    !\nroute-map RM-MLAG-PEER-IN permit 10\n   description Make routes learned over\
+    \ MLAG Peer-link less preferred on spines to ensure optimal routing\n   set origin\
+    \ incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx 1200 multiplier\
+    \ 3\n!\nrouter bgp 65199\n   router-id 10.255.254.128\n   no bgp default ipv4-unicast\n\
+    \   distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n\
+    \   maximum-paths 4 ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor\
+    \ EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n\
+    \   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS\
+    \ send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor\
+    \ IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n\
+    \   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65199\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
+    \ DC-BORDER1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.1.252 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 10.0.1.252 remote-as 65000\n   neighbor 10.0.1.252 description DC-SPINE1_Ethernet8/1\n\
+    \   neighbor 10.0.1.254 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.254\
+    \ remote-as 65000\n   neighbor 10.0.1.254 description DC-SPINE2_Ethernet8/1\n\
+    \   neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.252\
+    \ description DC-BORDER1\n   neighbor 10.255.252.1 peer group EVPN-OVERLAY-PEERS\n\
+    \   neighbor 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description\
+    \ DC-SPINE1\n   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor\
+    \ 10.255.252.2 remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n\
+    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n\
+    \      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n  \
+    \    no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+  AVD-L3LSV_DC-LEAF1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-LEAF1\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree\
+    \ mst 0 priority 32768\n!\ntacacs-server host home-ise.dime-a-tron.com vrf management\
+    \ key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n   server\
+    \ home-ise.dime-a-tron.com vrf management\n!\naaa authentication login default\
+    \ local\naaa authentication login console local\naaa authorization exec default\
+    \ local\naaa authorization commands all default local\naaa accounting commands\
+    \ all console start-stop logging\n!\nno enable password\naaa root secret sha512\
+    \ $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
+    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
+    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
+    \ MLAG_PEER_DC-LEAF2_Po551\n   no shutdown\n   switchport\n   switchport trunk\
+    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
+    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet1/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.1/31\n!\n\
+    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet1/1\n   no\
+    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.3/31\n!\ninterface\
+    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF2_Ethernet55/1\n   no shutdown\n\
+    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF2_Ethernet56/1\n\
+    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
+    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.1/32\n\
+    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
+    \   ip address 10.255.255.1/32\n!\ninterface Management1\n   description oob_management\n\
+    \   no shutdown\n   vrf management\n   ip address 10.99.99.180/24\n!\ninterface\
+    \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
+    \   ip address 10.1.1.0/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
+    \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.0/31\n!\n\
+    interface Vxlan1\n   description DC-LEAF1_VTEP\n   vxlan source-interface Loopback1\n\
+    \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
+    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
+    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC_COMPUTE_POD1\n   local-interface Vlan4094\n\
+    \   peer-address 10.1.0.1\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65101\n   router-id\
+    \ 10.255.254.1\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n \
+    \  graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC-LEAF2\n  \
+    \ neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
+    \ in\n   neighbor 10.0.0.0 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.0\
+    \ remote-as 65000\n   neighbor 10.0.0.0 description DC-SPINE1_Ethernet1/1\n  \
+    \ neighbor 10.0.0.2 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.2 remote-as\
+    \ 65000\n   neighbor 10.0.0.2 description DC-SPINE2_Ethernet1/1\n   neighbor 10.1.1.1\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.1 description DC-LEAF2\n\
+    \   neighbor 10.255.252.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.1\
+    \ remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n   neighbor\
+    \ 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2 remote-as\
+    \ 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute connected\
+    \ route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS\
+    \ activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS\
+    \ activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ activate\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+  AVD-L3LSV_DC-LEAF2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-LEAF2\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree\
+    \ mst 0 priority 32768\n!\ntacacs-server host home-ise.dime-a-tron.com vrf management\
+    \ key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n   server\
+    \ home-ise.dime-a-tron.com vrf management\n!\naaa authentication login default\
+    \ local\naaa authentication login console local\naaa authorization exec default\
+    \ local\naaa authorization commands all default local\naaa accounting commands\
+    \ all console start-stop logging\n!\nno enable password\naaa root secret sha512\
+    \ $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
+    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
+    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
+    \ MLAG_PEER_DC-LEAF1_Po551\n   no shutdown\n   switchport\n   switchport trunk\
+    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
+    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet2/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.5/31\n!\n\
+    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet2/1\n   no\
+    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.7/31\n!\ninterface\
+    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF1_Ethernet55/1\n   no shutdown\n\
+    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF1_Ethernet56/1\n\
+    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
+    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.2/32\n\
+    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
+    \   ip address 10.255.255.1/32\n!\ninterface Management1\n   description oob_management\n\
+    \   no shutdown\n   vrf management\n   ip address 10.99.99.181/24\n!\ninterface\
+    \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
+    \   ip address 10.1.1.1/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
+    \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.1/31\n!\n\
+    interface Vxlan1\n   description DC-LEAF2_VTEP\n   vxlan source-interface Loopback1\n\
+    \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
+    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
+    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC_COMPUTE_POD1\n   local-interface Vlan4094\n\
+    \   peer-address 10.1.0.0\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65101\n   router-id\
+    \ 10.255.254.2\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n \
+    \  graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC-LEAF1\n  \
+    \ neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
+    \ in\n   neighbor 10.0.0.4 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.4\
+    \ remote-as 65000\n   neighbor 10.0.0.4 description DC-SPINE1_Ethernet2/1\n  \
+    \ neighbor 10.0.0.6 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.6 remote-as\
+    \ 65000\n   neighbor 10.0.0.6 description DC-SPINE2_Ethernet2/1\n   neighbor 10.1.1.0\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.0 description DC-LEAF1\n\
+    \   neighbor 10.255.252.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.1\
+    \ remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n   neighbor\
+    \ 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2 remote-as\
+    \ 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute connected\
+    \ route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS\
+    \ activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS\
+    \ activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ activate\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+  AVD-L3LSV_DC-LEAF3: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-LEAF3\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree\
+    \ mst 0 priority 32768\n!\ntacacs-server host home-ise.dime-a-tron.com vrf management\
+    \ key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n   server\
+    \ home-ise.dime-a-tron.com vrf management\n!\naaa authentication login default\
+    \ local\naaa authentication login console local\naaa authorization exec default\
+    \ local\naaa authorization commands all default local\naaa accounting commands\
+    \ all console start-stop logging\n!\nno enable password\naaa root secret sha512\
+    \ $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
+    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
+    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
+    \ MLAG_PEER_DC-LEAF4_Po551\n   no shutdown\n   switchport\n   switchport trunk\
+    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
+    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet3/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.9/31\n!\n\
+    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet3/1\n   no\
+    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.11/31\n!\ninterface\
+    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF4_Ethernet55/1\n   no shutdown\n\
+    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF4_Ethernet56/1\n\
+    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
+    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.3/32\n\
+    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
+    \   ip address 10.255.255.3/32\n!\ninterface Management1\n   description oob_management\n\
+    \   no shutdown\n   vrf management\n   ip address 10.99.99.182/24\n!\ninterface\
+    \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
+    \   ip address 10.1.1.4/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
+    \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.4/31\n!\n\
+    interface Vxlan1\n   description DC-LEAF3_VTEP\n   vxlan source-interface Loopback1\n\
+    \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
+    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
+    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC_COMPUTE_POD2\n   local-interface Vlan4094\n\
+    \   peer-address 10.1.0.5\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65102\n   router-id\
+    \ 10.255.254.3\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n \
+    \  graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC-LEAF4\n  \
+    \ neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
+    \ in\n   neighbor 10.0.0.8 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.8\
+    \ remote-as 65000\n   neighbor 10.0.0.8 description DC-SPINE1_Ethernet3/1\n  \
+    \ neighbor 10.0.0.10 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.10 remote-as\
+    \ 65000\n   neighbor 10.0.0.10 description DC-SPINE2_Ethernet3/1\n   neighbor\
+    \ 10.1.1.5 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.5 description\
+    \ DC-LEAF4\n   neighbor 10.255.252.1 peer group EVPN-OVERLAY-PEERS\n   neighbor\
+    \ 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n\
+    \   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2\
+    \ remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute\
+    \ connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor\
+    \ EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor\
+    \ EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n \
+    \     neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf management source-interface\
+    \ Management1\n!\nbanner login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+  AVD-L3LSV_DC-LEAF4: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-LEAF4\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree\
+    \ mst 0 priority 32768\n!\ntacacs-server host home-ise.dime-a-tron.com vrf management\
+    \ key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n   server\
+    \ home-ise.dime-a-tron.com vrf management\n!\naaa authentication login default\
+    \ local\naaa authentication login console local\naaa authorization exec default\
+    \ local\naaa authorization commands all default local\naaa accounting commands\
+    \ all console start-stop logging\n!\nno enable password\naaa root secret sha512\
+    \ $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
+    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
+    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
+    \ MLAG_PEER_DC-LEAF3_Po551\n   no shutdown\n   switchport\n   switchport trunk\
+    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
+    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet4/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.13/31\n!\n\
+    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet4/1\n   no\
+    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.15/31\n!\ninterface\
+    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF3_Ethernet55/1\n   no shutdown\n\
+    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF3_Ethernet56/1\n\
+    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
+    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.4/32\n\
+    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
+    \   ip address 10.255.255.3/32\n!\ninterface Management1\n   description oob_management\n\
+    \   no shutdown\n   vrf management\n   ip address 10.99.99.183/24\n!\ninterface\
+    \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
+    \   ip address 10.1.1.5/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
+    \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.5/31\n!\n\
+    interface Vxlan1\n   description DC-LEAF4_VTEP\n   vxlan source-interface Loopback1\n\
+    \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
+    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
+    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC_COMPUTE_POD2\n   local-interface Vlan4094\n\
+    \   peer-address 10.1.0.4\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65102\n   router-id\
+    \ 10.255.254.4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n \
+    \  graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC-LEAF3\n  \
+    \ neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
+    \ in\n   neighbor 10.0.0.12 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.12\
+    \ remote-as 65000\n   neighbor 10.0.0.12 description DC-SPINE1_Ethernet4/1\n \
+    \  neighbor 10.0.0.14 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.14 remote-as\
+    \ 65000\n   neighbor 10.0.0.14 description DC-SPINE2_Ethernet4/1\n   neighbor\
+    \ 10.1.1.4 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.4 description\
+    \ DC-LEAF3\n   neighbor 10.255.252.1 peer group EVPN-OVERLAY-PEERS\n   neighbor\
+    \ 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n\
+    \   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2\
+    \ remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute\
+    \ connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor\
+    \ EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor\
+    \ EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n \
+    \     neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf management source-interface\
+    \ Management1\n!\nbanner login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+  AVD-L3LSV_DC-SPINE1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-SPINE1\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode none\n!\ntacacs-server host home-ise.dime-a-tron.com vrf\
+    \ management key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n\
+    \   server home-ise.dime-a-tron.com vrf management\n!\naaa authentication login\
+    \ default local\naaa authentication login console local\naaa authorization exec\
+    \ default local\naaa authorization commands all default local\naaa accounting\
+    \ commands all console start-stop logging\n!\nno enable password\naaa root secret\
+    \ sha512 $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvrf instance management\n\
+    !\ninterface Ethernet1/1\n   description P2P_LINK_TO_DC-LEAF1_Ethernet49/1\n \
+    \  no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.0/31\n!\n\
+    interface Ethernet2/1\n   description P2P_LINK_TO_DC-LEAF2_Ethernet49/1\n   no\
+    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.4/31\n!\ninterface\
+    \ Ethernet3/1\n   description P2P_LINK_TO_DC-LEAF3_Ethernet49/1\n   no shutdown\n\
+    \   mtu 1500\n   no switchport\n   ip address 10.0.0.8/31\n!\ninterface Ethernet4/1\n\
+    \   description P2P_LINK_TO_DC-LEAF4_Ethernet49/1\n   no shutdown\n   mtu 1500\n\
+    \   no switchport\n   ip address 10.0.0.12/31\n!\ninterface Ethernet7/1\n   description\
+    \ P2P_LINK_TO_DC-BORDER1_Ethernet49/1\n   no shutdown\n   mtu 1500\n   no switchport\n\
+    \   ip address 10.0.1.248/31\n!\ninterface Ethernet8/1\n   description P2P_LINK_TO_DC-BORDER2_Ethernet49/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.252/31\n\
+    !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n\
+    \   ip address 10.255.252.1/32\n!\ninterface Management1\n   description oob_management\n\
+    \   no shutdown\n   vrf management\n   ip address 10.99.99.178/24\n!\nmac address-table\
+    \ aging-time 1300\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
+    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.252.0/28 eq 32\n!\nip route vrf management 0.0.0.0/0\
+    \ 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit\
+    \ 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65000\n   router-id\
+    \ 10.255.252.1\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n \
+    \  graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ next-hop-unchanged\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n\
+    \   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop\
+    \ 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS\
+    \ maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor\
+    \ 10.0.0.1 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.1 remote-as 65101\n\
+    \   neighbor 10.0.0.1 description DC-LEAF1_Ethernet49/1\n   neighbor 10.0.0.5\
+    \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.5 remote-as 65101\n   neighbor\
+    \ 10.0.0.5 description DC-LEAF2_Ethernet49/1\n   neighbor 10.0.0.9 peer group\
+    \ IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.9 remote-as 65102\n   neighbor 10.0.0.9\
+    \ description DC-LEAF3_Ethernet49/1\n   neighbor 10.0.0.13 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 10.0.0.13 remote-as 65102\n   neighbor 10.0.0.13 description DC-LEAF4_Ethernet49/1\n\
+    \   neighbor 10.0.1.249 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.249\
+    \ remote-as 65199\n   neighbor 10.0.1.249 description DC-BORDER1_Ethernet49/1\n\
+    \   neighbor 10.0.1.253 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.253\
+    \ remote-as 65199\n   neighbor 10.0.1.253 description DC-BORDER2_Ethernet49/1\n\
+    \   neighbor 10.255.254.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.1\
+    \ remote-as 65101\n   neighbor 10.255.254.1 description DC-LEAF1\n   neighbor\
+    \ 10.255.254.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.2 remote-as\
+    \ 65101\n   neighbor 10.255.254.2 description DC-LEAF2\n   neighbor 10.255.254.3\
+    \ peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.3 remote-as 65102\n  \
+    \ neighbor 10.255.254.3 description DC-LEAF3\n   neighbor 10.255.254.4 peer group\
+    \ EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.4 remote-as 65102\n   neighbor 10.255.254.4\
+    \ description DC-LEAF4\n   neighbor 10.255.254.127 peer group EVPN-OVERLAY-PEERS\n\
+    \   neighbor 10.255.254.127 remote-as 65199\n   neighbor 10.255.254.127 description\
+    \ DC-BORDER1\n   neighbor 10.255.254.128 peer group EVPN-OVERLAY-PEERS\n   neighbor\
+    \ 10.255.254.128 remote-as 65199\n   neighbor 10.255.254.128 description DC-BORDER2\n\
+    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n\
+    \      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n  \
+    \    no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+  AVD-L3LSV_DC-SPINE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
+    \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
+    \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
+    !\nvlan internal order ascending range 1006 1199\n!\nevent-monitor\n!\ntransceiver\
+    \ qsfp default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\n\
+    logging buffered 100000000 informational\nlogging vrf management host 10.112.112.31\
+    \ 514\nlogging source-interface Management1\nlogging vrf management source-interface\
+    \ Management1\n!\nhostname DC-SPINE2\nip domain lookup vrf management source-interface\
+    \ Mangement1\nip name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n\
+    !\nntp local-interface vrf management Management1\nntp server vrf management 0.pool.ntp.org\
+    \ iburst local-interface Management1\n!\nsflow sample 16384\nsflow vrf default\
+    \ destination 127.0.0.1\nsflow vrf default source-interface Loopback0\nsflow run\n\
+    !\nsnmp-server ipv4 access-list SNMP-ACL vrf management\nsnmp-server vrf management\
+    \ local-interface Management1\nsnmp-server community COMMUNITY ro SNMP-ACL\nsnmp-server\
+    \ host 10.112.34.58 vrf management version 2c COMMUNITY\nsnmp-server enable traps\n\
+    !\nspanning-tree mode none\n!\ntacacs-server host home-ise.dime-a-tron.com vrf\
+    \ management key 7 014354560C2F052B220D\n!\naaa group server tacacs+ home-ise\n\
+    \   server home-ise.dime-a-tron.com vrf management\n!\naaa authentication login\
+    \ default local\naaa authentication login console local\naaa authorization exec\
+    \ default local\naaa authorization commands all default local\naaa accounting\
+    \ commands all console start-stop logging\n!\nno enable password\naaa root secret\
+    \ sha512 $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1\n\
+    !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
+    username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
+    username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvrf instance management\n\
+    !\ninterface Ethernet1/1\n   description P2P_LINK_TO_DC-LEAF1_Ethernet50/1\n \
+    \  no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.2/31\n!\n\
+    interface Ethernet2/1\n   description P2P_LINK_TO_DC-LEAF2_Ethernet50/1\n   no\
+    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.6/31\n!\ninterface\
+    \ Ethernet3/1\n   description P2P_LINK_TO_DC-LEAF3_Ethernet50/1\n   no shutdown\n\
+    \   mtu 1500\n   no switchport\n   ip address 10.0.0.10/31\n!\ninterface Ethernet4/1\n\
+    \   description P2P_LINK_TO_DC-LEAF4_Ethernet50/1\n   no shutdown\n   mtu 1500\n\
+    \   no switchport\n   ip address 10.0.0.14/31\n!\ninterface Ethernet7/1\n   description\
+    \ P2P_LINK_TO_DC-BORDER1_Ethernet50/1\n   no shutdown\n   mtu 1500\n   no switchport\n\
+    \   ip address 10.0.1.250/31\n!\ninterface Ethernet8/1\n   description P2P_LINK_TO_DC-BORDER2_Ethernet50/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.254/31\n\
+    !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n\
+    \   ip address 10.255.252.2/32\n!\ninterface Management1\n   description oob_management\n\
+    \   no shutdown\n   vrf management\n   ip address 10.99.99.179/24\n!\nmac address-table\
+    \ aging-time 1300\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
+    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.252.0/28 eq 32\n!\nip route vrf management 0.0.0.0/0\
+    \ 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit\
+    \ 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65000\n   router-id\
+    \ 10.255.252.2\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n \
+    \  graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ next-hop-unchanged\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n\
+    \   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop\
+    \ 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS\
+    \ maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor\
+    \ 10.0.0.3 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.3 remote-as 65101\n\
+    \   neighbor 10.0.0.3 description DC-LEAF1_Ethernet50/1\n   neighbor 10.0.0.7\
+    \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.7 remote-as 65101\n   neighbor\
+    \ 10.0.0.7 description DC-LEAF2_Ethernet50/1\n   neighbor 10.0.0.11 peer group\
+    \ IPv4-UNDERLAY-PEERS\n   neighbor 10.0.0.11 remote-as 65102\n   neighbor 10.0.0.11\
+    \ description DC-LEAF3_Ethernet50/1\n   neighbor 10.0.0.15 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 10.0.0.15 remote-as 65102\n   neighbor 10.0.0.15 description DC-LEAF4_Ethernet50/1\n\
+    \   neighbor 10.0.1.251 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.251\
+    \ remote-as 65199\n   neighbor 10.0.1.251 description DC-BORDER1_Ethernet50/1\n\
+    \   neighbor 10.0.1.255 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.255\
+    \ remote-as 65199\n   neighbor 10.0.1.255 description DC-BORDER2_Ethernet50/1\n\
+    \   neighbor 10.255.254.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.1\
+    \ remote-as 65101\n   neighbor 10.255.254.1 description DC-LEAF1\n   neighbor\
+    \ 10.255.254.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.2 remote-as\
+    \ 65101\n   neighbor 10.255.254.2 description DC-LEAF2\n   neighbor 10.255.254.3\
+    \ peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.3 remote-as 65102\n  \
+    \ neighbor 10.255.254.3 description DC-LEAF3\n   neighbor 10.255.254.4 peer group\
+    \ EVPN-OVERLAY-PEERS\n   neighbor 10.255.254.4 remote-as 65102\n   neighbor 10.255.254.4\
+    \ description DC-LEAF4\n   neighbor 10.255.254.127 peer group EVPN-OVERLAY-PEERS\n\
+    \   neighbor 10.255.254.127 remote-as 65199\n   neighbor 10.255.254.127 description\
+    \ DC-BORDER1\n   neighbor 10.255.254.128 peer group EVPN-OVERLAY-PEERS\n   neighbor\
+    \ 10.255.254.128 remote-as 65199\n   neighbor 10.255.254.128 description DC-BORDER2\n\
+    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n\
+    \      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n  \
+    \    no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
+    \n   WARNING: This system is for the use of authorized clients only.\n       \
+    \     Individuals using the computer network system without\n            authorization,\
+    \ or in excess of their authorization, are\n            subject to having all\
+    \ their activity on this computer\n            network system monitored and recorded\
+    \ by system\n            personnel.  To protect the computer network system from\n\
+    \            unauthorized use and to ensure the computer network systems\n   \
+    \         is functioning properly, system administrators monitor this\n      \
+    \      system.  Anyone using this computer network system\n            expressly\
+    \ consents to such monitoring and is advised that\n            if such monitoring\
+    \ reveals possible conduct of criminal\n            activity, system personnel\
+    \ may provide the evidence of\n            such activity to law enforcement officers.\n\
+    \n            Access is restricted to authorized users only.\n            Unauthorized\
+    \ access is a violation of state and federal,\n            civil and criminal\
+    \ laws.\n\n**************************************************************************\n\
+    EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
+    \ !\n   vrf management\n      no shutdown\n!\nend\n"
+CVP_TOPOLOGY:
+  DC_BORDER_LEAVES:
+    devices:
+    - DC-BORDER1
+    - DC-BORDER2
+    parent_container: DC_LEAVES
+  DC_COMPUTE_LEAVES:
+    parent_container: DC_LEAVES
+  DC_COMPUTE_POD1:
+    devices:
+    - DC-LEAF1
+    - DC-LEAF2
+    parent_container: DC_COMPUTE_LEAVES
+  DC_COMPUTE_POD2:
+    devices:
+    - DC-LEAF3
+    - DC-LEAF4
+    parent_container: DC_COMPUTE_LEAVES
+  DC_FABRIC:
+    parent_container: Tenant
+  DC_LEAVES:
+    parent_container: DC_FABRIC
+  DC_SPINES:
+    devices:
+    - DC-SPINE1
+    - DC-SPINE2
+    parent_container: DC_FABRIC
+changed: false
