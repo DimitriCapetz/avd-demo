@@ -5,29 +5,39 @@ all:
     CVP:
       hosts:
         cvp:
-    DC_FABRIC:
+    DC:
       children:
-        DC_SPINES:
-          hosts:
-            DC-SPINE1:
-            DC-SPINE2:
-        DC_LEAVES:
+        DC_FABRIC:
+          children:
+            DC_SPINES:
+              hosts:
+                DC-SPINE1:
+                DC-SPINE2:
+            DC_LEAVES:
+              children:
+                DC_COMPUTE_LEAVES:
+                  children:
+                    DC_COMPUTE_POD1:
+                      hosts:
+                        DC-LEAF1:
+                        DC-LEAF2:
+                    DC_COMPUTE_POD2:
+                      hosts:
+                        DC-LEAF3:
+                        DC-LEAF4:
+                    #DC_COMPUTE_POD3:
+                    #  hosts:
+                    #    DC-LEAF5:
+                    #    DC-LEAF6:
+                DC_BORDER_LEAVES:
+                  hosts:
+                    DC-BORDER1:
+                    DC-BORDER2:
+        DC_TENANT_NETWORKS:
           children:
             DC_COMPUTE_LEAVES:
-              children:
-                DC_COMPUTE_POD1:
-                  hosts:
-                    DC-LEAF1:
-                    DC-LEAF2:
-                DC_COMPUTE_POD2:
-                  hosts:
-                    DC-LEAF3:
-                    DC-LEAF4:
-                #DC_COMPUTE_POD3:
-                #  hosts:
-                #    DC-LEAF5:
-                #    DC-LEAF6:
             DC_BORDER_LEAVES:
-              hosts:
-                DC-BORDER1:
-                DC-BORDER2:
+        DC_SERVERS:
+          children:
+            DC_COMPUTE_LEAVES:
+            DC_BORDER_LEAVES:

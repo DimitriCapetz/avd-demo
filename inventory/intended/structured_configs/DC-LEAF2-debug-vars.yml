@@ -124,14 +124,116 @@ event_monitor:
   enabled: true
 aliases: 'alias 1min show log last 1 minute
 
-  alias tail bash sudo tail -f /var/log/messages
-
-  '
+  alias tail bash sudo tail -f /var/log/messages'
 p2p_uplinks_mtu: 1500
 bfd_multihop:
   interval: 1200
   min_rx: 1200
   multiplier: 3
+mlag_ibgp_peering_vrfs:
+  base_vlan: 3000
+tenants:
+  Tenant_10:
+    mac_vrf_vni_base: 10000
+    vrfs:
+      Tenant_10_OP_Zone:
+        vrf_vni: 10
+        vtep_diagnostic:
+          loopback: 10
+          loopback_ip_range: 10.255.10.0/24
+        svis:
+          10:
+            name: Tenant_10_OP_Zone_1
+            tags:
+            - compute
+            enabled: true
+            ip_address_virtual: 10.10.10.1/24
+          11:
+            name: Tenant_10_OP_Zone_2
+            tags:
+            - compute
+            enabled: true
+            ip_address_virtual: 10.10.11.1/24
+          19:
+            name: Tenant_10_OP_Zone_FW
+            tags:
+            - border
+            enabled: true
+            ip_virtual_router_addresses:
+            - 10.10.19.1
+            nodes:
+              DC-BORDER1:
+                ip_address: 10.10.19.2/24
+              DC-BORDER2:
+                ip_address: 10.10.19.3/24
+      Tenant_10_WEB_Zone:
+        vrf_vni: 11
+        vtep_diagnostic:
+          loopback: 11
+          loopback_ip_range: 10.255.11.0/24
+        svis:
+          12:
+            name: Tenant_10_WEB_Zone_1
+            tags:
+            - compute
+            enabled: true
+            ip_address_virtual: 10.10.12.1/24
+          13:
+            name: Tenant_10_WEB_Zone_2
+            tags:
+            - compute
+            enabled: true
+            ip_address_virtual: 10.10.13.1/24
+          18:
+            name: Tenant_10_WEB_Zone_FW
+            tags:
+            - border
+            enabled: true
+            ip_virtual_router_addresses:
+            - 10.10.18.1
+            nodes:
+              DC-BORDER1:
+                ip_address: 10.10.18.2/24
+              DC-BORDER2:
+                ip_address: 10.10.18.3/24
+    l2vlans:
+      14:
+        name: Tenant_10_VMOTION
+        tags:
+        - compute
+  Tenant_20:
+    mac_vrf_vni_base: 10000
+    vrfs:
+      Tenant_20_OP_Zone:
+        vrf_vni: 20
+        vtep_diagnostic:
+          loopback: 20
+          loopback_ip_range: 10.255.20.0/24
+        svis:
+          20:
+            name: Tenant_20_OP_Zone_1
+            tags:
+            - compute
+            enabled: true
+            ip_address_virtual: 10.20.20.0/24
+          21:
+            name: Tenant_20_OP_Zone_2
+            tags:
+            - compute
+            enabled: true
+            ip_address_virtual: 10.20.21.1/24
+          29:
+            name: Tenant_20_OP_Zone_FW
+            tags:
+            - border
+            enabled: true
+            ip_virtual_router_addresses:
+            - 10.20.29.1
+            nodes:
+              DC-BORDER1:
+                ip_address: 10.20.29.2/24
+              DC-BORDER2:
+                ip_address: 10.20.29.3/24
 type: l3leaf
 l3leaf:
   defaults:
@@ -168,12 +270,18 @@ l3leaf:
           uplink_switch_interfaces:
           - Ethernet1/1
           - Ethernet1/1
+          filter:
+            tags:
+            - compute
         DC-LEAF2:
           id: 2
           mgmt_ip: 10.99.99.181/24
           uplink_switch_interfaces:
           - Ethernet2/1
           - Ethernet2/1
+          filter:
+            tags:
+            - compute
     DC_COMPUTE_POD2:
       bgp_as: 65102
       nodes:
@@ -183,12 +291,18 @@ l3leaf:
           uplink_switch_interfaces:
           - Ethernet3/1
           - Ethernet3/1
+          filter:
+            tags:
+            - compute
         DC-LEAF4:
           id: 4
           mgmt_ip: 10.99.99.183/24
           uplink_switch_interfaces:
           - Ethernet4/1
           - Ethernet4/1
+          filter:
+            tags:
+            - compute
     DC_BORDER_LEAVES:
       bgp_as: 65199
       nodes:
@@ -198,21 +312,30 @@ l3leaf:
           uplink_switch_interfaces:
           - Ethernet7/1
           - Ethernet7/1
+          filter:
+            tags:
+            - border
         DC-BORDER2:
           id: 128
           mgmt_ip: 10.99.99.187/24
           uplink_switch_interfaces:
           - Ethernet8/1
           - Ethernet8/1
+          filter:
+            tags:
+            - border
 inventory_file: /workspaces/avd-demo/inventory/inventory.yml
 inventory_dir: /workspaces/avd-demo/inventory
 inventory_hostname: DC-LEAF2
 inventory_hostname_short: DC-LEAF2
 group_names:
+- DC
 - DC_COMPUTE_LEAVES
 - DC_COMPUTE_POD1
 - DC_FABRIC
 - DC_LEAVES
+- DC_SERVERS
+- DC_TENANT_NETWORKS
 ansible_facts:
   avd_switch_facts:
     DC-SPINE1:
@@ -537,7 +660,7 @@ ansible_facts:
         filter_tenants:
         - all
         filter_tags:
-        - all
+        - border
         - DC_BORDER_LEAVES
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:01
@@ -551,7 +674,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: ''
+        vlans: 18-19,29
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.255.254.127
         igmp_snooping_enabled: true
@@ -738,7 +861,7 @@ ansible_facts:
         filter_tenants:
         - all
         filter_tags:
-        - all
+        - border
         - DC_BORDER_LEAVES
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:01
@@ -752,7 +875,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: ''
+        vlans: 18-19,29
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.255.254.128
         igmp_snooping_enabled: true
@@ -939,7 +1062,7 @@ ansible_facts:
         filter_tenants:
         - all
         filter_tags:
-        - all
+        - compute
         - DC_COMPUTE_POD1
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:01
@@ -953,7 +1076,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: ''
+        vlans: 10-14,20-21
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.255.254.1
         igmp_snooping_enabled: true
@@ -1140,7 +1263,7 @@ ansible_facts:
         filter_tenants:
         - all
         filter_tags:
-        - all
+        - compute
         - DC_COMPUTE_POD1
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:01
@@ -1154,7 +1277,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: ''
+        vlans: 10-14,20-21
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.255.254.2
         igmp_snooping_enabled: true
@@ -1341,7 +1464,7 @@ ansible_facts:
         filter_tenants:
         - all
         filter_tags:
-        - all
+        - compute
         - DC_COMPUTE_POD2
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:01
@@ -1355,7 +1478,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: ''
+        vlans: 10-14,20-21
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.255.254.3
         igmp_snooping_enabled: true
@@ -1542,7 +1665,7 @@ ansible_facts:
         filter_tenants:
         - all
         filter_tags:
-        - all
+        - compute
         - DC_COMPUTE_POD2
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:01
@@ -1556,7 +1679,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: ''
+        vlans: 10-14,20-21
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.255.254.4
         igmp_snooping_enabled: true
@@ -2030,7 +2153,7 @@ avd_switch_facts:
       filter_tenants:
       - all
       filter_tags:
-      - all
+      - border
       - DC_BORDER_LEAVES
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:01
@@ -2044,7 +2167,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: ''
+      vlans: 18-19,29
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.255.254.127
       igmp_snooping_enabled: true
@@ -2231,7 +2354,7 @@ avd_switch_facts:
       filter_tenants:
       - all
       filter_tags:
-      - all
+      - border
       - DC_BORDER_LEAVES
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:01
@@ -2245,7 +2368,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: ''
+      vlans: 18-19,29
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.255.254.128
       igmp_snooping_enabled: true
@@ -2432,7 +2555,7 @@ avd_switch_facts:
       filter_tenants:
       - all
       filter_tags:
-      - all
+      - compute
       - DC_COMPUTE_POD1
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:01
@@ -2446,7 +2569,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: ''
+      vlans: 10-14,20-21
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.255.254.1
       igmp_snooping_enabled: true
@@ -2633,7 +2756,7 @@ avd_switch_facts:
       filter_tenants:
       - all
       filter_tags:
-      - all
+      - compute
       - DC_COMPUTE_POD1
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:01
@@ -2647,7 +2770,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: ''
+      vlans: 10-14,20-21
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.255.254.2
       igmp_snooping_enabled: true
@@ -2834,7 +2957,7 @@ avd_switch_facts:
       filter_tenants:
       - all
       filter_tags:
-      - all
+      - compute
       - DC_COMPUTE_POD2
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:01
@@ -2848,7 +2971,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: ''
+      vlans: 10-14,20-21
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.255.254.3
       igmp_snooping_enabled: true
@@ -3035,7 +3158,7 @@ avd_switch_facts:
       filter_tenants:
       - all
       filter_tags:
-      - all
+      - compute
       - DC_COMPUTE_POD2
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:01
@@ -3049,7 +3172,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: ''
+      vlans: 10-14,20-21
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.255.254.4
       igmp_snooping_enabled: true
@@ -3266,7 +3389,7 @@ switch:
   filter_tenants:
   - all
   filter_tags:
-  - all
+  - compute
   - DC_COMPUTE_POD1
   filter_only_vlans_in_use: false
   virtual_router_mac_address: 00:1c:73:00:00:01
@@ -3280,7 +3403,7 @@ switch:
   enable_trunk_groups: false
   local_endpoint_trunk_groups: []
   endpoint_trunk_groups: []
-  vlans: ''
+  vlans: 10-14,20-21
   spanning_tree_mode: mstp
   overlay_rd_type_admin_subfield: 10.255.254.2
   igmp_snooping_enabled: true
@@ -3407,10 +3530,10 @@ ansible_config_file: /workspaces/avd-demo/ansible.cfg
 groups:
   all:
   - cvp
-  - DC-SPINE1
-  - DC-SPINE2
   - DC-BORDER1
   - DC-BORDER2
+  - DC-SPINE1
+  - DC-SPINE2
   - DC-LEAF1
   - DC-LEAF2
   - DC-LEAF3
@@ -3418,6 +3541,15 @@ groups:
   ungrouped: []
   CVP:
   - cvp
+  DC:
+  - DC-BORDER1
+  - DC-BORDER2
+  - DC-SPINE1
+  - DC-SPINE2
+  - DC-LEAF1
+  - DC-LEAF2
+  - DC-LEAF3
+  - DC-LEAF4
   DC_FABRIC:
   - DC-SPINE1
   - DC-SPINE2
@@ -3451,7 +3583,21 @@ groups:
   DC_BORDER_LEAVES:
   - DC-BORDER1
   - DC-BORDER2
-omit: __omit_place_holder__590fcc9121d76ce46e4e1fa0bdb88ac7a8c8bf64
+  DC_TENANT_NETWORKS:
+  - DC-BORDER1
+  - DC-BORDER2
+  - DC-LEAF1
+  - DC-LEAF2
+  - DC-LEAF3
+  - DC-LEAF4
+  DC_SERVERS:
+  - DC-BORDER1
+  - DC-BORDER2
+  - DC-LEAF1
+  - DC-LEAF2
+  - DC-LEAF3
+  - DC-LEAF4
+omit: __omit_place_holder__8511f7f203c4b641eab087aac023f45a48bb02a0
 ansible_version:
   string: 2.14.4
   full: 2.14.4

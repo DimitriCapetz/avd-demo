@@ -62,6 +62,77 @@ router_bgp:
     peer_groups:
       EVPN-OVERLAY-PEERS:
         activate: true
+  vrfs:
+    Tenant_10_OP_Zone:
+      router_id: 10.255.254.128
+      rd: 10.255.254.128:10
+      route_targets:
+        import:
+          evpn:
+          - '10:10'
+        export:
+          evpn:
+          - '10:10'
+      redistribute_routes:
+      - connected
+      neighbors:
+        10.1.1.252:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+    Tenant_10_WEB_Zone:
+      router_id: 10.255.254.128
+      rd: 10.255.254.128:11
+      route_targets:
+        import:
+          evpn:
+          - '11:11'
+        export:
+          evpn:
+          - '11:11'
+      redistribute_routes:
+      - connected
+      neighbors:
+        10.1.1.252:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+    Tenant_20_OP_Zone:
+      router_id: 10.255.254.128
+      rd: 10.255.254.128:20
+      route_targets:
+        import:
+          evpn:
+          - '20:20'
+        export:
+          evpn:
+          - '20:20'
+      redistribute_routes:
+      - connected
+      neighbors:
+        10.1.1.252:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+  vlans:
+    19:
+      tenant: Tenant_10
+      rd: 10.255.254.128:10019
+      route_targets:
+        both:
+        - 10019:10019
+      redistribute_routes:
+      - learned
+    18:
+      tenant: Tenant_10
+      rd: 10.255.254.128:10018
+      route_targets:
+        both:
+        - 10018:10018
+      redistribute_routes:
+      - learned
+    29:
+      tenant: Tenant_20
+      rd: 10.255.254.128:10029
+      route_targets:
+        both:
+        - 10029:10029
+      redistribute_routes:
+      - learned
 static_routes:
 - vrf: management
   destination_address_prefix: 0.0.0.0/0
@@ -110,6 +181,15 @@ clock:
 vrfs:
   management:
     ip_routing: false
+  Tenant_10_OP_Zone:
+    tenant: Tenant_10
+    ip_routing: true
+  Tenant_10_WEB_Zone:
+    tenant: Tenant_10
+    ip_routing: true
+  Tenant_20_OP_Zone:
+    tenant: Tenant_20
+    ip_routing: true
 management_interfaces:
   Management1:
     description: oob_management
@@ -135,6 +215,30 @@ vlans:
     name: MLAG_PEER
     trunk_groups:
     - MLAG
+  19:
+    tenant: Tenant_10
+    name: Tenant_10_OP_Zone_FW
+  3009:
+    tenant: Tenant_10
+    name: MLAG_iBGP_Tenant_10_OP_Zone
+    trunk_groups:
+    - LEAF_PEER_L3
+  18:
+    tenant: Tenant_10
+    name: Tenant_10_WEB_Zone_FW
+  3010:
+    tenant: Tenant_10
+    name: MLAG_iBGP_Tenant_10_WEB_Zone
+    trunk_groups:
+    - LEAF_PEER_L3
+  29:
+    tenant: Tenant_20
+    name: Tenant_20_OP_Zone_FW
+  3019:
+    tenant: Tenant_20
+    name: MLAG_iBGP_Tenant_20_OP_Zone
+    trunk_groups:
+    - LEAF_PEER_L3
 vlan_interfaces:
   Vlan4093:
     description: MLAG_PEER_L3_PEERING
@@ -147,6 +251,60 @@ vlan_interfaces:
     ip_address: 10.1.0.253/31
     no_autostate: true
     mtu: 1500
+  Vlan19:
+    tenant: Tenant_10
+    tags:
+    - border
+    description: Tenant_10_OP_Zone_FW
+    shutdown: false
+    ip_address: 10.10.19.3/24
+    ip_virtual_router_addresses:
+    - 10.10.19.1
+    vrf: Tenant_10_OP_Zone
+  Vlan3009:
+    tenant: Tenant_10
+    type: underlay_peering
+    shutdown: false
+    description: 'MLAG_PEER_L3_iBGP: vrf Tenant_10_OP_Zone'
+    vrf: Tenant_10_OP_Zone
+    mtu: 1500
+    ip_address: 10.1.1.253/31
+  Vlan18:
+    tenant: Tenant_10
+    tags:
+    - border
+    description: Tenant_10_WEB_Zone_FW
+    shutdown: false
+    ip_address: 10.10.18.3/24
+    ip_virtual_router_addresses:
+    - 10.10.18.1
+    vrf: Tenant_10_WEB_Zone
+  Vlan3010:
+    tenant: Tenant_10
+    type: underlay_peering
+    shutdown: false
+    description: 'MLAG_PEER_L3_iBGP: vrf Tenant_10_WEB_Zone'
+    vrf: Tenant_10_WEB_Zone
+    mtu: 1500
+    ip_address: 10.1.1.253/31
+  Vlan29:
+    tenant: Tenant_20
+    tags:
+    - border
+    description: Tenant_20_OP_Zone_FW
+    shutdown: false
+    ip_address: 10.20.29.3/24
+    ip_virtual_router_addresses:
+    - 10.20.29.1
+    vrf: Tenant_20_OP_Zone
+  Vlan3019:
+    tenant: Tenant_20
+    type: underlay_peering
+    shutdown: false
+    description: 'MLAG_PEER_L3_iBGP: vrf Tenant_20_OP_Zone'
+    vrf: Tenant_20_OP_Zone
+    mtu: 1500
+    ip_address: 10.1.1.253/31
 port_channel_interfaces:
   Port-Channel551:
     description: MLAG_PEER_DC-BORDER1_Po551
@@ -226,6 +384,21 @@ loopback_interfaces:
     description: VTEP_VXLAN_Tunnel_Source
     shutdown: false
     ip_address: 10.255.255.127/32
+  Loopback10:
+    description: Tenant_10_OP_Zone_VTEP_DIAGNOSTICS
+    shutdown: false
+    vrf: Tenant_10_OP_Zone
+    ip_address: 10.255.10.128/32
+  Loopback11:
+    description: Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS
+    shutdown: false
+    vrf: Tenant_10_WEB_Zone
+    ip_address: 10.255.11.128/32
+  Loopback20:
+    description: Tenant_20_OP_Zone_VTEP_DIAGNOSTICS
+    shutdown: false
+    vrf: Tenant_20_OP_Zone
+    ip_address: 10.255.20.128/32
 prefix_lists:
   PL-LOOPBACKS-EVPN-OVERLAY:
     sequence_numbers:
@@ -248,3 +421,24 @@ vxlan_interface:
       udp_port: 4789
       source_interface: Loopback1
       virtual_router_encapsulation_mac_address: mlag-system-id
+      vlans:
+        19:
+          vni: 10019
+        18:
+          vni: 10018
+        29:
+          vni: 10029
+      vrfs:
+        Tenant_10_OP_Zone:
+          vni: 10
+        Tenant_10_WEB_Zone:
+          vni: 11
+        Tenant_20_OP_Zone:
+          vni: 20
+virtual_source_nat_vrfs:
+  Tenant_10_OP_Zone:
+    ip_address: 10.255.10.128
+  Tenant_10_WEB_Zone:
+    ip_address: 10.255.11.128
+  Tenant_20_OP_Zone:
+    ip_address: 10.255.20.128

@@ -1,6 +1,6 @@
 CVP_CONFIGLETS:
   AVD-L3LSV_DC-BORDER1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
-    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
@@ -27,12 +27,18 @@ CVP_CONFIGLETS:
     !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
-    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
-    \ MLAG_PEER_DC-BORDER2_Po551\n   no shutdown\n   switchport\n   switchport trunk\
-    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
-    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet7/1\n\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 18\n   name Tenant_10_WEB_Zone_FW\n\
+    !\nvlan 19\n   name Tenant_10_OP_Zone_FW\n!\nvlan 29\n   name Tenant_20_OP_Zone_FW\n\
+    !\nvlan 3009\n   name MLAG_iBGP_Tenant_10_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3010\n   name MLAG_iBGP_Tenant_10_WEB_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3019\n   name MLAG_iBGP_Tenant_20_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n\
+    \   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance management\n!\nvrf instance\
+    \ Tenant_10_OP_Zone\n!\nvrf instance Tenant_10_WEB_Zone\n!\nvrf instance Tenant_20_OP_Zone\n\
+    !\ninterface Port-Channel551\n   description MLAG_PEER_DC-BORDER2_Po551\n   no\
+    \ shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet7/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.249/31\n\
     !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet7/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.251/31\n\
@@ -42,38 +48,63 @@ CVP_CONFIGLETS:
     \ 551 mode active\n!\ninterface Loopback0\n   description EVPN_Overlay_Peering\n\
     \   no shutdown\n   ip address 10.255.254.127/32\n!\ninterface Loopback1\n   description\
     \ VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address 10.255.255.127/32\n\
-    !\ninterface Management1\n   description oob_management\n   no shutdown\n   vrf\
-    \ management\n   ip address 10.99.99.186/24\n!\ninterface Vlan4093\n   description\
-    \ MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address 10.1.1.252/31\n\
-    !\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n   mtu 1500\n\
-    \   no autostate\n   ip address 10.1.0.252/31\n!\ninterface Vxlan1\n   description\
-    \ DC-BORDER1_VTEP\n   vxlan source-interface Loopback1\n   vxlan virtual-router\
-    \ encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n!\nmac address-table\
-    \ aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip access-list\
-    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip routing vrf\
-    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.255.254.0/24\
-    \ eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n!\nmlag configuration\n   domain-id\
-    \ DC_BORDER_LEAVES\n   local-interface Vlan4094\n   peer-address 10.1.0.253\n\
-    \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
-    \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
-    \ 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
-    !\nroute-map RM-MLAG-PEER-IN permit 10\n   description Make routes learned over\
-    \ MLAG Peer-link less preferred on spines to ensure optimal routing\n   set origin\
-    \ incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx 1200 multiplier\
-    \ 3\n!\nrouter bgp 65199\n   router-id 10.255.254.127\n   no bgp default ipv4-unicast\n\
-    \   distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n\
-    \   maximum-paths 4 ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor\
-    \ EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n\
-    \   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS\
-    \ send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor\
-    \ IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n\
-    \   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65199\n   neighbor\
-    \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
-    \ DC-BORDER2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor\
-    \ MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.1.248 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 10.0.1.248 remote-as 65000\n   neighbor 10.0.1.248 description DC-SPINE1_Ethernet7/1\n\
+    !\ninterface Loopback10\n   description Tenant_10_OP_Zone_VTEP_DIAGNOSTICS\n \
+    \  no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.255.10.127/32\n!\n\
+    interface Loopback11\n   description Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS\n   no\
+    \ shutdown\n   vrf Tenant_10_WEB_Zone\n   ip address 10.255.11.127/32\n!\ninterface\
+    \ Loopback20\n   description Tenant_20_OP_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n\
+    \   vrf Tenant_20_OP_Zone\n   ip address 10.255.20.127/32\n!\ninterface Management1\n\
+    \   description oob_management\n   no shutdown\n   vrf management\n   ip address\
+    \ 10.99.99.186/24\n!\ninterface Vlan18\n   description Tenant_10_WEB_Zone_FW\n\
+    \   no shutdown\n   vrf Tenant_10_WEB_Zone\n   ip address 10.10.18.2/24\n   ip\
+    \ virtual-router address 10.10.18.1\n!\ninterface Vlan19\n   description Tenant_10_OP_Zone_FW\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.10.19.2/24\n   ip\
+    \ virtual-router address 10.10.19.1\n!\ninterface Vlan29\n   description Tenant_20_OP_Zone_FW\n\
+    \   no shutdown\n   vrf Tenant_20_OP_Zone\n   ip address 10.20.29.2/24\n   ip\
+    \ virtual-router address 10.20.29.1\n!\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf Tenant_10_OP_Zone\n   no shutdown\n   mtu 1500\n   vrf Tenant_10_OP_Zone\n\
+    \   ip address 10.1.1.252/31\n!\ninterface Vlan3010\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf Tenant_10_WEB_Zone\n   no shutdown\n   mtu 1500\n   vrf Tenant_10_WEB_Zone\n\
+    \   ip address 10.1.1.252/31\n!\ninterface Vlan3019\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf Tenant_20_OP_Zone\n   no shutdown\n   mtu 1500\n   vrf Tenant_20_OP_Zone\n\
+    \   ip address 10.1.1.252/31\n!\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n\
+    \   no shutdown\n   mtu 1500\n   ip address 10.1.1.252/31\n!\ninterface Vlan4094\n\
+    \   description MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip\
+    \ address 10.1.0.252/31\n!\ninterface Vxlan1\n   description DC-BORDER1_VTEP\n\
+    \   vxlan source-interface Loopback1\n   vxlan virtual-router encapsulation mac-address\
+    \ mlag-system-id\n   vxlan udp-port 4789\n   vxlan vlan 18 vni 10018\n   vxlan\
+    \ vlan 19 vni 10019\n   vxlan vlan 29 vni 10029\n   vxlan vrf Tenant_10_OP_Zone\
+    \ vni 10\n   vxlan vrf Tenant_10_WEB_Zone vni 11\n   vxlan vrf Tenant_20_OP_Zone\
+    \ vni 20\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip address virtual source-nat vrf Tenant_10_OP_Zone address\
+    \ 10.255.10.127\nip address virtual source-nat vrf Tenant_10_WEB_Zone address\
+    \ 10.255.11.127\nip address virtual source-nat vrf Tenant_20_OP_Zone address 10.255.20.127\n\
+    !\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\n\
+    no ip routing vrf management\nip routing vrf Tenant_10_OP_Zone\nip routing vrf\
+    \ Tenant_10_WEB_Zone\nip routing vrf Tenant_20_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC_BORDER_LEAVES\n   local-interface Vlan4094\n\
+    \   peer-address 10.1.0.253\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65199\n   router-id\
+    \ 10.255.254.127\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n\
+    \   graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65199\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC-BORDER2\n\
+    \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
+    \ in\n   neighbor 10.0.1.248 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.248\
+    \ remote-as 65000\n   neighbor 10.0.1.248 description DC-SPINE1_Ethernet7/1\n\
     \   neighbor 10.0.1.250 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.250\
     \ remote-as 65000\n   neighbor 10.0.1.250 description DC-SPINE2_Ethernet7/1\n\
     \   neighbor 10.1.1.253 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.253\
@@ -81,11 +112,25 @@ CVP_CONFIGLETS:
     \   neighbor 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description\
     \ DC-SPINE1\n   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor\
     \ 10.255.252.2 remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n\
-    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n\
-    \      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n  \
-    \    no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
-    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf\
-    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 18\n      rd\
+    \ 10.255.254.127:10018\n      route-target both 10018:10018\n      redistribute\
+    \ learned\n   !\n   vlan 19\n      rd 10.255.254.127:10019\n      route-target\
+    \ both 10019:10019\n      redistribute learned\n   !\n   vlan 29\n      rd 10.255.254.127:10029\n\
+    \      route-target both 10029:10029\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
+    \      rd 10.255.254.127:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.255.254.127\n      neighbor 10.1.1.253\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf\
+    \ Tenant_10_WEB_Zone\n      rd 10.255.254.127:11\n      route-target import evpn\
+    \ 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.127\n\
+    \      neighbor 10.1.1.253 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.127:20\n    \
+    \  route-target import evpn 20:20\n      route-target export evpn 20:20\n    \
+    \  router-id 10.255.254.127\n      neighbor 10.1.1.253 peer group MLAG-IPv4-UNDERLAY-PEER\n\
+    \      redistribute connected\n!\nip tacacs vrf management source-interface Management1\n\
+    !\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -103,7 +148,7 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
   AVD-L3LSV_DC-BORDER2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
-    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
@@ -130,12 +175,18 @@ CVP_CONFIGLETS:
     !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
-    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
-    \ MLAG_PEER_DC-BORDER1_Po551\n   no shutdown\n   switchport\n   switchport trunk\
-    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
-    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet8/1\n\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 18\n   name Tenant_10_WEB_Zone_FW\n\
+    !\nvlan 19\n   name Tenant_10_OP_Zone_FW\n!\nvlan 29\n   name Tenant_20_OP_Zone_FW\n\
+    !\nvlan 3009\n   name MLAG_iBGP_Tenant_10_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3010\n   name MLAG_iBGP_Tenant_10_WEB_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3019\n   name MLAG_iBGP_Tenant_20_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n\
+    \   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance management\n!\nvrf instance\
+    \ Tenant_10_OP_Zone\n!\nvrf instance Tenant_10_WEB_Zone\n!\nvrf instance Tenant_20_OP_Zone\n\
+    !\ninterface Port-Channel551\n   description MLAG_PEER_DC-BORDER1_Po551\n   no\
+    \ shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet8/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.253/31\n\
     !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet8/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.255/31\n\
@@ -145,38 +196,63 @@ CVP_CONFIGLETS:
     \ 551 mode active\n!\ninterface Loopback0\n   description EVPN_Overlay_Peering\n\
     \   no shutdown\n   ip address 10.255.254.128/32\n!\ninterface Loopback1\n   description\
     \ VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address 10.255.255.127/32\n\
-    !\ninterface Management1\n   description oob_management\n   no shutdown\n   vrf\
-    \ management\n   ip address 10.99.99.187/24\n!\ninterface Vlan4093\n   description\
-    \ MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address 10.1.1.253/31\n\
-    !\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n   mtu 1500\n\
-    \   no autostate\n   ip address 10.1.0.253/31\n!\ninterface Vxlan1\n   description\
-    \ DC-BORDER2_VTEP\n   vxlan source-interface Loopback1\n   vxlan virtual-router\
-    \ encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n!\nmac address-table\
-    \ aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip access-list\
-    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip routing vrf\
-    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.255.254.0/24\
-    \ eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n!\nmlag configuration\n   domain-id\
-    \ DC_BORDER_LEAVES\n   local-interface Vlan4094\n   peer-address 10.1.0.252\n\
-    \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
-    \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
-    \ 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
-    !\nroute-map RM-MLAG-PEER-IN permit 10\n   description Make routes learned over\
-    \ MLAG Peer-link less preferred on spines to ensure optimal routing\n   set origin\
-    \ incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx 1200 multiplier\
-    \ 3\n!\nrouter bgp 65199\n   router-id 10.255.254.128\n   no bgp default ipv4-unicast\n\
-    \   distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n\
-    \   maximum-paths 4 ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor\
-    \ EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n\
-    \   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS\
-    \ send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor\
-    \ IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n\
-    \   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65199\n   neighbor\
-    \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
-    \ DC-BORDER1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor\
-    \ MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.1.252 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 10.0.1.252 remote-as 65000\n   neighbor 10.0.1.252 description DC-SPINE1_Ethernet8/1\n\
+    !\ninterface Loopback10\n   description Tenant_10_OP_Zone_VTEP_DIAGNOSTICS\n \
+    \  no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.255.10.128/32\n!\n\
+    interface Loopback11\n   description Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS\n   no\
+    \ shutdown\n   vrf Tenant_10_WEB_Zone\n   ip address 10.255.11.128/32\n!\ninterface\
+    \ Loopback20\n   description Tenant_20_OP_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n\
+    \   vrf Tenant_20_OP_Zone\n   ip address 10.255.20.128/32\n!\ninterface Management1\n\
+    \   description oob_management\n   no shutdown\n   vrf management\n   ip address\
+    \ 10.99.99.187/24\n!\ninterface Vlan18\n   description Tenant_10_WEB_Zone_FW\n\
+    \   no shutdown\n   vrf Tenant_10_WEB_Zone\n   ip address 10.10.18.3/24\n   ip\
+    \ virtual-router address 10.10.18.1\n!\ninterface Vlan19\n   description Tenant_10_OP_Zone_FW\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.10.19.3/24\n   ip\
+    \ virtual-router address 10.10.19.1\n!\ninterface Vlan29\n   description Tenant_20_OP_Zone_FW\n\
+    \   no shutdown\n   vrf Tenant_20_OP_Zone\n   ip address 10.20.29.3/24\n   ip\
+    \ virtual-router address 10.20.29.1\n!\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf Tenant_10_OP_Zone\n   no shutdown\n   mtu 1500\n   vrf Tenant_10_OP_Zone\n\
+    \   ip address 10.1.1.253/31\n!\ninterface Vlan3010\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf Tenant_10_WEB_Zone\n   no shutdown\n   mtu 1500\n   vrf Tenant_10_WEB_Zone\n\
+    \   ip address 10.1.1.253/31\n!\ninterface Vlan3019\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf Tenant_20_OP_Zone\n   no shutdown\n   mtu 1500\n   vrf Tenant_20_OP_Zone\n\
+    \   ip address 10.1.1.253/31\n!\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n\
+    \   no shutdown\n   mtu 1500\n   ip address 10.1.1.253/31\n!\ninterface Vlan4094\n\
+    \   description MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip\
+    \ address 10.1.0.253/31\n!\ninterface Vxlan1\n   description DC-BORDER2_VTEP\n\
+    \   vxlan source-interface Loopback1\n   vxlan virtual-router encapsulation mac-address\
+    \ mlag-system-id\n   vxlan udp-port 4789\n   vxlan vlan 18 vni 10018\n   vxlan\
+    \ vlan 19 vni 10019\n   vxlan vlan 29 vni 10029\n   vxlan vrf Tenant_10_OP_Zone\
+    \ vni 10\n   vxlan vrf Tenant_10_WEB_Zone vni 11\n   vxlan vrf Tenant_20_OP_Zone\
+    \ vni 20\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip address virtual source-nat vrf Tenant_10_OP_Zone address\
+    \ 10.255.10.128\nip address virtual source-nat vrf Tenant_10_WEB_Zone address\
+    \ 10.255.11.128\nip address virtual source-nat vrf Tenant_20_OP_Zone address 10.255.20.128\n\
+    !\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\n\
+    no ip routing vrf management\nip routing vrf Tenant_10_OP_Zone\nip routing vrf\
+    \ Tenant_10_WEB_Zone\nip routing vrf Tenant_20_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC_BORDER_LEAVES\n   local-interface Vlan4094\n\
+    \   peer-address 10.1.0.252\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65199\n   router-id\
+    \ 10.255.254.128\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n\
+    \   graceful-restart restart-time 300\n   graceful-restart\n   maximum-paths 4\
+    \ ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS\
+    \ update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65199\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC-BORDER1\n\
+    \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
+    \ in\n   neighbor 10.0.1.252 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.252\
+    \ remote-as 65000\n   neighbor 10.0.1.252 description DC-SPINE1_Ethernet8/1\n\
     \   neighbor 10.0.1.254 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.1.254\
     \ remote-as 65000\n   neighbor 10.0.1.254 description DC-SPINE2_Ethernet8/1\n\
     \   neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.1.1.252\
@@ -184,11 +260,25 @@ CVP_CONFIGLETS:
     \   neighbor 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description\
     \ DC-SPINE1\n   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor\
     \ 10.255.252.2 remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n\
-    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n\
-    \      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n  \
-    \    no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
-    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf\
-    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 18\n      rd\
+    \ 10.255.254.128:10018\n      route-target both 10018:10018\n      redistribute\
+    \ learned\n   !\n   vlan 19\n      rd 10.255.254.128:10019\n      route-target\
+    \ both 10019:10019\n      redistribute learned\n   !\n   vlan 29\n      rd 10.255.254.128:10029\n\
+    \      route-target both 10029:10029\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
+    \      rd 10.255.254.128:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.255.254.128\n      neighbor 10.1.1.252\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf\
+    \ Tenant_10_WEB_Zone\n      rd 10.255.254.128:11\n      route-target import evpn\
+    \ 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.128\n\
+    \      neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.128:20\n    \
+    \  route-target import evpn 20:20\n      route-target export evpn 20:20\n    \
+    \  router-id 10.255.254.128\n      neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER\n\
+    \      redistribute connected\n!\nip tacacs vrf management source-interface Management1\n\
+    !\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -206,7 +296,7 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
   AVD-L3LSV_DC-LEAF1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
-    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
@@ -233,30 +323,67 @@ CVP_CONFIGLETS:
     !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
-    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
-    \ MLAG_PEER_DC-LEAF2_Po551\n   no shutdown\n   switchport\n   switchport trunk\
-    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
-    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet1/1\n\
-    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.1/31\n!\n\
-    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet1/1\n   no\
-    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.3/31\n!\ninterface\
-    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF2_Ethernet55/1\n   no shutdown\n\
-    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF2_Ethernet56/1\n\
-    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
-    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.1/32\n\
-    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
-    \   ip address 10.255.255.1/32\n!\ninterface Management1\n   description oob_management\n\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name Tenant_10_OP_Zone_1\n\
+    !\nvlan 11\n   name Tenant_10_OP_Zone_2\n!\nvlan 12\n   name Tenant_10_WEB_Zone_1\n\
+    !\nvlan 13\n   name Tenant_10_WEB_Zone_2\n!\nvlan 14\n   name Tenant_10_VMOTION\n\
+    !\nvlan 20\n   name Tenant_20_OP_Zone_1\n!\nvlan 21\n   name Tenant_20_OP_Zone_2\n\
+    !\nvlan 3009\n   name MLAG_iBGP_Tenant_10_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3010\n   name MLAG_iBGP_Tenant_10_WEB_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3019\n   name MLAG_iBGP_Tenant_20_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n\
+    \   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance management\n!\nvrf instance\
+    \ Tenant_10_OP_Zone\n!\nvrf instance Tenant_10_WEB_Zone\n!\nvrf instance Tenant_20_OP_Zone\n\
+    !\ninterface Port-Channel551\n   description MLAG_PEER_DC-LEAF2_Po551\n   no shutdown\n\
+    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
+    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
+    \ Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet1/1\n   no shutdown\n\
+    \   mtu 1500\n   no switchport\n   ip address 10.0.0.1/31\n!\ninterface Ethernet50/1\n\
+    \   description P2P_LINK_TO_DC-SPINE2_Ethernet1/1\n   no shutdown\n   mtu 1500\n\
+    \   no switchport\n   ip address 10.0.0.3/31\n!\ninterface Ethernet55/1\n   description\
+    \ MLAG_PEER_DC-LEAF2_Ethernet55/1\n   no shutdown\n   channel-group 551 mode active\n\
+    !\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF2_Ethernet56/1\n  \
+    \ no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description\
+    \ EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.1/32\n!\ninterface\
+    \ Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address\
+    \ 10.255.255.1/32\n!\ninterface Loopback10\n   description Tenant_10_OP_Zone_VTEP_DIAGNOSTICS\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.255.10.1/32\n!\ninterface\
+    \ Loopback11\n   description Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n\
+    \   vrf Tenant_10_WEB_Zone\n   ip address 10.255.11.1/32\n!\ninterface Loopback20\n\
+    \   description Tenant_20_OP_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n   vrf Tenant_20_OP_Zone\n\
+    \   ip address 10.255.20.1/32\n!\ninterface Management1\n   description oob_management\n\
     \   no shutdown\n   vrf management\n   ip address 10.99.99.180/24\n!\ninterface\
+    \ Vlan10\n   description Tenant_10_OP_Zone_1\n   no shutdown\n   vrf Tenant_10_OP_Zone\n\
+    \   ip address virtual 10.10.10.1/24\n!\ninterface Vlan11\n   description Tenant_10_OP_Zone_2\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address virtual 10.10.11.1/24\n\
+    !\ninterface Vlan12\n   description Tenant_10_WEB_Zone_1\n   no shutdown\n   vrf\
+    \ Tenant_10_WEB_Zone\n   ip address virtual 10.10.12.1/24\n!\ninterface Vlan13\n\
+    \   description Tenant_10_WEB_Zone_2\n   no shutdown\n   vrf Tenant_10_WEB_Zone\n\
+    \   ip address virtual 10.10.13.1/24\n!\ninterface Vlan20\n   description Tenant_20_OP_Zone_1\n\
+    \   no shutdown\n   vrf Tenant_20_OP_Zone\n   ip address virtual 10.20.20.0/24\n\
+    !\ninterface Vlan21\n   description Tenant_20_OP_Zone_2\n   no shutdown\n   vrf\
+    \ Tenant_20_OP_Zone\n   ip address virtual 10.20.21.1/24\n!\ninterface Vlan3009\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_OP_Zone\n   no shutdown\n   mtu\
+    \ 1500\n   vrf Tenant_10_OP_Zone\n   ip address 10.1.1.0/31\n!\ninterface Vlan3010\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_WEB_Zone\n   no shutdown\n  \
+    \ mtu 1500\n   vrf Tenant_10_WEB_Zone\n   ip address 10.1.1.0/31\n!\ninterface\
+    \ Vlan3019\n   description MLAG_PEER_L3_iBGP: vrf Tenant_20_OP_Zone\n   no shutdown\n\
+    \   mtu 1500\n   vrf Tenant_20_OP_Zone\n   ip address 10.1.1.0/31\n!\ninterface\
     \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
     \   ip address 10.1.1.0/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
     \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.0/31\n!\n\
     interface Vxlan1\n   description DC-LEAF1_VTEP\n   vxlan source-interface Loopback1\n\
     \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
-    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
-    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
-    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \ 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 11 vni 10011\n   vxlan vlan\
+    \ 12 vni 10012\n   vxlan vlan 13 vni 10013\n   vxlan vlan 14 vni 10014\n   vxlan\
+    \ vlan 20 vni 10020\n   vxlan vlan 21 vni 10021\n   vxlan vrf Tenant_10_OP_Zone\
+    \ vni 10\n   vxlan vrf Tenant_10_WEB_Zone vni 11\n   vxlan vrf Tenant_20_OP_Zone\
+    \ vni 20\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip address virtual source-nat vrf Tenant_10_OP_Zone address\
+    \ 10.255.10.1\nip address virtual source-nat vrf Tenant_10_WEB_Zone address 10.255.11.1\n\
+    ip address virtual source-nat vrf Tenant_20_OP_Zone address 10.255.20.1\n!\nip\
+    \ access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip\
+    \ routing vrf management\nip routing vrf Tenant_10_OP_Zone\nip routing vrf Tenant_10_WEB_Zone\n\
+    ip routing vrf Tenant_20_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id DC_COMPUTE_POD1\n   local-interface Vlan4094\n\
     \   peer-address 10.1.0.1\n   peer-link Port-Channel551\n   reload-delay mlag\
@@ -287,11 +414,29 @@ CVP_CONFIGLETS:
     \ remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n   neighbor\
     \ 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2 remote-as\
     \ 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute connected\
-    \ route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS\
-    \ activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS\
-    \ activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
-    \ login\n************************************************************************\n\
+    \ route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.255.254.1:10010\n   \
+    \   route-target both 10010:10010\n      redistribute learned\n   !\n   vlan 11\n\
+    \      rd 10.255.254.1:10011\n      route-target both 10011:10011\n      redistribute\
+    \ learned\n   !\n   vlan 12\n      rd 10.255.254.1:10012\n      route-target both\
+    \ 10012:10012\n      redistribute learned\n   !\n   vlan 13\n      rd 10.255.254.1:10013\n\
+    \      route-target both 10013:10013\n      redistribute learned\n   !\n   vlan\
+    \ 14\n      rd 10.255.254.1:10014\n      route-target both 10014:10014\n     \
+    \ redistribute learned\n   !\n   vlan 20\n      rd 10.255.254.1:10020\n      route-target\
+    \ both 10020:10020\n      redistribute learned\n   !\n   vlan 21\n      rd 10.255.254.1:10021\n\
+    \      route-target both 10021:10021\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
+    \      rd 10.255.254.1:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.255.254.1\n      neighbor 10.1.1.1 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
+    \      rd 10.255.254.1:11\n      route-target import evpn 11:11\n      route-target\
+    \ export evpn 11:11\n      router-id 10.255.254.1\n      neighbor 10.1.1.1 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
+    \      rd 10.255.254.1:20\n      route-target import evpn 20:20\n      route-target\
+    \ export evpn 20:20\n      router-id 10.255.254.1\n      neighbor 10.1.1.1 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -309,7 +454,7 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
   AVD-L3LSV_DC-LEAF2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
-    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
@@ -336,30 +481,67 @@ CVP_CONFIGLETS:
     !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
-    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
-    \ MLAG_PEER_DC-LEAF1_Po551\n   no shutdown\n   switchport\n   switchport trunk\
-    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
-    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet2/1\n\
-    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.5/31\n!\n\
-    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet2/1\n   no\
-    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.7/31\n!\ninterface\
-    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF1_Ethernet55/1\n   no shutdown\n\
-    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF1_Ethernet56/1\n\
-    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
-    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.2/32\n\
-    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
-    \   ip address 10.255.255.1/32\n!\ninterface Management1\n   description oob_management\n\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name Tenant_10_OP_Zone_1\n\
+    !\nvlan 11\n   name Tenant_10_OP_Zone_2\n!\nvlan 12\n   name Tenant_10_WEB_Zone_1\n\
+    !\nvlan 13\n   name Tenant_10_WEB_Zone_2\n!\nvlan 14\n   name Tenant_10_VMOTION\n\
+    !\nvlan 20\n   name Tenant_20_OP_Zone_1\n!\nvlan 21\n   name Tenant_20_OP_Zone_2\n\
+    !\nvlan 3009\n   name MLAG_iBGP_Tenant_10_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3010\n   name MLAG_iBGP_Tenant_10_WEB_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3019\n   name MLAG_iBGP_Tenant_20_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n\
+    \   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance management\n!\nvrf instance\
+    \ Tenant_10_OP_Zone\n!\nvrf instance Tenant_10_WEB_Zone\n!\nvrf instance Tenant_20_OP_Zone\n\
+    !\ninterface Port-Channel551\n   description MLAG_PEER_DC-LEAF1_Po551\n   no shutdown\n\
+    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
+    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
+    \ Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet2/1\n   no shutdown\n\
+    \   mtu 1500\n   no switchport\n   ip address 10.0.0.5/31\n!\ninterface Ethernet50/1\n\
+    \   description P2P_LINK_TO_DC-SPINE2_Ethernet2/1\n   no shutdown\n   mtu 1500\n\
+    \   no switchport\n   ip address 10.0.0.7/31\n!\ninterface Ethernet55/1\n   description\
+    \ MLAG_PEER_DC-LEAF1_Ethernet55/1\n   no shutdown\n   channel-group 551 mode active\n\
+    !\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF1_Ethernet56/1\n  \
+    \ no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description\
+    \ EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.2/32\n!\ninterface\
+    \ Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address\
+    \ 10.255.255.1/32\n!\ninterface Loopback10\n   description Tenant_10_OP_Zone_VTEP_DIAGNOSTICS\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.255.10.2/32\n!\ninterface\
+    \ Loopback11\n   description Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n\
+    \   vrf Tenant_10_WEB_Zone\n   ip address 10.255.11.2/32\n!\ninterface Loopback20\n\
+    \   description Tenant_20_OP_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n   vrf Tenant_20_OP_Zone\n\
+    \   ip address 10.255.20.2/32\n!\ninterface Management1\n   description oob_management\n\
     \   no shutdown\n   vrf management\n   ip address 10.99.99.181/24\n!\ninterface\
+    \ Vlan10\n   description Tenant_10_OP_Zone_1\n   no shutdown\n   vrf Tenant_10_OP_Zone\n\
+    \   ip address virtual 10.10.10.1/24\n!\ninterface Vlan11\n   description Tenant_10_OP_Zone_2\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address virtual 10.10.11.1/24\n\
+    !\ninterface Vlan12\n   description Tenant_10_WEB_Zone_1\n   no shutdown\n   vrf\
+    \ Tenant_10_WEB_Zone\n   ip address virtual 10.10.12.1/24\n!\ninterface Vlan13\n\
+    \   description Tenant_10_WEB_Zone_2\n   no shutdown\n   vrf Tenant_10_WEB_Zone\n\
+    \   ip address virtual 10.10.13.1/24\n!\ninterface Vlan20\n   description Tenant_20_OP_Zone_1\n\
+    \   no shutdown\n   vrf Tenant_20_OP_Zone\n   ip address virtual 10.20.20.0/24\n\
+    !\ninterface Vlan21\n   description Tenant_20_OP_Zone_2\n   no shutdown\n   vrf\
+    \ Tenant_20_OP_Zone\n   ip address virtual 10.20.21.1/24\n!\ninterface Vlan3009\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_OP_Zone\n   no shutdown\n   mtu\
+    \ 1500\n   vrf Tenant_10_OP_Zone\n   ip address 10.1.1.1/31\n!\ninterface Vlan3010\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_WEB_Zone\n   no shutdown\n  \
+    \ mtu 1500\n   vrf Tenant_10_WEB_Zone\n   ip address 10.1.1.1/31\n!\ninterface\
+    \ Vlan3019\n   description MLAG_PEER_L3_iBGP: vrf Tenant_20_OP_Zone\n   no shutdown\n\
+    \   mtu 1500\n   vrf Tenant_20_OP_Zone\n   ip address 10.1.1.1/31\n!\ninterface\
     \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
     \   ip address 10.1.1.1/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
     \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.1/31\n!\n\
     interface Vxlan1\n   description DC-LEAF2_VTEP\n   vxlan source-interface Loopback1\n\
     \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
-    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
-    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
-    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \ 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 11 vni 10011\n   vxlan vlan\
+    \ 12 vni 10012\n   vxlan vlan 13 vni 10013\n   vxlan vlan 14 vni 10014\n   vxlan\
+    \ vlan 20 vni 10020\n   vxlan vlan 21 vni 10021\n   vxlan vrf Tenant_10_OP_Zone\
+    \ vni 10\n   vxlan vrf Tenant_10_WEB_Zone vni 11\n   vxlan vrf Tenant_20_OP_Zone\
+    \ vni 20\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip address virtual source-nat vrf Tenant_10_OP_Zone address\
+    \ 10.255.10.2\nip address virtual source-nat vrf Tenant_10_WEB_Zone address 10.255.11.2\n\
+    ip address virtual source-nat vrf Tenant_20_OP_Zone address 10.255.20.2\n!\nip\
+    \ access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip\
+    \ routing vrf management\nip routing vrf Tenant_10_OP_Zone\nip routing vrf Tenant_10_WEB_Zone\n\
+    ip routing vrf Tenant_20_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id DC_COMPUTE_POD1\n   local-interface Vlan4094\n\
     \   peer-address 10.1.0.0\n   peer-link Port-Channel551\n   reload-delay mlag\
@@ -390,11 +572,29 @@ CVP_CONFIGLETS:
     \ remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n   neighbor\
     \ 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2 remote-as\
     \ 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute connected\
-    \ route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS\
-    \ activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS\
-    \ activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
-    \ login\n************************************************************************\n\
+    \ route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.255.254.2:10010\n   \
+    \   route-target both 10010:10010\n      redistribute learned\n   !\n   vlan 11\n\
+    \      rd 10.255.254.2:10011\n      route-target both 10011:10011\n      redistribute\
+    \ learned\n   !\n   vlan 12\n      rd 10.255.254.2:10012\n      route-target both\
+    \ 10012:10012\n      redistribute learned\n   !\n   vlan 13\n      rd 10.255.254.2:10013\n\
+    \      route-target both 10013:10013\n      redistribute learned\n   !\n   vlan\
+    \ 14\n      rd 10.255.254.2:10014\n      route-target both 10014:10014\n     \
+    \ redistribute learned\n   !\n   vlan 20\n      rd 10.255.254.2:10020\n      route-target\
+    \ both 10020:10020\n      redistribute learned\n   !\n   vlan 21\n      rd 10.255.254.2:10021\n\
+    \      route-target both 10021:10021\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
+    \      rd 10.255.254.2:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.255.254.2\n      neighbor 10.1.1.0 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
+    \      rd 10.255.254.2:11\n      route-target import evpn 11:11\n      route-target\
+    \ export evpn 11:11\n      router-id 10.255.254.2\n      neighbor 10.1.1.0 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
+    \      rd 10.255.254.2:20\n      route-target import evpn 20:20\n      route-target\
+    \ export evpn 20:20\n      router-id 10.255.254.2\n      neighbor 10.1.1.0 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -412,7 +612,7 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
   AVD-L3LSV_DC-LEAF3: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
-    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
@@ -439,30 +639,67 @@ CVP_CONFIGLETS:
     !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
-    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
-    \ MLAG_PEER_DC-LEAF4_Po551\n   no shutdown\n   switchport\n   switchport trunk\
-    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
-    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet3/1\n\
-    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.9/31\n!\n\
-    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet3/1\n   no\
-    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.11/31\n!\ninterface\
-    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF4_Ethernet55/1\n   no shutdown\n\
-    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF4_Ethernet56/1\n\
-    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
-    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.3/32\n\
-    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
-    \   ip address 10.255.255.3/32\n!\ninterface Management1\n   description oob_management\n\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name Tenant_10_OP_Zone_1\n\
+    !\nvlan 11\n   name Tenant_10_OP_Zone_2\n!\nvlan 12\n   name Tenant_10_WEB_Zone_1\n\
+    !\nvlan 13\n   name Tenant_10_WEB_Zone_2\n!\nvlan 14\n   name Tenant_10_VMOTION\n\
+    !\nvlan 20\n   name Tenant_20_OP_Zone_1\n!\nvlan 21\n   name Tenant_20_OP_Zone_2\n\
+    !\nvlan 3009\n   name MLAG_iBGP_Tenant_10_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3010\n   name MLAG_iBGP_Tenant_10_WEB_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3019\n   name MLAG_iBGP_Tenant_20_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n\
+    \   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance management\n!\nvrf instance\
+    \ Tenant_10_OP_Zone\n!\nvrf instance Tenant_10_WEB_Zone\n!\nvrf instance Tenant_20_OP_Zone\n\
+    !\ninterface Port-Channel551\n   description MLAG_PEER_DC-LEAF4_Po551\n   no shutdown\n\
+    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
+    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
+    \ Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet3/1\n   no shutdown\n\
+    \   mtu 1500\n   no switchport\n   ip address 10.0.0.9/31\n!\ninterface Ethernet50/1\n\
+    \   description P2P_LINK_TO_DC-SPINE2_Ethernet3/1\n   no shutdown\n   mtu 1500\n\
+    \   no switchport\n   ip address 10.0.0.11/31\n!\ninterface Ethernet55/1\n   description\
+    \ MLAG_PEER_DC-LEAF4_Ethernet55/1\n   no shutdown\n   channel-group 551 mode active\n\
+    !\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF4_Ethernet56/1\n  \
+    \ no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description\
+    \ EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.3/32\n!\ninterface\
+    \ Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address\
+    \ 10.255.255.3/32\n!\ninterface Loopback10\n   description Tenant_10_OP_Zone_VTEP_DIAGNOSTICS\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.255.10.3/32\n!\ninterface\
+    \ Loopback11\n   description Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n\
+    \   vrf Tenant_10_WEB_Zone\n   ip address 10.255.11.3/32\n!\ninterface Loopback20\n\
+    \   description Tenant_20_OP_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n   vrf Tenant_20_OP_Zone\n\
+    \   ip address 10.255.20.3/32\n!\ninterface Management1\n   description oob_management\n\
     \   no shutdown\n   vrf management\n   ip address 10.99.99.182/24\n!\ninterface\
+    \ Vlan10\n   description Tenant_10_OP_Zone_1\n   no shutdown\n   vrf Tenant_10_OP_Zone\n\
+    \   ip address virtual 10.10.10.1/24\n!\ninterface Vlan11\n   description Tenant_10_OP_Zone_2\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address virtual 10.10.11.1/24\n\
+    !\ninterface Vlan12\n   description Tenant_10_WEB_Zone_1\n   no shutdown\n   vrf\
+    \ Tenant_10_WEB_Zone\n   ip address virtual 10.10.12.1/24\n!\ninterface Vlan13\n\
+    \   description Tenant_10_WEB_Zone_2\n   no shutdown\n   vrf Tenant_10_WEB_Zone\n\
+    \   ip address virtual 10.10.13.1/24\n!\ninterface Vlan20\n   description Tenant_20_OP_Zone_1\n\
+    \   no shutdown\n   vrf Tenant_20_OP_Zone\n   ip address virtual 10.20.20.0/24\n\
+    !\ninterface Vlan21\n   description Tenant_20_OP_Zone_2\n   no shutdown\n   vrf\
+    \ Tenant_20_OP_Zone\n   ip address virtual 10.20.21.1/24\n!\ninterface Vlan3009\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_OP_Zone\n   no shutdown\n   mtu\
+    \ 1500\n   vrf Tenant_10_OP_Zone\n   ip address 10.1.1.4/31\n!\ninterface Vlan3010\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_WEB_Zone\n   no shutdown\n  \
+    \ mtu 1500\n   vrf Tenant_10_WEB_Zone\n   ip address 10.1.1.4/31\n!\ninterface\
+    \ Vlan3019\n   description MLAG_PEER_L3_iBGP: vrf Tenant_20_OP_Zone\n   no shutdown\n\
+    \   mtu 1500\n   vrf Tenant_20_OP_Zone\n   ip address 10.1.1.4/31\n!\ninterface\
     \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
     \   ip address 10.1.1.4/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
     \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.4/31\n!\n\
     interface Vxlan1\n   description DC-LEAF3_VTEP\n   vxlan source-interface Loopback1\n\
     \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
-    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
-    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
-    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \ 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 11 vni 10011\n   vxlan vlan\
+    \ 12 vni 10012\n   vxlan vlan 13 vni 10013\n   vxlan vlan 14 vni 10014\n   vxlan\
+    \ vlan 20 vni 10020\n   vxlan vlan 21 vni 10021\n   vxlan vrf Tenant_10_OP_Zone\
+    \ vni 10\n   vxlan vrf Tenant_10_WEB_Zone vni 11\n   vxlan vrf Tenant_20_OP_Zone\
+    \ vni 20\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip address virtual source-nat vrf Tenant_10_OP_Zone address\
+    \ 10.255.10.3\nip address virtual source-nat vrf Tenant_10_WEB_Zone address 10.255.11.3\n\
+    ip address virtual source-nat vrf Tenant_20_OP_Zone address 10.255.20.3\n!\nip\
+    \ access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip\
+    \ routing vrf management\nip routing vrf Tenant_10_OP_Zone\nip routing vrf Tenant_10_WEB_Zone\n\
+    ip routing vrf Tenant_20_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id DC_COMPUTE_POD2\n   local-interface Vlan4094\n\
     \   peer-address 10.1.0.5\n   peer-link Port-Channel551\n   reload-delay mlag\
@@ -493,11 +730,29 @@ CVP_CONFIGLETS:
     \ 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n\
     \   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2\
     \ remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute\
-    \ connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor\
-    \ EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor\
-    \ EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n \
-    \     neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf management source-interface\
-    \ Management1\n!\nbanner login\n************************************************************************\n\
+    \ connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.255.254.3:10010\n\
+    \      route-target both 10010:10010\n      redistribute learned\n   !\n   vlan\
+    \ 11\n      rd 10.255.254.3:10011\n      route-target both 10011:10011\n     \
+    \ redistribute learned\n   !\n   vlan 12\n      rd 10.255.254.3:10012\n      route-target\
+    \ both 10012:10012\n      redistribute learned\n   !\n   vlan 13\n      rd 10.255.254.3:10013\n\
+    \      route-target both 10013:10013\n      redistribute learned\n   !\n   vlan\
+    \ 14\n      rd 10.255.254.3:10014\n      route-target both 10014:10014\n     \
+    \ redistribute learned\n   !\n   vlan 20\n      rd 10.255.254.3:10020\n      route-target\
+    \ both 10020:10020\n      redistribute learned\n   !\n   vlan 21\n      rd 10.255.254.3:10021\n\
+    \      route-target both 10021:10021\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
+    \      rd 10.255.254.3:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.255.254.3\n      neighbor 10.1.1.5 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
+    \      rd 10.255.254.3:11\n      route-target import evpn 11:11\n      route-target\
+    \ export evpn 11:11\n      router-id 10.255.254.3\n      neighbor 10.1.1.5 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
+    \      rd 10.255.254.3:20\n      route-target import evpn 20:20\n      route-target\
+    \ export evpn 20:20\n      router-id 10.255.254.3\n      neighbor 10.1.1.5 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -515,7 +770,7 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
   AVD-L3LSV_DC-LEAF4: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last 1\
-    \ minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
@@ -542,30 +797,67 @@ CVP_CONFIGLETS:
     !\nusername admin privilege 15 role network-admin secret sha512 $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0\n\
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
-    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance management\n!\ninterface Port-Channel551\n   description\
-    \ MLAG_PEER_DC-LEAF3_Po551\n   no shutdown\n   switchport\n   switchport trunk\
-    \ allowed vlan 2-4094\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n\
-    \   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet4/1\n\
-    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.13/31\n!\n\
-    interface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet4/1\n   no\
-    \ shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.0.15/31\n!\ninterface\
-    \ Ethernet55/1\n   description MLAG_PEER_DC-LEAF3_Ethernet55/1\n   no shutdown\n\
-    \   channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF3_Ethernet56/1\n\
-    \   no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n  \
-    \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.4/32\n\
-    !\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n\
-    \   ip address 10.255.255.3/32\n!\ninterface Management1\n   description oob_management\n\
+    \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name Tenant_10_OP_Zone_1\n\
+    !\nvlan 11\n   name Tenant_10_OP_Zone_2\n!\nvlan 12\n   name Tenant_10_WEB_Zone_1\n\
+    !\nvlan 13\n   name Tenant_10_WEB_Zone_2\n!\nvlan 14\n   name Tenant_10_VMOTION\n\
+    !\nvlan 20\n   name Tenant_20_OP_Zone_1\n!\nvlan 21\n   name Tenant_20_OP_Zone_2\n\
+    !\nvlan 3009\n   name MLAG_iBGP_Tenant_10_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3010\n   name MLAG_iBGP_Tenant_10_WEB_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 3019\n   name MLAG_iBGP_Tenant_20_OP_Zone\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n\
+    \   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance management\n!\nvrf instance\
+    \ Tenant_10_OP_Zone\n!\nvrf instance Tenant_10_WEB_Zone\n!\nvrf instance Tenant_20_OP_Zone\n\
+    !\ninterface Port-Channel551\n   description MLAG_PEER_DC-LEAF3_Po551\n   no shutdown\n\
+    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
+    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
+    \ Ethernet49/1\n   description P2P_LINK_TO_DC-SPINE1_Ethernet4/1\n   no shutdown\n\
+    \   mtu 1500\n   no switchport\n   ip address 10.0.0.13/31\n!\ninterface Ethernet50/1\n\
+    \   description P2P_LINK_TO_DC-SPINE2_Ethernet4/1\n   no shutdown\n   mtu 1500\n\
+    \   no switchport\n   ip address 10.0.0.15/31\n!\ninterface Ethernet55/1\n   description\
+    \ MLAG_PEER_DC-LEAF3_Ethernet55/1\n   no shutdown\n   channel-group 551 mode active\n\
+    !\ninterface Ethernet56/1\n   description MLAG_PEER_DC-LEAF3_Ethernet56/1\n  \
+    \ no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description\
+    \ EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.255.254.4/32\n!\ninterface\
+    \ Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address\
+    \ 10.255.255.3/32\n!\ninterface Loopback10\n   description Tenant_10_OP_Zone_VTEP_DIAGNOSTICS\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address 10.255.10.4/32\n!\ninterface\
+    \ Loopback11\n   description Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n\
+    \   vrf Tenant_10_WEB_Zone\n   ip address 10.255.11.4/32\n!\ninterface Loopback20\n\
+    \   description Tenant_20_OP_Zone_VTEP_DIAGNOSTICS\n   no shutdown\n   vrf Tenant_20_OP_Zone\n\
+    \   ip address 10.255.20.4/32\n!\ninterface Management1\n   description oob_management\n\
     \   no shutdown\n   vrf management\n   ip address 10.99.99.183/24\n!\ninterface\
+    \ Vlan10\n   description Tenant_10_OP_Zone_1\n   no shutdown\n   vrf Tenant_10_OP_Zone\n\
+    \   ip address virtual 10.10.10.1/24\n!\ninterface Vlan11\n   description Tenant_10_OP_Zone_2\n\
+    \   no shutdown\n   vrf Tenant_10_OP_Zone\n   ip address virtual 10.10.11.1/24\n\
+    !\ninterface Vlan12\n   description Tenant_10_WEB_Zone_1\n   no shutdown\n   vrf\
+    \ Tenant_10_WEB_Zone\n   ip address virtual 10.10.12.1/24\n!\ninterface Vlan13\n\
+    \   description Tenant_10_WEB_Zone_2\n   no shutdown\n   vrf Tenant_10_WEB_Zone\n\
+    \   ip address virtual 10.10.13.1/24\n!\ninterface Vlan20\n   description Tenant_20_OP_Zone_1\n\
+    \   no shutdown\n   vrf Tenant_20_OP_Zone\n   ip address virtual 10.20.20.0/24\n\
+    !\ninterface Vlan21\n   description Tenant_20_OP_Zone_2\n   no shutdown\n   vrf\
+    \ Tenant_20_OP_Zone\n   ip address virtual 10.20.21.1/24\n!\ninterface Vlan3009\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_OP_Zone\n   no shutdown\n   mtu\
+    \ 1500\n   vrf Tenant_10_OP_Zone\n   ip address 10.1.1.5/31\n!\ninterface Vlan3010\n\
+    \   description MLAG_PEER_L3_iBGP: vrf Tenant_10_WEB_Zone\n   no shutdown\n  \
+    \ mtu 1500\n   vrf Tenant_10_WEB_Zone\n   ip address 10.1.1.5/31\n!\ninterface\
+    \ Vlan3019\n   description MLAG_PEER_L3_iBGP: vrf Tenant_20_OP_Zone\n   no shutdown\n\
+    \   mtu 1500\n   vrf Tenant_20_OP_Zone\n   ip address 10.1.1.5/31\n!\ninterface\
     \ Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n\
     \   ip address 10.1.1.5/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n\
     \   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.1.0.5/31\n!\n\
     interface Vxlan1\n   description DC-LEAF4_VTEP\n   vxlan source-interface Loopback1\n\
     \   vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port\
-    \ 4789\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
-    \ 00:1c:73:00:00:01\n!\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n\
-    !\nip routing\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \ 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 11 vni 10011\n   vxlan vlan\
+    \ 12 vni 10012\n   vxlan vlan 13 vni 10013\n   vxlan vlan 14 vni 10014\n   vxlan\
+    \ vlan 20 vni 10020\n   vxlan vlan 21 vni 10021\n   vxlan vrf Tenant_10_OP_Zone\
+    \ vni 10\n   vxlan vrf Tenant_10_WEB_Zone vni 11\n   vxlan vrf Tenant_20_OP_Zone\
+    \ vni 20\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address\
+    \ 00:1c:73:00:00:01\n!\nip address virtual source-nat vrf Tenant_10_OP_Zone address\
+    \ 10.255.10.4\nip address virtual source-nat vrf Tenant_10_WEB_Zone address 10.255.11.4\n\
+    ip address virtual source-nat vrf Tenant_20_OP_Zone address 10.255.20.4\n!\nip\
+    \ access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nno ip\
+    \ routing vrf management\nip routing vrf Tenant_10_OP_Zone\nip routing vrf Tenant_10_WEB_Zone\n\
+    ip routing vrf Tenant_20_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 10.255.254.0/24 eq 32\n   seq 20 permit 10.255.255.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id DC_COMPUTE_POD2\n   local-interface Vlan4094\n\
     \   peer-address 10.1.0.4\n   peer-link Port-Channel551\n   reload-delay mlag\
@@ -596,11 +888,29 @@ CVP_CONFIGLETS:
     \ 10.255.252.1 remote-as 65000\n   neighbor 10.255.252.1 description DC-SPINE1\n\
     \   neighbor 10.255.252.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.255.252.2\
     \ remote-as 65000\n   neighbor 10.255.252.2 description DC-SPINE2\n   redistribute\
-    \ connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor\
-    \ EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor\
-    \ EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n \
-    \     neighbor MLAG-IPv4-UNDERLAY-PEER activate\n!\nip tacacs vrf management source-interface\
-    \ Management1\n!\nbanner login\n************************************************************************\n\
+    \ connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.255.254.4:10010\n\
+    \      route-target both 10010:10010\n      redistribute learned\n   !\n   vlan\
+    \ 11\n      rd 10.255.254.4:10011\n      route-target both 10011:10011\n     \
+    \ redistribute learned\n   !\n   vlan 12\n      rd 10.255.254.4:10012\n      route-target\
+    \ both 10012:10012\n      redistribute learned\n   !\n   vlan 13\n      rd 10.255.254.4:10013\n\
+    \      route-target both 10013:10013\n      redistribute learned\n   !\n   vlan\
+    \ 14\n      rd 10.255.254.4:10014\n      route-target both 10014:10014\n     \
+    \ redistribute learned\n   !\n   vlan 20\n      rd 10.255.254.4:10020\n      route-target\
+    \ both 10020:10020\n      redistribute learned\n   !\n   vlan 21\n      rd 10.255.254.4:10021\n\
+    \      route-target both 10021:10021\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
+    \      rd 10.255.254.4:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.255.254.4\n      neighbor 10.1.1.4 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
+    \      rd 10.255.254.4:11\n      route-target import evpn 11:11\n      route-target\
+    \ export evpn 11:11\n      router-id 10.255.254.4\n      neighbor 10.1.1.4 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
+    \      rd 10.255.254.4:20\n      route-target import evpn 20:20\n      route-target\
+    \ export evpn 20:20\n      router-id 10.255.254.4\n      neighbor 10.1.1.4 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -618,7 +928,7 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
   AVD-L3LSV_DC-SPINE1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
-    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
@@ -717,7 +1027,7 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
   AVD-L3LSV_DC-SPINE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last\
-    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n\n!\ndaemon TerminAttr\n\
+    \ 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n\
     \   exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token\
     \ -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\

@@ -169,7 +169,7 @@ mac_address_table:
   aging_time: 1300
 event_monitor:
   enabled: true
-aliases: |
+aliases: |-
   alias 1min show log last 1 minute
   alias tail bash sudo tail -f /var/log/messages
 # vEOS-lab / cEOSLab Specific Variables

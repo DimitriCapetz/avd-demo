@@ -1,0 +1,102 @@
+---
+# DC Tenants Networks
+# Documentation of Tenant specific information - Vlans/VRFs
+# Set base iBGP Peering VLAN to avoid invalid IDs
+mlag_ibgp_peering_vrfs:
+  base_vlan: 3000
+
+tenants:
+  # Tenant 10 Specific Information - VRFs / VLANs
+  Tenant_10:
+    mac_vrf_vni_base: 10000
+    vrfs:
+      Tenant_10_OP_Zone:
+        vrf_vni: 10
+        vtep_diagnostic:
+          loopback: 10
+          loopback_ip_range: 10.255.10.0/24
+        svis:
+          10:
+            name: Tenant_10_OP_Zone_1
+            tags: [compute]
+            enabled: true
+            ip_address_virtual: 10.10.10.1/24
+          11:
+            name: Tenant_10_OP_Zone_2
+            tags: [compute]
+            enabled: true
+            ip_address_virtual: 10.10.11.1/24
+          19:
+            name: Tenant_10_OP_Zone_FW
+            tags: [border]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.10.19.1
+            nodes:
+              DC-BORDER1:
+                ip_address: 10.10.19.2/24
+              DC-BORDER2:
+                ip_address: 10.10.19.3/24
+      Tenant_10_WEB_Zone:
+        vrf_vni: 11
+        vtep_diagnostic:
+          loopback: 11
+          loopback_ip_range: 10.255.11.0/24
+        svis:
+          12:
+            name: Tenant_10_WEB_Zone_1
+            tags: [compute]
+            enabled: true
+            ip_address_virtual: 10.10.12.1/24
+          13:
+            name: Tenant_10_WEB_Zone_2
+            tags: [compute]
+            enabled: true
+            ip_address_virtual: 10.10.13.1/24
+          18:
+            name: Tenant_10_WEB_Zone_FW
+            tags: [border]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.10.18.1
+            nodes:
+              DC-BORDER1:
+                ip_address: 10.10.18.2/24
+              DC-BORDER2:
+                ip_address: 10.10.18.3/24
+    l2vlans:
+      14:
+        name: Tenant_10_VMOTION
+        tags: [compute]
+  # Tenant B Specific Information - VRFs / VLANs
+  Tenant_20:
+    mac_vrf_vni_base: 10000
+    vrfs:
+      Tenant_20_OP_Zone:
+        vrf_vni: 20
+        vtep_diagnostic:
+          loopback: 20
+          loopback_ip_range: 10.255.20.0/24
+        svis:
+          20:
+            name: Tenant_20_OP_Zone_1
+            tags: [compute]
+            enabled: true
+            ip_address_virtual: 10.20.20.0/24
+          21:
+            name: Tenant_20_OP_Zone_2
+            tags: [compute]
+            enabled: true
+            ip_address_virtual: 10.20.21.1/24
+          29:
+            name: Tenant_20_OP_Zone_FW
+            tags: [border]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.20.29.1
+            nodes:
+              DC-BORDER1:
+                ip_address: 10.20.29.2/24
+              DC-BORDER2:
+                ip_address: 10.20.29.3/24
+

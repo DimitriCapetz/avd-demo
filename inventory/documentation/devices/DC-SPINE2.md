@@ -314,7 +314,6 @@ aaa accounting commands all console start-stop logging
 ```eos
 alias 1min show log last 1 minute
 alias tail bash sudo tail -f /var/log/messages
-
 !
 ```
 

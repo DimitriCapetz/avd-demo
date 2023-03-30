@@ -64,6 +64,9 @@
 - [VRF Instances](#vrf-instances)
   - [VRF Instances Summary](#vrf-instances-summary)
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
+- [Virtual Source NAT](#virtual-source-nat)
+  - [Virtual Source NAT Summary](#virtual-source-nat-summary)
+  - [Virtual Source NAT Configuration](#virtual-source-nat-configuration)
 - [Quality Of Service](#quality-of-service)
 
 # Management
@@ -325,7 +328,6 @@ aaa accounting commands all console start-stop logging
 ```eos
 alias 1min show log last 1 minute
 alias tail bash sudo tail -f /var/log/messages
-
 !
 ```
 
@@ -509,12 +511,39 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 18 | Tenant_10_WEB_Zone_FW | - |
+| 19 | Tenant_10_OP_Zone_FW | - |
+| 29 | Tenant_20_OP_Zone_FW | - |
+| 3009 | MLAG_iBGP_Tenant_10_OP_Zone | LEAF_PEER_L3 |
+| 3010 | MLAG_iBGP_Tenant_10_WEB_Zone | LEAF_PEER_L3 |
+| 3019 | MLAG_iBGP_Tenant_20_OP_Zone | LEAF_PEER_L3 |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
 
 ## VLANs Device Configuration
 
 ```eos
+!
+vlan 18
+   name Tenant_10_WEB_Zone_FW
+!
+vlan 19
+   name Tenant_10_OP_Zone_FW
+!
+vlan 29
+   name Tenant_20_OP_Zone_FW
+!
+vlan 3009
+   name MLAG_iBGP_Tenant_10_OP_Zone
+   trunk group LEAF_PEER_L3
+!
+vlan 3010
+   name MLAG_iBGP_Tenant_10_WEB_Zone
+   trunk group LEAF_PEER_L3
+!
+vlan 3019
+   name MLAG_iBGP_Tenant_20_OP_Zone
+   trunk group LEAF_PEER_L3
 !
 vlan 4093
    name LEAF_PEER_L3
@@ -623,6 +652,9 @@ interface Port-Channel551
 | --------- | ----------- | --- | ---------- |
 | Loopback0 | EVPN_Overlay_Peering | default | 10.255.254.128/32 |
 | Loopback1 | VTEP_VXLAN_Tunnel_Source | default | 10.255.255.127/32 |
+| Loopback10 | Tenant_10_OP_Zone_VTEP_DIAGNOSTICS | Tenant_10_OP_Zone | 10.255.10.128/32 |
+| Loopback11 | Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS | Tenant_10_WEB_Zone | 10.255.11.128/32 |
+| Loopback20 | Tenant_20_OP_Zone_VTEP_DIAGNOSTICS | Tenant_20_OP_Zone | 10.255.20.128/32 |
 
 #### IPv6
 
@@ -630,6 +662,9 @@ interface Port-Channel551
 | --------- | ----------- | --- | ------------ |
 | Loopback0 | EVPN_Overlay_Peering | default | - |
 | Loopback1 | VTEP_VXLAN_Tunnel_Source | default | - |
+| Loopback10 | Tenant_10_OP_Zone_VTEP_DIAGNOSTICS | Tenant_10_OP_Zone | - |
+| Loopback11 | Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS | Tenant_10_WEB_Zone | - |
+| Loopback20 | Tenant_20_OP_Zone_VTEP_DIAGNOSTICS | Tenant_20_OP_Zone | - |
 
 
 ### Loopback Interfaces Device Configuration
@@ -645,6 +680,24 @@ interface Loopback1
    description VTEP_VXLAN_Tunnel_Source
    no shutdown
    ip address 10.255.255.127/32
+!
+interface Loopback10
+   description Tenant_10_OP_Zone_VTEP_DIAGNOSTICS
+   no shutdown
+   vrf Tenant_10_OP_Zone
+   ip address 10.255.10.128/32
+!
+interface Loopback11
+   description Tenant_10_WEB_Zone_VTEP_DIAGNOSTICS
+   no shutdown
+   vrf Tenant_10_WEB_Zone
+   ip address 10.255.11.128/32
+!
+interface Loopback20
+   description Tenant_20_OP_Zone_VTEP_DIAGNOSTICS
+   no shutdown
+   vrf Tenant_20_OP_Zone
+   ip address 10.255.20.128/32
 ```
 
 ## VLAN Interfaces
@@ -653,6 +706,12 @@ interface Loopback1
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
+| Vlan18 | Tenant_10_WEB_Zone_FW | Tenant_10_WEB_Zone | - | False |
+| Vlan19 | Tenant_10_OP_Zone_FW | Tenant_10_OP_Zone | - | False |
+| Vlan29 | Tenant_20_OP_Zone_FW | Tenant_20_OP_Zone | - | False |
+| Vlan3009 | MLAG_PEER_L3_iBGP: vrf Tenant_10_OP_Zone | Tenant_10_OP_Zone | 1500 | False |
+| Vlan3010 | MLAG_PEER_L3_iBGP: vrf Tenant_10_WEB_Zone | Tenant_10_WEB_Zone | 1500 | False |
+| Vlan3019 | MLAG_PEER_L3_iBGP: vrf Tenant_20_OP_Zone | Tenant_20_OP_Zone | 1500 | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
 
@@ -660,12 +719,60 @@ interface Loopback1
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
+| Vlan18 |  Tenant_10_WEB_Zone  |  10.10.18.3/24  |  -  |  10.10.18.1  |  -  |  -  |  -  |
+| Vlan19 |  Tenant_10_OP_Zone  |  10.10.19.3/24  |  -  |  10.10.19.1  |  -  |  -  |  -  |
+| Vlan29 |  Tenant_20_OP_Zone  |  10.20.29.3/24  |  -  |  10.20.29.1  |  -  |  -  |  -  |
+| Vlan3009 |  Tenant_10_OP_Zone  |  10.1.1.253/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan3010 |  Tenant_10_WEB_Zone  |  10.1.1.253/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan3019 |  Tenant_20_OP_Zone  |  10.1.1.253/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.1.1.253/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.1.0.253/31  |  -  |  -  |  -  |  -  |  -  |
 
 ### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan18
+   description Tenant_10_WEB_Zone_FW
+   no shutdown
+   vrf Tenant_10_WEB_Zone
+   ip address 10.10.18.3/24
+   ip virtual-router address 10.10.18.1
+!
+interface Vlan19
+   description Tenant_10_OP_Zone_FW
+   no shutdown
+   vrf Tenant_10_OP_Zone
+   ip address 10.10.19.3/24
+   ip virtual-router address 10.10.19.1
+!
+interface Vlan29
+   description Tenant_20_OP_Zone_FW
+   no shutdown
+   vrf Tenant_20_OP_Zone
+   ip address 10.20.29.3/24
+   ip virtual-router address 10.20.29.1
+!
+interface Vlan3009
+   description MLAG_PEER_L3_iBGP: vrf Tenant_10_OP_Zone
+   no shutdown
+   mtu 1500
+   vrf Tenant_10_OP_Zone
+   ip address 10.1.1.253/31
+!
+interface Vlan3010
+   description MLAG_PEER_L3_iBGP: vrf Tenant_10_WEB_Zone
+   no shutdown
+   mtu 1500
+   vrf Tenant_10_WEB_Zone
+   ip address 10.1.1.253/31
+!
+interface Vlan3019
+   description MLAG_PEER_L3_iBGP: vrf Tenant_20_OP_Zone
+   no shutdown
+   mtu 1500
+   vrf Tenant_20_OP_Zone
+   ip address 10.1.1.253/31
 !
 interface Vlan4093
    description MLAG_PEER_L3_PEERING
@@ -691,6 +798,22 @@ interface Vlan4094
 | UDP port | 4789 |
 | EVPN MLAG Shared Router MAC | mlag-system-id |
 
+#### VLAN to VNI, Flood List and Multicast Group Mappings
+
+| VLAN | VNI | Flood List | Multicast Group |
+| ---- | --- | ---------- | --------------- |
+| 18 | 10018 | - | - |
+| 19 | 10019 | - | - |
+| 29 | 10029 | - | - |
+
+#### VRF to VNI and Multicast Group Mappings
+
+| VRF | VNI | Multicast Group |
+| ---- | --- | --------------- |
+| Tenant_10_OP_Zone | 10 | - |
+| Tenant_10_WEB_Zone | 11 | - |
+| Tenant_20_OP_Zone | 20 | - |
+
 ### VXLAN Interface Device Configuration
 
 ```eos
@@ -700,6 +823,12 @@ interface Vxlan1
    vxlan source-interface Loopback1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
+   vxlan vlan 18 vni 10018
+   vxlan vlan 19 vni 10019
+   vxlan vlan 29 vni 10029
+   vxlan vrf Tenant_10_OP_Zone vni 10
+   vxlan vrf Tenant_10_WEB_Zone vni 11
+   vxlan vrf Tenant_20_OP_Zone vni 20
 ```
 
 # Routing
@@ -733,6 +862,9 @@ ip virtual-router mac-address 00:1c:73:00:00:01
 | --- | --------------- |
 | default | True |
 | management | false |
+| Tenant_10_OP_Zone | true |
+| Tenant_10_WEB_Zone | true |
+| Tenant_20_OP_Zone | true |
 
 ### IP Routing Device Configuration
 
@@ -740,6 +872,9 @@ ip virtual-router mac-address 00:1c:73:00:00:01
 !
 ip routing
 no ip routing vrf management
+ip routing vrf Tenant_10_OP_Zone
+ip routing vrf Tenant_10_WEB_Zone
+ip routing vrf Tenant_20_OP_Zone
 ```
 ## IPv6 Routing
 
@@ -749,6 +884,9 @@ no ip routing vrf management
 | --- | --------------- |
 | default | False |
 | management | false |
+| Tenant_10_OP_Zone | false |
+| Tenant_10_WEB_Zone | false |
+| Tenant_20_OP_Zone | false |
 
 ## Static Routes
 
@@ -825,6 +963,9 @@ Global ARP timeout: 900
 | 10.1.1.252 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | default | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - |
 | 10.255.252.1 | 65000 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - |
 | 10.255.252.2 | 65000 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - |
+| 10.1.1.252 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Tenant_10_OP_Zone | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - |
+| 10.1.1.252 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Tenant_10_WEB_Zone | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - |
+| 10.1.1.252 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Tenant_20_OP_Zone | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - |
 
 ### Router BGP EVPN Address Family
 
@@ -833,6 +974,22 @@ Global ARP timeout: 900
 | Peer Group | Activate |
 | ---------- | -------- |
 | EVPN-OVERLAY-PEERS | True |
+
+### Router BGP VLANs
+
+| VLAN | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute |
+| ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
+| 18 | 10.255.254.128:10018 | 10018:10018 | - | - | learned |
+| 19 | 10.255.254.128:10019 | 10019:10019 | - | - | learned |
+| 29 | 10.255.254.128:10029 | 10029:10029 | - | - | learned |
+
+### Router BGP VRFs
+
+| VRF | Route-Distinguisher | Redistribute |
+| --- | ------------------- | ------------ |
+| Tenant_10_OP_Zone | 10.255.254.128:10 | connected |
+| Tenant_10_WEB_Zone | 10.255.254.128:11 | connected |
+| Tenant_20_OP_Zone | 10.255.254.128:20 | connected |
 
 ### Router BGP Device Configuration
 
@@ -877,6 +1034,21 @@ router bgp 65199
    neighbor 10.255.252.2 description DC-SPINE2
    redistribute connected route-map RM-CONN-2-BGP
    !
+   vlan 18
+      rd 10.255.254.128:10018
+      route-target both 10018:10018
+      redistribute learned
+   !
+   vlan 19
+      rd 10.255.254.128:10019
+      route-target both 10019:10019
+      redistribute learned
+   !
+   vlan 29
+      rd 10.255.254.128:10029
+      route-target both 10029:10029
+      redistribute learned
+   !
    address-family evpn
       neighbor EVPN-OVERLAY-PEERS activate
    !
@@ -884,6 +1056,30 @@ router bgp 65199
       no neighbor EVPN-OVERLAY-PEERS activate
       neighbor IPv4-UNDERLAY-PEERS activate
       neighbor MLAG-IPv4-UNDERLAY-PEER activate
+   !
+   vrf Tenant_10_OP_Zone
+      rd 10.255.254.128:10
+      route-target import evpn 10:10
+      route-target export evpn 10:10
+      router-id 10.255.254.128
+      neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER
+      redistribute connected
+   !
+   vrf Tenant_10_WEB_Zone
+      rd 10.255.254.128:11
+      route-target import evpn 11:11
+      route-target export evpn 11:11
+      router-id 10.255.254.128
+      neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER
+      redistribute connected
+   !
+   vrf Tenant_20_OP_Zone
+      rd 10.255.254.128:20
+      route-target import evpn 20:20
+      route-target export evpn 20:20
+      router-id 10.255.254.128
+      neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER
+      redistribute connected
 ```
 
 # BFD
@@ -996,12 +1192,40 @@ ip access-list standard SNMP-ACL
 | VRF Name | IP Routing |
 | -------- | ---------- |
 | management | disabled |
+| Tenant_10_OP_Zone | enabled |
+| Tenant_10_WEB_Zone | enabled |
+| Tenant_20_OP_Zone | enabled |
 
 ## VRF Instances Device Configuration
 
 ```eos
 !
 vrf instance management
+!
+vrf instance Tenant_10_OP_Zone
+!
+vrf instance Tenant_10_WEB_Zone
+!
+vrf instance Tenant_20_OP_Zone
+```
+
+# Virtual Source NAT
+
+## Virtual Source NAT Summary
+
+| Source NAT VRF | Source NAT IP Address |
+| -------------- | --------------------- |
+| Tenant_10_OP_Zone | 10.255.10.128 |
+| Tenant_10_WEB_Zone | 10.255.11.128 |
+| Tenant_20_OP_Zone | 10.255.20.128 |
+
+## Virtual Source NAT Configuration
+
+```eos
+!
+ip address virtual source-nat vrf Tenant_10_OP_Zone address 10.255.10.128
+ip address virtual source-nat vrf Tenant_10_WEB_Zone address 10.255.11.128
+ip address virtual source-nat vrf Tenant_20_OP_Zone address 10.255.20.128
 ```
 
 # Quality Of Service
