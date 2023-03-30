@@ -1036,7 +1036,7 @@ Global ARP timeout: 900
 
 | VRF | Route-Distinguisher | Redistribute |
 | --- | ------------------- | ------------ |
-| Tenant_10_OP_Zone | 10.255.254.4:10 | connected |
+| Tenant_10_OP_Zone | 10.255.254.4:10 | connected<br>static |
 | Tenant_10_WEB_Zone | 10.255.254.4:11 | connected |
 | Tenant_20_OP_Zone | 10.255.254.4:20 | connected |
 
@@ -1133,6 +1133,7 @@ router bgp 65102
       router-id 10.255.254.4
       neighbor 10.1.1.4 peer group MLAG-IPv4-UNDERLAY-PEER
       redistribute connected
+      redistribute static
    !
    vrf Tenant_10_WEB_Zone
       rd 10.255.254.4:11

@@ -75,6 +75,7 @@ router_bgp:
           - '10:10'
       redistribute_routes:
       - connected
+      - static
       neighbors:
         10.1.1.253:
           peer_group: MLAG-IPv4-UNDERLAY-PEER
@@ -137,6 +138,11 @@ static_routes:
 - vrf: management
   destination_address_prefix: 0.0.0.0/0
   gateway: 10.99.99.1
+- destination_address_prefix: 0.0.0.0/0
+  gateway: 192.168.110.1
+  name: DEFAULT_TO_WAN
+  interface: Ethernet51/1.110
+  vrf: Tenant_10_OP_Zone
 service_routing_protocols_model: multi-agent
 ip_routing: true
 daemon_terminattr:
@@ -354,6 +360,18 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     ip_address: 10.0.1.251/31
+  Ethernet51/1.110:
+    peer_type: l3_interface
+    ip_address: 192.168.110.0/31
+    shutdown: false
+    description: L3 Uplink to WAN for Tenant_10_OP_Zone VRF
+    type: l3dot1q
+    encapsulation_dot1q_vlan: 110
+    vrf: Tenant_10_OP_Zone
+  Ethernet51/1:
+    type: routed
+    peer_type: l3_interface
+    shutdown: false
 mlag_configuration:
   domain_id: DC_BORDER_LEAVES
   local_interface: Vlan4094

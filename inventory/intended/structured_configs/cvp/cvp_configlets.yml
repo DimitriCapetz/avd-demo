@@ -42,6 +42,9 @@ CVP_CONFIGLETS:
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.249/31\n\
     !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet7/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.251/31\n\
+    !\ninterface Ethernet51/1\n   no shutdown\n   no switchport\n!\ninterface Ethernet51/1.110\n\
+    \   description L3 Uplink to WAN for Tenant_10_OP_Zone VRF\n   no shutdown\n \
+    \  encapsulation dot1q vlan 110\n   vrf Tenant_10_OP_Zone\n   ip address 192.168.110.0/31\n\
     !\ninterface Ethernet55/1\n   description MLAG_PEER_DC-BORDER2_Ethernet55/1\n\
     \   no shutdown\n   channel-group 551 mode active\n!\ninterface Ethernet56/1\n\
     \   description MLAG_PEER_DC-BORDER2_Ethernet56/1\n   no shutdown\n   channel-group\
@@ -86,6 +89,7 @@ CVP_CONFIGLETS:
     !\nmlag configuration\n   domain-id DC_BORDER_LEAVES\n   local-interface Vlan4094\n\
     \   peer-address 10.1.0.253\n   peer-link Port-Channel551\n   reload-delay mlag\
     \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    ip route vrf Tenant_10_OP_Zone 0.0.0.0/0 Ethernet51/1.110 192.168.110.1 name DEFAULT_TO_WAN\n\
     !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
     \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
     \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
@@ -122,9 +126,9 @@ CVP_CONFIGLETS:
     \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
     \      rd 10.255.254.127:10\n      route-target import evpn 10:10\n      route-target\
     \ export evpn 10:10\n      router-id 10.255.254.127\n      neighbor 10.1.1.253\
-    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf\
-    \ Tenant_10_WEB_Zone\n      rd 10.255.254.127:11\n      route-target import evpn\
-    \ 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.127\n\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n      redistribute\
+    \ static\n   !\n   vrf Tenant_10_WEB_Zone\n      rd 10.255.254.127:11\n      route-target\
+    \ import evpn 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.127\n\
     \      neighbor 10.1.1.253 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
     \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.127:20\n    \
     \  route-target import evpn 20:20\n      route-target export evpn 20:20\n    \
@@ -190,6 +194,9 @@ CVP_CONFIGLETS:
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.253/31\n\
     !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC-SPINE2_Ethernet8/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.0.1.255/31\n\
+    !\ninterface Ethernet51/1\n   no shutdown\n   no switchport\n!\ninterface Ethernet51/1.110\n\
+    \   description L3 Uplink to WAN for Tenant_10_OP_Zone VRF\n   no shutdown\n \
+    \  encapsulation dot1q vlan 110\n   vrf Tenant_10_OP_Zone\n   ip address 192.168.110.2/31\n\
     !\ninterface Ethernet55/1\n   description MLAG_PEER_DC-BORDER1_Ethernet55/1\n\
     \   no shutdown\n   channel-group 551 mode active\n!\ninterface Ethernet56/1\n\
     \   description MLAG_PEER_DC-BORDER1_Ethernet56/1\n   no shutdown\n   channel-group\
@@ -234,6 +241,7 @@ CVP_CONFIGLETS:
     !\nmlag configuration\n   domain-id DC_BORDER_LEAVES\n   local-interface Vlan4094\n\
     \   peer-address 10.1.0.252\n   peer-link Port-Channel551\n   reload-delay mlag\
     \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    ip route vrf Tenant_10_OP_Zone 0.0.0.0/0 Ethernet51/1.110 192.168.110.3 name DEFAULT_TO_WAN\n\
     !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
     \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
     \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
@@ -270,9 +278,9 @@ CVP_CONFIGLETS:
     \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
     \      rd 10.255.254.128:10\n      route-target import evpn 10:10\n      route-target\
     \ export evpn 10:10\n      router-id 10.255.254.128\n      neighbor 10.1.1.252\
-    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf\
-    \ Tenant_10_WEB_Zone\n      rd 10.255.254.128:11\n      route-target import evpn\
-    \ 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.128\n\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n      redistribute\
+    \ static\n   !\n   vrf Tenant_10_WEB_Zone\n      rd 10.255.254.128:11\n      route-target\
+    \ import evpn 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.128\n\
     \      neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
     \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.128:20\n    \
     \  route-target import evpn 20:20\n      route-target export evpn 20:20\n    \
@@ -429,14 +437,15 @@ CVP_CONFIGLETS:
     \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
     \      rd 10.255.254.1:10\n      route-target import evpn 10:10\n      route-target\
     \ export evpn 10:10\n      router-id 10.255.254.1\n      neighbor 10.1.1.1 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
-    \      rd 10.255.254.1:11\n      route-target import evpn 11:11\n      route-target\
-    \ export evpn 11:11\n      router-id 10.255.254.1\n      neighbor 10.1.1.1 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
-    \      rd 10.255.254.1:20\n      route-target import evpn 20:20\n      route-target\
-    \ export evpn 20:20\n      router-id 10.255.254.1\n      neighbor 10.1.1.1 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
-    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n      redistribute\
+    \ static\n   !\n   vrf Tenant_10_WEB_Zone\n      rd 10.255.254.1:11\n      route-target\
+    \ import evpn 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.1\n\
+    \      neighbor 10.1.1.1 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.1:20\n      route-target\
+    \ import evpn 20:20\n      route-target export evpn 20:20\n      router-id 10.255.254.1\n\
+    \      neighbor 10.1.1.1 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -587,14 +596,15 @@ CVP_CONFIGLETS:
     \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
     \      rd 10.255.254.2:10\n      route-target import evpn 10:10\n      route-target\
     \ export evpn 10:10\n      router-id 10.255.254.2\n      neighbor 10.1.1.0 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
-    \      rd 10.255.254.2:11\n      route-target import evpn 11:11\n      route-target\
-    \ export evpn 11:11\n      router-id 10.255.254.2\n      neighbor 10.1.1.0 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
-    \      rd 10.255.254.2:20\n      route-target import evpn 20:20\n      route-target\
-    \ export evpn 20:20\n      router-id 10.255.254.2\n      neighbor 10.1.1.0 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
-    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n      redistribute\
+    \ static\n   !\n   vrf Tenant_10_WEB_Zone\n      rd 10.255.254.2:11\n      route-target\
+    \ import evpn 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.2\n\
+    \      neighbor 10.1.1.0 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.2:20\n      route-target\
+    \ import evpn 20:20\n      route-target export evpn 20:20\n      router-id 10.255.254.2\n\
+    \      neighbor 10.1.1.0 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -745,14 +755,15 @@ CVP_CONFIGLETS:
     \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
     \      rd 10.255.254.3:10\n      route-target import evpn 10:10\n      route-target\
     \ export evpn 10:10\n      router-id 10.255.254.3\n      neighbor 10.1.1.5 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
-    \      rd 10.255.254.3:11\n      route-target import evpn 11:11\n      route-target\
-    \ export evpn 11:11\n      router-id 10.255.254.3\n      neighbor 10.1.1.5 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
-    \      rd 10.255.254.3:20\n      route-target import evpn 20:20\n      route-target\
-    \ export evpn 20:20\n      router-id 10.255.254.3\n      neighbor 10.1.1.5 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
-    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n      redistribute\
+    \ static\n   !\n   vrf Tenant_10_WEB_Zone\n      rd 10.255.254.3:11\n      route-target\
+    \ import evpn 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.3\n\
+    \      neighbor 10.1.1.5 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.3:20\n      route-target\
+    \ import evpn 20:20\n      route-target export evpn 20:20\n      router-id 10.255.254.3\n\
+    \      neighbor 10.1.1.5 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -903,14 +914,15 @@ CVP_CONFIGLETS:
     \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_10_OP_Zone\n\
     \      rd 10.255.254.4:10\n      route-target import evpn 10:10\n      route-target\
     \ export evpn 10:10\n      router-id 10.255.254.4\n      neighbor 10.1.1.4 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_10_WEB_Zone\n\
-    \      rd 10.255.254.4:11\n      route-target import evpn 11:11\n      route-target\
-    \ export evpn 11:11\n      router-id 10.255.254.4\n      neighbor 10.1.1.4 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n   !\n   vrf Tenant_20_OP_Zone\n\
-    \      rd 10.255.254.4:20\n      route-target import evpn 20:20\n      route-target\
-    \ export evpn 20:20\n      router-id 10.255.254.4\n      neighbor 10.1.1.4 peer\
-    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
-    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n      redistribute\
+    \ static\n   !\n   vrf Tenant_10_WEB_Zone\n      rd 10.255.254.4:11\n      route-target\
+    \ import evpn 11:11\n      route-target export evpn 11:11\n      router-id 10.255.254.4\n\
+    \      neighbor 10.1.1.4 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n   !\n   vrf Tenant_20_OP_Zone\n      rd 10.255.254.4:20\n      route-target\
+    \ import evpn 20:20\n      route-target export evpn 20:20\n      router-id 10.255.254.4\n\
+    \      neighbor 10.1.1.4 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
+    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
+    \ login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\

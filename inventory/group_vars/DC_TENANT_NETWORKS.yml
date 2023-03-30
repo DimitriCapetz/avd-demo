@@ -37,6 +37,31 @@ tenants:
                 ip_address: 10.10.19.2/24
               DC-BORDER2:
                 ip_address: 10.10.19.3/24
+        l3_interfaces:
+          - interfaces: [ Ethernet51/1.110 ]
+            encapsulation_dot1q_vlan: [ 110 ]
+            ip_addresses: [ 192.168.110.0/31 ]
+            nodes: [ DC-BORDER1 ]
+            description: L3 Uplink to WAN for Tenant_10_OP_Zone VRF
+            enabled: true
+          - interfaces: [ Ethernet51/1.110 ]
+            encapsulation_dot1q_vlan: [ 110 ]
+            ip_addresses: [ 192.168.110.2/31 ]
+            nodes: [ DC-BORDER2 ]
+            description: L3 Uplink to WAN for Tenant_10_OP_Zone VRF
+            enabled: true
+        static_routes:
+          - destination_address_prefix: 0.0.0.0/0
+            gateway: 192.168.110.1
+            name: DEFAULT_TO_WAN
+            interface: Ethernet51/1.110
+            nodes: [ DC-BORDER1 ]
+          - destination_address_prefix: 0.0.0.0/0
+            gateway: 192.168.110.3
+            name: DEFAULT_TO_WAN
+            interface: Ethernet51/1.110
+            nodes: [ DC-BORDER2 ]
+        redistribute_static: true
       Tenant_10_WEB_Zone:
         vrf_vni: 11
         vtep_diagnostic:

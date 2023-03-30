@@ -582,12 +582,19 @@ mac address-table aging-time 1300
 
 *Inherited from Port-Channel Interface
 
+#### Encapsulation Dot1q Interfaces
+
+| Interface | Description | Type | Vlan ID | Dot1q VLAN Tag |
+| --------- | ----------- | -----| ------- | -------------- |
+| Ethernet51/1.110 | L3 Uplink to WAN for Tenant_10_OP_Zone VRF | l3dot1q | - | 110 |
+
 #### IPv4
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
 | Ethernet49/1 | P2P_LINK_TO_DC-SPINE1_Ethernet8/1 | routed | - | 10.0.1.253/31 | default | 1500 | False | - | - |
 | Ethernet50/1 | P2P_LINK_TO_DC-SPINE2_Ethernet8/1 | routed | - | 10.0.1.255/31 | default | 1500 | False | - | - |
+| Ethernet51/1.110 | L3 Uplink to WAN for Tenant_10_OP_Zone VRF | l3dot1q | - | 192.168.110.2/31 | Tenant_10_OP_Zone | - | False | - | - |
 
 ### Ethernet Interfaces Device Configuration
 
@@ -606,6 +613,17 @@ interface Ethernet50/1
    mtu 1500
    no switchport
    ip address 10.0.1.255/31
+!
+interface Ethernet51/1
+   no shutdown
+   no switchport
+!
+interface Ethernet51/1.110
+   description L3 Uplink to WAN for Tenant_10_OP_Zone VRF
+   no shutdown
+   encapsulation dot1q vlan 110
+   vrf Tenant_10_OP_Zone
+   ip address 192.168.110.2/31
 !
 interface Ethernet55/1
    description MLAG_PEER_DC-BORDER1_Ethernet55/1
@@ -895,12 +913,14 @@ ip routing vrf Tenant_20_OP_Zone
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
 | management | 0.0.0.0/0 | 10.99.99.1 | - | 1 | - | - | - |
+| Tenant_10_OP_Zone | 0.0.0.0/0 | 192.168.110.3 | Ethernet51/1.110 | 1 | - | DEFAULT_TO_WAN | - |
 
 ### Static Routes Device Configuration
 
 ```eos
 !
 ip route vrf management 0.0.0.0/0 10.99.99.1
+ip route vrf Tenant_10_OP_Zone 0.0.0.0/0 Ethernet51/1.110 192.168.110.3 name DEFAULT_TO_WAN
 ```
 
 ## ARP
@@ -987,7 +1007,7 @@ Global ARP timeout: 900
 
 | VRF | Route-Distinguisher | Redistribute |
 | --- | ------------------- | ------------ |
-| Tenant_10_OP_Zone | 10.255.254.128:10 | connected |
+| Tenant_10_OP_Zone | 10.255.254.128:10 | connected<br>static |
 | Tenant_10_WEB_Zone | 10.255.254.128:11 | connected |
 | Tenant_20_OP_Zone | 10.255.254.128:20 | connected |
 
@@ -1064,6 +1084,7 @@ router bgp 65199
       router-id 10.255.254.128
       neighbor 10.1.1.252 peer group MLAG-IPv4-UNDERLAY-PEER
       redistribute connected
+      redistribute static
    !
    vrf Tenant_10_WEB_Zone
       rd 10.255.254.128:11

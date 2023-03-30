@@ -1,10 +1,14 @@
 Node Type,Node,Node Interface,Peer Type,Peer Node,Peer Interface,Node Interface Enabled
 l3leaf,DC-BORDER1,Ethernet49/1,spine,DC-SPINE1,Ethernet7/1,True
 l3leaf,DC-BORDER1,Ethernet50/1,spine,DC-SPINE2,Ethernet7/1,True
+l3leaf,DC-BORDER1,Ethernet51/1,l3_interface,,,True
+l3leaf,DC-BORDER1,Ethernet51/1.110,l3_interface,,,True
 l3leaf,DC-BORDER1,Ethernet55/1,mlag_peer,DC-BORDER2,Ethernet55/1,True
 l3leaf,DC-BORDER1,Ethernet56/1,mlag_peer,DC-BORDER2,Ethernet56/1,True
 l3leaf,DC-BORDER2,Ethernet49/1,spine,DC-SPINE1,Ethernet8/1,True
 l3leaf,DC-BORDER2,Ethernet50/1,spine,DC-SPINE2,Ethernet8/1,True
+l3leaf,DC-BORDER2,Ethernet51/1,l3_interface,,,True
+l3leaf,DC-BORDER2,Ethernet51/1.110,l3_interface,,,True
 l3leaf,DC-BORDER2,Ethernet55/1,mlag_peer,DC-BORDER1,Ethernet55/1,True
 l3leaf,DC-BORDER2,Ethernet56/1,mlag_peer,DC-BORDER1,Ethernet56/1,True
 l3leaf,DC-LEAF1,Ethernet49/1,spine,DC-SPINE1,Ethernet1/1,True

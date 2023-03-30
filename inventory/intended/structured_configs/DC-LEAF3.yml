@@ -75,6 +75,7 @@ router_bgp:
           - '10:10'
       redistribute_routes:
       - connected
+      - static
       neighbors:
         10.1.1.5:
           peer_group: MLAG-IPv4-UNDERLAY-PEER
