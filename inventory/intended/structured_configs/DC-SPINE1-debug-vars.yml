@@ -3345,7 +3345,7 @@ groups:
   - DC-LEAF2
   - DC-LEAF3
   - DC-LEAF4
-omit: __omit_place_holder__829fbe0149d085a140c409cea0e5a28a4c83d7e4
+omit: __omit_place_holder__237bcb6615d9ff198882349d8bc7e1aebed9d880
 ansible_version:
   string: 2.14.4
   full: 2.14.4
@@ -3353,7 +3353,7 @@ ansible_version:
   minor: 14
   revision: 4
 ansible_check_mode: false
-ansible_diff_mode: true
+ansible_diff_mode: false
 ansible_forks: 5
 ansible_inventory_sources:
 - /workspaces/avd-demo/inventory/inventory.yml

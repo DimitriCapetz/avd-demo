@@ -378,6 +378,15 @@ port_channel_interfaces:
     trunk_groups:
     - LEAF_PEER_L3
     - MLAG
+  Port-Channel3:
+    description: DC-HOST2_PortChanne101
+    type: switched
+    shutdown: false
+    eos_cli: sflow enable
+    mode: trunk
+    vlans: 10-14,20-22
+    spanning_tree_portfast: edge
+    mlag: 3
 ethernet_interfaces:
   Ethernet55/1:
     peer: DC-LEAF3
@@ -417,6 +426,19 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     ip_address: 10.0.0.15/31
+  Ethernet3:
+    peer: DC-HOST2
+    peer_interface: Et2
+    peer_type: server
+    description: DC-HOST2_Et2
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 10-14,20-22
+    spanning_tree_portfast: edge
+    channel_group:
+      id: 3
+      mode: active
 mlag_configuration:
   domain_id: DC_COMPUTE_POD2
   local_interface: Vlan4094

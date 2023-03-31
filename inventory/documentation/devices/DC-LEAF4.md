@@ -593,6 +593,7 @@ mac address-table aging-time 1300
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
+| Ethernet3 | DC-HOST2_Et2 | *trunk | *10-14,20-22 | *- | *- | 3 |
 | Ethernet55/1 | MLAG_PEER_DC-LEAF3_Ethernet55/1 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 551 |
 | Ethernet56/1 | MLAG_PEER_DC-LEAF3_Ethernet56/1 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 551 |
 
@@ -608,6 +609,11 @@ mac address-table aging-time 1300
 ### Ethernet Interfaces Device Configuration
 
 ```eos
+!
+interface Ethernet3
+   description DC-HOST2_Et2
+   no shutdown
+   channel-group 3 mode active
 !
 interface Ethernet49/1
    description P2P_LINK_TO_DC-SPINE1_Ethernet4/1
@@ -642,11 +648,22 @@ interface Ethernet56/1
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
+| Port-Channel3 | DC-HOST2_PortChanne101 | switched | trunk | 10-14,20-22 | - | - | - | - | 3 | - |
 | Port-Channel551 | MLAG_PEER_DC-LEAF3_Po551 | switched | trunk | 2-4094 | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
 
 ```eos
+!
+interface Port-Channel3
+   description DC-HOST2_PortChanne101
+   no shutdown
+   switchport
+   switchport trunk allowed vlan 10-14,20-22
+   switchport mode trunk
+   mlag 3
+   spanning-tree portfast
+   sflow enable
 !
 interface Port-Channel551
    description MLAG_PEER_DC-LEAF3_Po551

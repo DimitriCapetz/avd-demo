@@ -38,4 +38,4 @@ RUN pip install dotbot docutils rcvpapi Pyyaml lxml jsonrpclib ansible cvprac py
 # Install AVD and CVP Collections
 RUN ansible-galaxy collection install arista.avd
 RUN export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-RUN pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+#RUN pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt

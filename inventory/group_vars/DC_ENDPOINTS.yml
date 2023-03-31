@@ -1,1 +1,46 @@
 ---
+connected_endpoints_keys:
+  servers:
+    type: server
+  firewalls:
+    type: firewall
+  routers:
+    type: router
+
+port_profiles:
+
+  VM_Servers:
+    mode: trunk
+    vlans: 10-14,20-22
+    spanning_tree_portfast: edge
+
+# servers
+servers:
+  DC-HOST1:
+    rack: Pod1
+    adapters:
+      # MLAG dual-homed connection from Et1 to DC-LEAF1_Eth3
+      #                            from Et2 to DC-LEAF2_Eth3
+      - endpoint_ports: [ Et1, Et2 ]
+        switch_ports: [ Ethernet3, Ethernet3 ]
+        switches: [ DC-LEAF1, DC-LEAF2 ]
+        profile: VM_Servers
+        port_channel:
+          description: PortChannel101
+          mode: active
+          raw_eos_cli: |-
+            sflow enable
+  DC-HOST2:
+    rack: Pod2
+    adapters:
+      # MLAG dual-homed connection from Et1 to DC-LEAF3_Eth3
+      #                            from Et2 to DC-LEAF4_Eth3
+      - endpoint_ports: [ Et1, Et2 ]
+        switch_ports: [ Ethernet3, Ethernet3 ]
+        switches: [ DC-LEAF3, DC-LEAF4 ]
+        profile: VM_Servers
+        port_channel:
+          description: PortChanne101
+          mode: active
+          raw_eos_cli: |-
+            sflow enable
