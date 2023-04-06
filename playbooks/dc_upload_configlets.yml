@@ -7,8 +7,8 @@
     - arista.avd
     - arista.cvp
   tasks:
-    - name: 'upload AVD generated configlets to cloudvision {{inventory_hostname}}'
-      tags: [ avd ]
+    - name: 'upload AVD generated configlets to cloudvision {{ inventory_hostname }}'
+      tags: [avd]
       import_role:
         name: arista.avd.cvp_configlet_upload
       vars:
@@ -17,8 +17,8 @@
         configlets_cvp_prefix: 'none'
         execute_tasks: false
         cv_collection: v3
-    - name: 'upload shared configlets to cloudvision {{inventory_hostname}}'
-      tags: [ common ]
+    - name: 'upload shared configlets to cloudvision {{ inventory_hostname }}'
+      tags: [common]
       import_role:
         name: arista.avd.cvp_configlet_upload
       vars:
