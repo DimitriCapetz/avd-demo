@@ -1,0 +1,219 @@
+router_bgp:
+  as: '65003'
+  router_id: 10.3.100.2
+  bgp_defaults:
+  - no bgp default ipv4-unicast
+  - distance bgp 20 200 200
+  - graceful-restart restart-time 300
+  - graceful-restart
+  - maximum-paths 4 ecmp 4
+  peer_groups:
+    IPv4-UNDERLAY-PEERS:
+      type: ipv4
+      maximum_routes: 12000
+      send_community: all
+    EVPN-OVERLAY-PEERS:
+      type: evpn
+      update_source: Loopback0
+      bfd: true
+      send_community: all
+      maximum_routes: 0
+      ebgp_multihop: 3
+      next_hop_unchanged: true
+  address_family_ipv4:
+    peer_groups:
+      IPv4-UNDERLAY-PEERS:
+        activate: true
+      EVPN-OVERLAY-PEERS:
+        activate: false
+  redistribute_routes:
+    connected:
+      route_map: RM-CONN-2-BGP
+  neighbors:
+    10.3.0.3:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65301'
+      description: DC3-LEAF1_Ethernet50/1
+    10.3.0.7:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65301'
+      description: DC3-LEAF2_Ethernet50/1
+    10.3.0.11:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65302'
+      description: DC3-LEAF3_Ethernet50/1
+    10.3.0.15:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65302'
+      description: DC3-LEAF4_Ethernet50/1
+    10.3.1.251:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65316'
+      description: DC3-BORDER1_Ethernet50/1
+    10.3.1.255:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65316'
+      description: DC3-BORDER2_Ethernet50/1
+    10.3.103.127:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC3-BORDER1
+      remote_as: '65316'
+    10.3.103.128:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC3-BORDER2
+      remote_as: '65316'
+    10.3.103.1:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC3-LEAF1
+      remote_as: '65301'
+    10.3.103.2:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC3-LEAF2
+      remote_as: '65301'
+    10.3.103.3:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC3-LEAF3
+      remote_as: '65302'
+    10.3.103.4:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC3-LEAF4
+      remote_as: '65302'
+  address_family_evpn:
+    peer_groups:
+      EVPN-OVERLAY-PEERS:
+        activate: true
+static_routes:
+- vrf: management
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 10.99.99.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+daemon_terminattr:
+  cvaddrs:
+  - apiserver.arista.io:443
+  cvauth:
+    method: token-secure
+    token_file: /mnt/flash/cv-onboarding-token
+  cvvrf: management
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  disable_aaa: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+name_server:
+  source:
+    vrf: management
+  nodes:
+  - 1.1.1.1
+spanning_tree:
+  mode: none
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0
+  dcapetz:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/
+    ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=
+      dcapetz@dcapetz
+clock:
+  timezone: US/Central
+vrfs:
+  management:
+    ip_routing: false
+management_interfaces:
+  Management1:
+    description: oob_management
+    shutdown: false
+    vrf: management
+    ip_address: 10.99.99.214/24
+    gateway: 10.99.99.1
+    type: oob
+mac_address_table:
+  aging_time: 1300
+management_api_http:
+  enable_vrfs:
+    management: {}
+  enable_https: true
+ethernet_interfaces:
+  Ethernet1/1:
+    peer: DC3-LEAF1
+    peer_interface: Ethernet50/1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC3-LEAF1_Ethernet50/1
+    shutdown: false
+    mtu: 1500
+    type: routed
+    ip_address: 10.3.0.2/31
+  Ethernet2/1:
+    peer: DC3-LEAF2
+    peer_interface: Ethernet50/1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC3-LEAF2_Ethernet50/1
+    shutdown: false
+    mtu: 1500
+    type: routed
+    ip_address: 10.3.0.6/31
+  Ethernet3/1:
+    peer: DC3-LEAF3
+    peer_interface: Ethernet50/1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC3-LEAF3_Ethernet50/1
+    shutdown: false
+    mtu: 1500
+    type: routed
+    ip_address: 10.3.0.10/31
+  Ethernet4/1:
+    peer: DC3-LEAF4
+    peer_interface: Ethernet50/1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC3-LEAF4_Ethernet50/1
+    shutdown: false
+    mtu: 1500
+    type: routed
+    ip_address: 10.3.0.14/31
+  Ethernet7/1:
+    peer: DC3-BORDER1
+    peer_interface: Ethernet50/1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC3-BORDER1_Ethernet50/1
+    shutdown: false
+    mtu: 1500
+    type: routed
+    ip_address: 10.3.1.250/31
+  Ethernet8/1:
+    peer: DC3-BORDER2
+    peer_interface: Ethernet50/1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC3-BORDER2_Ethernet50/1
+    shutdown: false
+    mtu: 1500
+    type: routed
+    ip_address: 10.3.1.254/31
+loopback_interfaces:
+  Loopback0:
+    description: EVPN_Overlay_Peering
+    shutdown: false
+    ip_address: 10.3.100.2/32
+prefix_lists:
+  PL-LOOPBACKS-EVPN-OVERLAY:
+    sequence_numbers:
+      10:
+        action: permit 10.3.100.0/24 eq 32
+route_maps:
+  RM-CONN-2-BGP:
+    sequence_numbers:
+      10:
+        type: permit
+        match:
+        - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+router_bfd:
+  multihop:
+    interval: 1200
+    min_rx: 1200
+    multiplier: 3

@@ -1,0 +1,127 @@
+---
+# DC Tenants Networks
+# Documentation of Tenant specific information - Vlans/VRFs
+# Set base iBGP Peering VLAN to avoid invalid IDs
+mlag_ibgp_peering_vrfs:
+  base_vlan: 3000
+
+tenants:
+  # CORP Specific Information - VRFs / VLANs
+  CORP:
+    mac_vrf_vni_base: 10000
+    vrfs:
+      CORP:
+        vrf_vni: 10
+        vtep_diagnostic:
+          loopback: 10
+          loopback_ip_range: 10.255.10.0/24
+        svis:
+          10:
+            name: CORP_GLOBAL
+            tags: [compute,border]
+            enabled: true
+            ip_address_virtual: 10.10.10.1/24
+          40:
+            name: CORP_DC3
+            tags: [compute,border]
+            enabled: true
+            ip_address_virtual: 10.10.11.1/24
+#          19:
+#            name: Tenant_10_OP_Zone_FW
+#            tags: [border]
+#            enabled: true
+#            ip_virtual_router_addresses:
+#              - 10.10.19.1
+#            nodes:
+#              DC-BORDER1:
+#                ip_address: 10.10.19.2/24
+#              DC-BORDER2:
+#                ip_address: 10.10.19.3/24
+#        l3_interfaces:
+#          - interfaces: [ Ethernet51/1.110 ]
+#            encapsulation_dot1q_vlan: [ 110 ]
+#            ip_addresses: [ 192.168.110.0/31 ]
+#            nodes: [ DC-BORDER1 ]
+#            description: L3 Uplink to WAN for Tenant_10_OP_Zone VRF
+#            enabled: true
+#          - interfaces: [ Ethernet51/1.110 ]
+#            encapsulation_dot1q_vlan: [ 110 ]
+#            ip_addresses: [ 192.168.110.2/31 ]
+#            nodes: [ DC-BORDER2 ]
+#            description: L3 Uplink to WAN for Tenant_10_OP_Zone VRF
+#            enabled: true
+#        static_routes:
+#          - destination_address_prefix: 0.0.0.0/0
+#            gateway: 192.168.110.1
+#            name: DEFAULT_TO_WAN
+#            interface: Ethernet51/1.110
+#            nodes: [ DC-BORDER1 ]
+#          - destination_address_prefix: 0.0.0.0/0
+#            gateway: 192.168.110.3
+#            name: DEFAULT_TO_WAN
+#            interface: Ethernet51/1.110
+#            nodes: [ DC-BORDER2 ]
+#        redistribute_static: true
+#      Tenant_10_WEB_Zone:
+#        vrf_vni: 11
+#        vtep_diagnostic:
+#          loopback: 11
+#          loopback_ip_range: 10.255.11.0/24
+#        svis:
+#          12:
+#            name: Tenant_10_WEB_Zone_1
+#            tags: [compute]
+#            enabled: true
+#            ip_address_virtual: 10.10.12.1/24
+#          13:
+#            name: Tenant_10_WEB_Zone_2
+#            tags: [compute]
+#            enabled: true
+#            ip_address_virtual: 10.10.13.1/24
+#          18:
+#            name: Tenant_10_WEB_Zone_FW
+#            tags: [border]
+#            enabled: true
+#            ip_virtual_router_addresses:
+#              - 10.10.18.1
+#            nodes:
+#              DC-BORDER1:
+#                ip_address: 10.10.18.2/24
+#              DC-BORDER2:
+#                ip_address: 10.10.18.3/24
+#    l2vlans:
+#      14:
+#        name: Tenant_10_VMOTION
+#        tags: [compute]
+#  # Tenant B Specific Information - VRFs / VLANs
+#  Tenant_20:
+#    mac_vrf_vni_base: 10000
+#    vrfs:
+#      Tenant_20_OP_Zone:
+#        vrf_vni: 20
+#        vtep_diagnostic:
+#          loopback: 20
+#          loopback_ip_range: 10.255.20.0/24
+#        svis:
+#          20:
+#            name: Tenant_20_OP_Zone_1
+#            tags: [compute]
+#            enabled: true
+#            ip_address_virtual: 10.20.20.0/24
+#          21:
+#            name: Tenant_20_OP_Zone_2
+#            tags: [compute]
+#            enabled: true
+#            ip_address_virtual: 10.20.21.1/24
+#          29:
+#            name: Tenant_20_OP_Zone_FW
+#            tags: [border]
+#            enabled: true
+#            ip_virtual_router_addresses:
+#              - 10.20.29.1
+#            nodes:
+#              DC-BORDER1:
+#                ip_address: 10.20.29.2/24
+#              DC-BORDER2:
+#                ip_address: 10.20.29.3/24
+#

@@ -1,6 +1,6 @@
 ---
 - name: Manage Arista EOS EVPN/VXLAN Configuration
-  hosts: DC
+  hosts: DC3
   connection: local
   gather_facts: false
   collections:
@@ -35,7 +35,7 @@
       import_role:
         name: arista.avd.eos_config_deploy_cvp
       vars:
-        container_root: 'DC_FABRIC'
+        container_root: 'DC3'
         configlets_prefix: 'AVD-L3LSV'
         state: present
         cv_collection: v3
