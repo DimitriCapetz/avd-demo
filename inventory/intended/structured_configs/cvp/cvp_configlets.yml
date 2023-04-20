@@ -920,18 +920,13 @@ CVP_CONFIGLETS:
     EOF\n\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n  \
     \ !\n   vrf management\n      no shutdown\n!\nend\n"
 CVP_TOPOLOGY:
-  DC3:
-    parent_container: Tenant
   DC3_BORDER_LEAVES:
     devices:
     - DC3-BORDER1
     - DC3-BORDER2
     parent_container: DC3_LEAVES
-  DC3_ENDPOINTS:
-    devices: []
-    parent_container: DC3
   DC3_FABRIC:
-    parent_container: DC3
+    parent_container: Tenant
   DC3_LEAF_DOMAIN_1:
     devices:
     - DC3-LEAF1
@@ -949,7 +944,4 @@ CVP_TOPOLOGY:
     - DC3-SPINE1
     - DC3-SPINE2
     parent_container: DC3_FABRIC
-  DC3_TENANT_NETWORKS:
-    devices: []
-    parent_container: DC3
 changed: false

@@ -3450,26 +3450,26 @@ ansible_config_file: /workspaces/avd-demo/ansible.cfg
 groups:
   all:
   - cvp
-  - DC3-SPINE1
-  - DC3-SPINE2
   - DC3-LEAF1
   - DC3-LEAF2
   - DC3-LEAF3
   - DC3-LEAF4
   - DC3-BORDER1
   - DC3-BORDER2
+  - DC3-SPINE1
+  - DC3-SPINE2
   ungrouped: []
   CVP:
   - cvp
   DC3:
-  - DC3-SPINE1
-  - DC3-SPINE2
   - DC3-LEAF1
   - DC3-LEAF2
   - DC3-LEAF3
   - DC3-LEAF4
   - DC3-BORDER1
   - DC3-BORDER2
+  - DC3-SPINE1
+  - DC3-SPINE2
   DC3_FABRIC:
   - DC3-SPINE1
   - DC3-SPINE2
@@ -3510,7 +3510,7 @@ groups:
   - DC3-LEAF2
   - DC3-LEAF3
   - DC3-LEAF4
-omit: __omit_place_holder__97be19d223ea1ff2dcfbec4737113945d258f784
+omit: __omit_place_holder__c09ca437127163798743cc784d2a876ad9faa036
 ansible_version:
   string: 2.14.4
   full: 2.14.4

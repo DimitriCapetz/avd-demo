@@ -33,14 +33,10 @@ CVP_DEVICES:
     configlets:
       - AVD-L3LSV_DC3-SPINE2
 CVP_CONTAINERS:
-  DC3:
-    parentContainerName: Tenant
   DC3_BORDER_LEAVES:
     parentContainerName: DC3_LEAVES
-  DC3_ENDPOINTS:
-    parentContainerName: DC3
   DC3_FABRIC:
-    parentContainerName: DC3
+    parentContainerName: Tenant
   DC3_LEAF_DOMAIN_1:
     parentContainerName: DC3_LEAVES
   DC3_LEAF_DOMAIN_2:
@@ -49,5 +45,3 @@ CVP_CONTAINERS:
     parentContainerName: DC3_FABRIC
   DC3_SPINES:
     parentContainerName: DC3_FABRIC
-  DC3_TENANT_NETWORKS:
-    parentContainerName: DC3
