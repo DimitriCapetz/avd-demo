@@ -513,6 +513,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | CORP_GLOBAL | - |
 | 40 | CORP_DC3 | - |
+| 90 | CORP_DC3 | - |
 | 3009 | MLAG_iBGP_CORP | LEAF_PEER_L3 |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
@@ -525,6 +526,9 @@ vlan 10
    name CORP_GLOBAL
 !
 vlan 40
+   name CORP_DC3
+!
+vlan 90
    name CORP_DC3
 !
 vlan 3009
@@ -694,6 +698,7 @@ interface Loopback10
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | CORP_GLOBAL | CORP | - | False |
 | Vlan40 | CORP_DC3 | CORP | - | False |
+| Vlan90 | CORP_DC3 | CORP | - | False |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf CORP | CORP | 1500 | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
@@ -704,6 +709,7 @@ interface Loopback10
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  CORP  |  -  |  10.10.10.1/24  |  -  |  -  |  -  |  -  |
 | Vlan40 |  CORP  |  -  |  10.10.11.1/24  |  -  |  -  |  -  |  -  |
+| Vlan90 |  CORP  |  -  |  10.90.91.1/24  |  -  |  -  |  -  |  -  |
 | Vlan3009 |  CORP  |  10.255.254.5/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.255.254.5/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.255.255.5/31  |  -  |  -  |  -  |  -  |  -  |
@@ -723,6 +729,12 @@ interface Vlan40
    no shutdown
    vrf CORP
    ip address virtual 10.10.11.1/24
+!
+interface Vlan90
+   description CORP_DC3
+   no shutdown
+   vrf CORP
+   ip address virtual 10.90.91.1/24
 !
 interface Vlan3009
    description MLAG_PEER_L3_iBGP: vrf CORP
@@ -761,6 +773,7 @@ interface Vlan4094
 | ---- | --- | ---------- | --------------- |
 | 10 | 10010 | - | - |
 | 40 | 10040 | - | - |
+| 90 | 10090 | - | - |
 
 #### VRF to VNI and Multicast Group Mappings
 
@@ -779,6 +792,7 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 40 vni 10040
+   vxlan vlan 90 vni 10090
    vxlan vrf CORP vni 10
 ```
 
@@ -924,6 +938,7 @@ Global ARP timeout: 900
 | ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
 | 10 | 10.3.103.4:10010 | 10010:10010 | - | - | learned |
 | 40 | 10.3.103.4:10040 | 10040:10040 | - | - | learned |
+| 90 | 10.3.103.4:10090 | 10090:10090 | - | - | learned |
 
 ### Router BGP VRFs
 
@@ -982,6 +997,11 @@ router bgp 65302
    vlan 40
       rd 10.3.103.4:10040
       route-target both 10040:10040
+      redistribute learned
+   !
+   vlan 90
+      rd 10.3.103.4:10090
+      route-target both 10090:10090
       redistribute learned
    !
    address-family evpn

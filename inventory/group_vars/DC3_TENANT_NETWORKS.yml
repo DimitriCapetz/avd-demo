@@ -26,6 +26,11 @@ tenants:
             tags: [compute,border]
             enabled: true
             ip_address_virtual: 10.10.11.1/24
+          90:
+            name: CORP_DC3
+            tags: [compute,border]
+            enabled: true
+            ip_address_virtual: 10.90.91.1/24
 #          19:
 #            name: Tenant_10_OP_Zone_FW
 #            tags: [border]
