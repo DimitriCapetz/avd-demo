@@ -495,7 +495,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.1
         igmp_snooping_enabled: true
@@ -696,7 +696,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.2
         igmp_snooping_enabled: true
@@ -897,7 +897,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.3
         igmp_snooping_enabled: true
@@ -1098,7 +1098,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.4
         igmp_snooping_enabled: true
@@ -1299,7 +1299,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.127
         igmp_snooping_enabled: true
@@ -1500,7 +1500,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.128
         igmp_snooping_enabled: true
@@ -1988,7 +1988,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.1
       igmp_snooping_enabled: true
@@ -2189,7 +2189,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.2
       igmp_snooping_enabled: true
@@ -2390,7 +2390,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.3
       igmp_snooping_enabled: true
@@ -2591,7 +2591,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.4
       igmp_snooping_enabled: true
@@ -2792,7 +2792,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.127
       igmp_snooping_enabled: true
@@ -2993,7 +2993,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.128
       igmp_snooping_enabled: true
@@ -3338,7 +3338,7 @@ groups:
   - DC3-LEAF2
   - DC3-LEAF3
   - DC3-LEAF4
-omit: __omit_place_holder__0234127a01e59eaac285306f68c4c0a4ffdbe26b
+omit: __omit_place_holder__78b09996b691d0dc955e9b9b365abbc3a1debeaa
 ansible_version:
   string: 2.14.4
   full: 2.14.4
@@ -3352,5 +3352,5 @@ ansible_inventory_sources:
 - /workspaces/avd-demo/inventory/inventory.yml
 ansible_skip_tags: []
 ansible_run_tags:
-- build
+- provision
 ansible_verbosity: 0

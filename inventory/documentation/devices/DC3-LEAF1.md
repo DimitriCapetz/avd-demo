@@ -510,7 +510,6 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | CORP_GLOBAL | - |
 | 40 | CORP_DC3 | - |
-| 80 | CORP_DC3_NEW | - |
 | 3009 | MLAG_iBGP_CORP | LEAF_PEER_L3 |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
@@ -524,9 +523,6 @@ vlan 10
 !
 vlan 40
    name CORP_DC3
-!
-vlan 80
-   name CORP_DC3_NEW
 !
 vlan 3009
    name MLAG_iBGP_CORP
@@ -687,7 +683,6 @@ interface Loopback1
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | CORP_GLOBAL | CORP | - | False |
 | Vlan40 | CORP_DC3 | CORP | - | False |
-| Vlan80 | CORP_DC3_NEW | CORP | - | False |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf CORP | CORP | 1500 | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
@@ -698,7 +693,6 @@ interface Loopback1
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  CORP  |  -  |  10.10.10.1/24  |  -  |  -  |  -  |  -  |
 | Vlan40 |  CORP  |  -  |  10.40.40.1/24  |  -  |  -  |  -  |  -  |
-| Vlan80 |  CORP  |  -  |  10.80.80.1/24  |  -  |  -  |  -  |  -  |
 | Vlan3009 |  CORP  |  10.255.254.0/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.255.254.0/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.255.255.0/31  |  -  |  -  |  -  |  -  |  -  |
@@ -718,12 +712,6 @@ interface Vlan40
    no shutdown
    vrf CORP
    ip address virtual 10.40.40.1/24
-!
-interface Vlan80
-   description CORP_DC3_NEW
-   no shutdown
-   vrf CORP
-   ip address virtual 10.80.80.1/24
 !
 interface Vlan3009
    description MLAG_PEER_L3_iBGP: vrf CORP
@@ -762,7 +750,6 @@ interface Vlan4094
 | ---- | --- | ---------- | --------------- |
 | 10 | 10010 | - | - |
 | 40 | 10040 | - | - |
-| 80 | 10080 | - | - |
 
 #### VRF to VNI and Multicast Group Mappings
 
@@ -781,7 +768,6 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 40 vni 10040
-   vxlan vlan 80 vni 10080
    vxlan vrf CORP vni 10
 ```
 
@@ -927,7 +913,6 @@ Global ARP timeout: 900
 | ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
 | 10 | 10.3.103.1:10010 | 10010:10010 | - | - | learned |
 | 40 | 10.3.103.1:10040 | 10040:10040 | - | - | learned |
-| 80 | 10.3.103.1:10080 | 10080:10080 | - | - | learned |
 
 ### Router BGP VRFs
 
@@ -986,11 +971,6 @@ router bgp 65301
    vlan 40
       rd 10.3.103.1:10040
       route-target both 10040:10040
-      redistribute learned
-   !
-   vlan 80
-      rd 10.3.103.1:10080
-      route-target both 10080:10080
       redistribute learned
    !
    address-family evpn

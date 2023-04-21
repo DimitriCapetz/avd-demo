@@ -153,13 +153,6 @@ tenants:
             - border
             enabled: true
             ip_address_virtual: 10.40.40.1/24
-          80:
-            name: CORP_DC3_NEW
-            tags:
-            - compute
-            - border
-            enabled: true
-            ip_address_virtual: 10.80.80.1/24
         l3_interfaces:
         - interfaces:
           - Ethernet1
@@ -177,6 +170,24 @@ tenants:
           - DC3-BORDER2
           description: L3 Uplink to WAN for CORP VRF
           enabled: true
+        bgp_peers:
+          33.33.33.1:
+            peer_group: WAN
+            remote_as: 11111
+            nodes:
+            - DC3-BORDER1
+          33.33.33.5:
+            peer_group: WAN
+            remote_as: 22222
+            nodes:
+            - DC3-BORDER2
+        bgp_peer_groups:
+        - name: WAN
+          send_community: all
+          maximum_routes: 100000
+          nodes:
+          - DC3-BORDER1
+          - DC3-BORDER2
 type: l3leaf
 l3leaf:
   defaults:
@@ -615,7 +626,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.1
         igmp_snooping_enabled: true
@@ -816,7 +827,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.2
         igmp_snooping_enabled: true
@@ -1017,7 +1028,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.3
         igmp_snooping_enabled: true
@@ -1218,7 +1229,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.4
         igmp_snooping_enabled: true
@@ -1419,7 +1430,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.127
         igmp_snooping_enabled: true
@@ -1620,7 +1631,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,80
+        vlans: 10,40
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.128
         igmp_snooping_enabled: true
@@ -2108,7 +2119,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.1
       igmp_snooping_enabled: true
@@ -2309,7 +2320,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.2
       igmp_snooping_enabled: true
@@ -2510,7 +2521,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.3
       igmp_snooping_enabled: true
@@ -2711,7 +2722,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.4
       igmp_snooping_enabled: true
@@ -2912,7 +2923,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.127
       igmp_snooping_enabled: true
@@ -3113,7 +3124,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,80
+      vlans: 10,40
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.128
       igmp_snooping_enabled: true
@@ -3344,7 +3355,7 @@ switch:
   enable_trunk_groups: false
   local_endpoint_trunk_groups: []
   endpoint_trunk_groups: []
-  vlans: 10,40,80
+  vlans: 10,40
   spanning_tree_mode: mstp
   overlay_rd_type_admin_subfield: 10.3.103.127
   igmp_snooping_enabled: true
@@ -3531,7 +3542,7 @@ groups:
   - DC3-LEAF2
   - DC3-LEAF3
   - DC3-LEAF4
-omit: __omit_place_holder__0234127a01e59eaac285306f68c4c0a4ffdbe26b
+omit: __omit_place_holder__78b09996b691d0dc955e9b9b365abbc3a1debeaa
 ansible_version:
   string: 2.14.4
   full: 2.14.4
@@ -3545,5 +3556,5 @@ ansible_inventory_sources:
 - /workspaces/avd-demo/inventory/inventory.yml
 ansible_skip_tags: []
 ansible_run_tags:
-- build
+- provision
 ansible_verbosity: 0

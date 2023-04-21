@@ -95,14 +95,6 @@ router_bgp:
         - 10040:10040
       redistribute_routes:
       - learned
-    80:
-      tenant: CORP
-      rd: 10.3.103.4:10080
-      route_targets:
-        both:
-        - 10080:10080
-      redistribute_routes:
-      - learned
 static_routes:
 - vrf: management
   destination_address_prefix: 0.0.0.0/0
@@ -185,9 +177,6 @@ vlans:
   40:
     tenant: CORP
     name: CORP_DC3
-  80:
-    tenant: CORP
-    name: CORP_DC3_NEW
   3009:
     tenant: CORP
     name: MLAG_iBGP_CORP
@@ -223,15 +212,6 @@ vlan_interfaces:
     shutdown: false
     ip_address_virtual: 10.40.40.1/24
     vrf: CORP
-  Vlan80:
-    tenant: CORP
-    tags:
-    - compute
-    - border
-    description: CORP_DC3_NEW
-    shutdown: false
-    ip_address_virtual: 10.80.80.1/24
-    vrf: CORP
   Vlan3009:
     tenant: CORP
     type: underlay_peering
@@ -250,15 +230,6 @@ port_channel_interfaces:
     trunk_groups:
     - LEAF_PEER_L3
     - MLAG
-  Port-Channel1:
-    description: DC3-HOST2_PortChanne101
-    type: switched
-    shutdown: false
-    eos_cli: sflow enable
-    mode: access
-    vlans: 40
-    spanning_tree_portfast: edge
-    mlag: 1
 ethernet_interfaces:
   Ethernet55/1:
     peer: DC3-LEAF3
@@ -298,19 +269,6 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     ip_address: 10.3.0.15/31
-  Ethernet1:
-    peer: DC3-HOST2
-    peer_interface: Et2
-    peer_type: server
-    description: DC3-HOST2_Et2
-    type: switched
-    shutdown: false
-    mode: access
-    vlans: 40
-    spanning_tree_portfast: edge
-    channel_group:
-      id: 1
-      mode: active
 mlag_configuration:
   domain_id: DC3_LEAF_DOMAIN_2
   local_interface: Vlan4094
@@ -368,8 +326,6 @@ vxlan_interface:
           vni: 10010
         40:
           vni: 10040
-        80:
-          vni: 10080
       vrfs:
         CORP:
           vni: 10

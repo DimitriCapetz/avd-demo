@@ -34,17 +34,3 @@ servers:
           mode: active
           raw_eos_cli: |-
             sflow enable
-  DC3-HOST2:
-    rack: LEAF_DOMAIN_1
-    adapters:
-      # MLAG dual-homed connection from Et1 to DC3-LEAF3_Eth1
-      #                            from Et2 to DC3-LEAF4_Eth1
-      - endpoint_ports: [ Et1, Et2 ]
-        switch_ports: [ Ethernet1, Ethernet1 ]
-        switches: [ DC3-LEAF3, DC3-LEAF4 ]
-        profile: DC3_VLAN40
-        port_channel:
-          description: PortChanne101
-          mode: active
-          raw_eos_cli: |-
-            sflow enable

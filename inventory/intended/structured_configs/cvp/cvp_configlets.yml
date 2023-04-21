@@ -28,17 +28,17 @@ CVP_CONFIGLETS:
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
     \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name CORP_GLOBAL\n\
-    !\nvlan 40\n   name CORP_DC3\n!\nvlan 80\n   name CORP_DC3_NEW\n!\nvlan 3009\n\
-    \   name MLAG_iBGP_CORP\n   trunk group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance CORP\n!\nvrf instance management\n!\ninterface Port-Channel551\n\
-    \   description MLAG_PEER_DC3-BORDER2_Po551\n   no shutdown\n   switchport\n \
-    \  switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n   switchport\
-    \ trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet1\n\
-    \   description L3 Uplink to WAN for CORP VRF\n   no shutdown\n   no switchport\n\
-    \   vrf CORP\n   ip address 33.33.33.2/30\n!\ninterface Ethernet49/1\n   description\
-    \ P2P_LINK_TO_DC3-SPINE1_Ethernet7/1\n   no shutdown\n   mtu 1500\n   no switchport\n\
-    \   ip address 10.3.1.249/31\n!\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet7/1\n\
+    !\nvlan 40\n   name CORP_DC3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group\
+    \ LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\n\
+    vrf instance management\n!\ninterface Port-Channel551\n   description MLAG_PEER_DC3-BORDER2_Po551\n\
+    \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet1\n   description L3 Uplink to WAN for CORP VRF\n\
+    \   no shutdown\n   no switchport\n   vrf CORP\n   ip address 33.33.33.2/30\n\
+    !\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet7/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.1.249/31\n\
+    !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet7/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.1.251/31\n\
     !\ninterface Ethernet55/1\n   description MLAG_PEER_DC3-BORDER2_Ethernet55/1\n\
     \   no shutdown\n   channel-group 551 mode active\n!\ninterface Ethernet56/1\n\
@@ -50,21 +50,19 @@ CVP_CONFIGLETS:
     \   ip address 10.99.99.219/24\n!\ninterface Vlan10\n   description CORP_GLOBAL\n\
     \   no shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface\
     \ Vlan40\n   description CORP_DC3\n   no shutdown\n   vrf CORP\n   ip address\
-    \ virtual 10.40.40.1/24\n!\ninterface Vlan80\n   description CORP_DC3_NEW\n  \
-    \ no shutdown\n   vrf CORP\n   ip address virtual 10.80.80.1/24\n!\ninterface\
-    \ Vlan3009\n   description MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n   mtu\
-    \ 1500\n   vrf CORP\n   ip address 10.255.254.252/31\n!\ninterface Vlan4093\n\
-    \   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address\
-    \ 10.255.254.252/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n\
-    \   mtu 1500\n   no autostate\n   ip address 10.255.255.252/31\n!\ninterface Vxlan1\n\
-    \   description DC3-BORDER1_VTEP\n   vxlan source-interface Loopback1\n   vxlan\
-    \ virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n\
-    \   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n   vxlan vlan 80 vni\
-    \ 10080\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time 1300\n!\nip\
-    \ virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list standard SNMP-ACL\n\
-    \   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf\
-    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.3.103.0/24\
-    \ eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\nmlag configuration\n   domain-id\
+    \ virtual 10.40.40.1/24\n!\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf CORP\n   no shutdown\n   mtu 1500\n   vrf CORP\n   ip address 10.255.254.252/31\n\
+    !\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n \
+    \  mtu 1500\n   ip address 10.255.254.252/31\n!\ninterface Vlan4094\n   description\
+    \ MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.252/31\n\
+    !\ninterface Vxlan1\n   description DC3-BORDER1_VTEP\n   vxlan source-interface\
+    \ Loopback1\n   vxlan virtual-router encapsulation mac-address mlag-system-id\n\
+    \   vxlan udp-port 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n\
+    \   vxlan vrf CORP vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router\
+    \ mac-address 00:1c:73:00:00:99\n!\nip access-list standard SNMP-ACL\n   10 permit\
+    \ 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf management\n\
+    !\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.3.103.0/24 eq\
+    \ 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\nmlag configuration\n   domain-id\
     \ DC3_BORDER_LEAFS\n   local-interface Vlan4094\n   peer-address 10.255.255.253\n\
     \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
     \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
@@ -84,7 +82,8 @@ CVP_CONFIGLETS:
     \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
     \ DC3-BORDER2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor\
     \ MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ route-map RM-MLAG-PEER-IN in\n   neighbor 10.3.1.248 peer group IPv4-UNDERLAY-PEERS\n\
+    \ route-map RM-MLAG-PEER-IN in\n   neighbor WAN peer group\n   neighbor WAN send-community\n\
+    \   neighbor WAN maximum-routes 100000\n   neighbor 10.3.1.248 peer group IPv4-UNDERLAY-PEERS\n\
     \   neighbor 10.3.1.248 remote-as 65003\n   neighbor 10.3.1.248 description DC3-SPINE1_Ethernet7/1\n\
     \   neighbor 10.3.1.250 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.3.1.250\
     \ remote-as 65003\n   neighbor 10.3.1.250 description DC3-SPINE2_Ethernet7/1\n\
@@ -96,14 +95,15 @@ CVP_CONFIGLETS:
     \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd\
     \ 10.3.103.127:10010\n      route-target both 10010:10010\n      redistribute\
     \ learned\n   !\n   vlan 40\n      rd 10.3.103.127:10040\n      route-target both\
-    \ 10040:10040\n      redistribute learned\n   !\n   vlan 80\n      rd 10.3.103.127:10080\n\
-    \      route-target both 10080:10080\n      redistribute learned\n   !\n   address-family\
-    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
-    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
-    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n\
-    \      rd 10.3.103.127:10\n      route-target import evpn 10:10\n      route-target\
-    \ export evpn 10:10\n      router-id 10.3.103.127\n      neighbor 10.255.254.253\
-    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs\
+    \ 10040:10040\n      redistribute learned\n   !\n   address-family evpn\n    \
+    \  neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no\
+    \ neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n\
+    \      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n      rd\
+    \ 10.3.103.127:10\n      route-target import evpn 10:10\n      route-target export\
+    \ evpn 10:10\n      router-id 10.3.103.127\n      neighbor 10.255.254.253 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      neighbor 33.33.33.1 remote-as 11111\n \
+    \     neighbor 33.33.33.1 peer group WAN\n      redistribute connected\n     \
+    \ !\n      address-family ipv4\n         neighbor 33.33.33.1 activate\n!\nip tacacs\
     \ vrf management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
@@ -150,17 +150,17 @@ CVP_CONFIGLETS:
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
     \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name CORP_GLOBAL\n\
-    !\nvlan 40\n   name CORP_DC3\n!\nvlan 80\n   name CORP_DC3_NEW\n!\nvlan 3009\n\
-    \   name MLAG_iBGP_CORP\n   trunk group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance CORP\n!\nvrf instance management\n!\ninterface Port-Channel551\n\
-    \   description MLAG_PEER_DC3-BORDER1_Po551\n   no shutdown\n   switchport\n \
-    \  switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n   switchport\
-    \ trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet1\n\
-    \   description L3 Uplink to WAN for CORP VRF\n   no shutdown\n   no switchport\n\
-    \   vrf CORP\n   ip address 33.33.33.6/30\n!\ninterface Ethernet49/1\n   description\
-    \ P2P_LINK_TO_DC3-SPINE1_Ethernet8/1\n   no shutdown\n   mtu 1500\n   no switchport\n\
-    \   ip address 10.3.1.253/31\n!\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet8/1\n\
+    !\nvlan 40\n   name CORP_DC3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group\
+    \ LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\n\
+    vrf instance management\n!\ninterface Port-Channel551\n   description MLAG_PEER_DC3-BORDER1_Po551\n\
+    \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet1\n   description L3 Uplink to WAN for CORP VRF\n\
+    \   no shutdown\n   no switchport\n   vrf CORP\n   ip address 33.33.33.6/30\n\
+    !\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet8/1\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.1.253/31\n\
+    !\ninterface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet8/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.1.255/31\n\
     !\ninterface Ethernet55/1\n   description MLAG_PEER_DC3-BORDER1_Ethernet55/1\n\
     \   no shutdown\n   channel-group 551 mode active\n!\ninterface Ethernet56/1\n\
@@ -172,21 +172,19 @@ CVP_CONFIGLETS:
     \   ip address 10.99.99.220/24\n!\ninterface Vlan10\n   description CORP_GLOBAL\n\
     \   no shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface\
     \ Vlan40\n   description CORP_DC3\n   no shutdown\n   vrf CORP\n   ip address\
-    \ virtual 10.40.40.1/24\n!\ninterface Vlan80\n   description CORP_DC3_NEW\n  \
-    \ no shutdown\n   vrf CORP\n   ip address virtual 10.80.80.1/24\n!\ninterface\
-    \ Vlan3009\n   description MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n   mtu\
-    \ 1500\n   vrf CORP\n   ip address 10.255.254.253/31\n!\ninterface Vlan4093\n\
-    \   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address\
-    \ 10.255.254.253/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n\
-    \   mtu 1500\n   no autostate\n   ip address 10.255.255.253/31\n!\ninterface Vxlan1\n\
-    \   description DC3-BORDER2_VTEP\n   vxlan source-interface Loopback1\n   vxlan\
-    \ virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n\
-    \   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n   vxlan vlan 80 vni\
-    \ 10080\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time 1300\n!\nip\
-    \ virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list standard SNMP-ACL\n\
-    \   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf\
-    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.3.103.0/24\
-    \ eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\nmlag configuration\n   domain-id\
+    \ virtual 10.40.40.1/24\n!\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP:\
+    \ vrf CORP\n   no shutdown\n   mtu 1500\n   vrf CORP\n   ip address 10.255.254.253/31\n\
+    !\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n \
+    \  mtu 1500\n   ip address 10.255.254.253/31\n!\ninterface Vlan4094\n   description\
+    \ MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.253/31\n\
+    !\ninterface Vxlan1\n   description DC3-BORDER2_VTEP\n   vxlan source-interface\
+    \ Loopback1\n   vxlan virtual-router encapsulation mac-address mlag-system-id\n\
+    \   vxlan udp-port 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n\
+    \   vxlan vrf CORP vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router\
+    \ mac-address 00:1c:73:00:00:99\n!\nip access-list standard SNMP-ACL\n   10 permit\
+    \ 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf management\n\
+    !\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.3.103.0/24 eq\
+    \ 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\nmlag configuration\n   domain-id\
     \ DC3_BORDER_LEAFS\n   local-interface Vlan4094\n   peer-address 10.255.255.252\n\
     \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
     \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
@@ -206,7 +204,8 @@ CVP_CONFIGLETS:
     \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
     \ DC3-BORDER1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor\
     \ MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ route-map RM-MLAG-PEER-IN in\n   neighbor 10.3.1.252 peer group IPv4-UNDERLAY-PEERS\n\
+    \ route-map RM-MLAG-PEER-IN in\n   neighbor WAN peer group\n   neighbor WAN send-community\n\
+    \   neighbor WAN maximum-routes 100000\n   neighbor 10.3.1.252 peer group IPv4-UNDERLAY-PEERS\n\
     \   neighbor 10.3.1.252 remote-as 65003\n   neighbor 10.3.1.252 description DC3-SPINE1_Ethernet8/1\n\
     \   neighbor 10.3.1.254 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.3.1.254\
     \ remote-as 65003\n   neighbor 10.3.1.254 description DC3-SPINE2_Ethernet8/1\n\
@@ -218,14 +217,15 @@ CVP_CONFIGLETS:
     \   redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd\
     \ 10.3.103.128:10010\n      route-target both 10010:10010\n      redistribute\
     \ learned\n   !\n   vlan 40\n      rd 10.3.103.128:10040\n      route-target both\
-    \ 10040:10040\n      redistribute learned\n   !\n   vlan 80\n      rd 10.3.103.128:10080\n\
-    \      route-target both 10080:10080\n      redistribute learned\n   !\n   address-family\
-    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
-    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
-    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n\
-    \      rd 10.3.103.128:10\n      route-target import evpn 10:10\n      route-target\
-    \ export evpn 10:10\n      router-id 10.3.103.128\n      neighbor 10.255.254.252\
-    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs\
+    \ 10040:10040\n      redistribute learned\n   !\n   address-family evpn\n    \
+    \  neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no\
+    \ neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n\
+    \      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n      rd\
+    \ 10.3.103.128:10\n      route-target import evpn 10:10\n      route-target export\
+    \ evpn 10:10\n      router-id 10.3.103.128\n      neighbor 10.255.254.252 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      neighbor 33.33.33.5 remote-as 22222\n \
+    \     neighbor 33.33.33.5 peer group WAN\n      redistribute connected\n     \
+    \ !\n      address-family ipv4\n         neighbor 33.33.33.5 activate\n!\nip tacacs\
     \ vrf management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
@@ -272,17 +272,16 @@ CVP_CONFIGLETS:
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
     \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name CORP_GLOBAL\n\
-    !\nvlan 40\n   name CORP_DC3\n!\nvlan 80\n   name CORP_DC3_NEW\n!\nvlan 3009\n\
-    \   name MLAG_iBGP_CORP\n   trunk group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance CORP\n!\nvrf instance management\n!\ninterface Port-Channel1\n\
-    \   description DC3-HOST1_PortChannel101\n   no shutdown\n   switchport\n   switchport\
-    \ access vlan 10\n   mlag 1\n   spanning-tree portfast\n   sflow enable\n!\ninterface\
-    \ Port-Channel551\n   description MLAG_PEER_DC3-LEAF2_Po551\n   no shutdown\n\
-    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
-    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
-    \ Ethernet1\n   description DC3-HOST1_Et1\n   no shutdown\n   channel-group 1\
-    \ mode active\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet1/1\n\
+    !\nvlan 40\n   name CORP_DC3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group\
+    \ LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\n\
+    vrf instance management\n!\ninterface Port-Channel1\n   description DC3-HOST1_PortChannel101\n\
+    \   no shutdown\n   switchport\n   switchport access vlan 10\n   mlag 1\n   spanning-tree\
+    \ portfast\n   sflow enable\n!\ninterface Port-Channel551\n   description MLAG_PEER_DC3-LEAF2_Po551\n\
+    \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet1\n   description DC3-HOST1_Et1\n   no shutdown\n\
+    \   channel-group 1 mode active\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet1/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.1/31\n!\n\
     interface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet1/1\n  \
     \ no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.3/31\n!\ninterface\
@@ -295,39 +294,38 @@ CVP_CONFIGLETS:
     \   no shutdown\n   vrf management\n   ip address 10.99.99.215/24\n!\ninterface\
     \ Vlan10\n   description CORP_GLOBAL\n   no shutdown\n   vrf CORP\n   ip address\
     \ virtual 10.10.10.1/24\n!\ninterface Vlan40\n   description CORP_DC3\n   no shutdown\n\
-    \   vrf CORP\n   ip address virtual 10.40.40.1/24\n!\ninterface Vlan80\n   description\
-    \ CORP_DC3_NEW\n   no shutdown\n   vrf CORP\n   ip address virtual 10.80.80.1/24\n\
-    !\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n\
-    \   mtu 1500\n   vrf CORP\n   ip address 10.255.254.0/31\n!\ninterface Vlan4093\n\
-    \   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address\
-    \ 10.255.254.0/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n\
-    \   mtu 1500\n   no autostate\n   ip address 10.255.255.0/31\n!\ninterface Vxlan1\n\
-    \   description DC3-LEAF1_VTEP\n   vxlan source-interface Loopback1\n   vxlan\
-    \ virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n\
-    \   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n   vxlan vlan 80 vni\
-    \ 10080\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time 1300\n!\nip\
-    \ virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list standard SNMP-ACL\n\
-    \   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf\
-    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.3.103.0/24\
-    \ eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\nmlag configuration\n   domain-id\
-    \ DC3_LEAF_DOMAIN_1\n   local-interface Vlan4094\n   peer-address 10.255.255.1\n\
-    \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
-    \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
-    \ 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
-    !\nroute-map RM-MLAG-PEER-IN permit 10\n   description Make routes learned over\
-    \ MLAG Peer-link less preferred on spines to ensure optimal routing\n   set origin\
-    \ incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx 1200 multiplier\
-    \ 3\n!\nrouter bgp 65301\n   router-id 10.3.103.1\n   no bgp default ipv4-unicast\n\
-    \   distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n\
-    \   maximum-paths 4 ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor\
-    \ EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n\
-    \   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS\
-    \ send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor\
-    \ IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n\
-    \   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65301\n   neighbor\
-    \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
-    \ DC3-LEAF2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \   vrf CORP\n   ip address virtual 10.40.40.1/24\n!\ninterface Vlan3009\n   description\
+    \ MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n   mtu 1500\n   vrf CORP\n   ip\
+    \ address 10.255.254.0/31\n!\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n\
+    \   no shutdown\n   mtu 1500\n   ip address 10.255.254.0/31\n!\ninterface Vlan4094\n\
+    \   description MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip\
+    \ address 10.255.255.0/31\n!\ninterface Vxlan1\n   description DC3-LEAF1_VTEP\n\
+    \   vxlan source-interface Loopback1\n   vxlan virtual-router encapsulation mac-address\
+    \ mlag-system-id\n   vxlan udp-port 4789\n   vxlan vlan 10 vni 10010\n   vxlan\
+    \ vlan 40 vni 10040\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time\
+    \ 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list\
+    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\n\
+    no ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n  \
+    \ seq 10 permit 10.3.103.0/24 eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\n\
+    mlag configuration\n   domain-id DC3_LEAF_DOMAIN_1\n   local-interface Vlan4094\n\
+    \   peer-address 10.255.255.1\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65301\n   router-id\
+    \ 10.3.103.1\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart\
+    \ restart-time 300\n   graceful-restart\n   maximum-paths 4 ecmp 4\n   neighbor\
+    \ EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source\
+    \ Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65301\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC3-LEAF2\n \
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
     \ in\n   neighbor 10.3.0.0 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.3.0.0\
     \ remote-as 65003\n   neighbor 10.3.0.0 description DC3-SPINE1_Ethernet1/1\n \
@@ -340,16 +338,14 @@ CVP_CONFIGLETS:
     \   neighbor 10.255.254.1 description DC3-LEAF2\n   redistribute connected route-map\
     \ RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.3.103.1:10010\n      route-target\
     \ both 10010:10010\n      redistribute learned\n   !\n   vlan 40\n      rd 10.3.103.1:10040\n\
-    \      route-target both 10040:10040\n      redistribute learned\n   !\n   vlan\
-    \ 80\n      rd 10.3.103.1:10080\n      route-target both 10080:10080\n      redistribute\
-    \ learned\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n\
-    \   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n\
-    \      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf CORP\n      rd 10.3.103.1:10\n      route-target import\
-    \ evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.3.103.1\n\
-    \      neighbor 10.255.254.1 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
-    \ login\n************************************************************************\n\
+    \      route-target both 10040:10040\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n\
+    \      rd 10.3.103.1:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.3.103.1\n      neighbor 10.255.254.1 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -395,17 +391,16 @@ CVP_CONFIGLETS:
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
     \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name CORP_GLOBAL\n\
-    !\nvlan 40\n   name CORP_DC3\n!\nvlan 80\n   name CORP_DC3_NEW\n!\nvlan 3009\n\
-    \   name MLAG_iBGP_CORP\n   trunk group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance CORP\n!\nvrf instance management\n!\ninterface Port-Channel1\n\
-    \   description DC3-HOST1_PortChannel101\n   no shutdown\n   switchport\n   switchport\
-    \ access vlan 10\n   mlag 1\n   spanning-tree portfast\n   sflow enable\n!\ninterface\
-    \ Port-Channel551\n   description MLAG_PEER_DC3-LEAF1_Po551\n   no shutdown\n\
-    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
-    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
-    \ Ethernet1\n   description DC3-HOST1_Et2\n   no shutdown\n   channel-group 1\
-    \ mode active\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet2/1\n\
+    !\nvlan 40\n   name CORP_DC3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group\
+    \ LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\n\
+    vrf instance management\n!\ninterface Port-Channel1\n   description DC3-HOST1_PortChannel101\n\
+    \   no shutdown\n   switchport\n   switchport access vlan 10\n   mlag 1\n   spanning-tree\
+    \ portfast\n   sflow enable\n!\ninterface Port-Channel551\n   description MLAG_PEER_DC3-LEAF1_Po551\n\
+    \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet1\n   description DC3-HOST1_Et2\n   no shutdown\n\
+    \   channel-group 1 mode active\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet2/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.5/31\n!\n\
     interface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet2/1\n  \
     \ no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.7/31\n!\ninterface\
@@ -418,39 +413,38 @@ CVP_CONFIGLETS:
     \   no shutdown\n   vrf management\n   ip address 10.99.99.216/24\n!\ninterface\
     \ Vlan10\n   description CORP_GLOBAL\n   no shutdown\n   vrf CORP\n   ip address\
     \ virtual 10.10.10.1/24\n!\ninterface Vlan40\n   description CORP_DC3\n   no shutdown\n\
-    \   vrf CORP\n   ip address virtual 10.40.40.1/24\n!\ninterface Vlan80\n   description\
-    \ CORP_DC3_NEW\n   no shutdown\n   vrf CORP\n   ip address virtual 10.80.80.1/24\n\
-    !\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n\
-    \   mtu 1500\n   vrf CORP\n   ip address 10.255.254.1/31\n!\ninterface Vlan4093\n\
-    \   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address\
-    \ 10.255.254.1/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n\
-    \   mtu 1500\n   no autostate\n   ip address 10.255.255.1/31\n!\ninterface Vxlan1\n\
-    \   description DC3-LEAF2_VTEP\n   vxlan source-interface Loopback1\n   vxlan\
-    \ virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n\
-    \   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n   vxlan vlan 80 vni\
-    \ 10080\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time 1300\n!\nip\
-    \ virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list standard SNMP-ACL\n\
-    \   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf\
-    \ management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.3.103.0/24\
-    \ eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\nmlag configuration\n   domain-id\
-    \ DC3_LEAF_DOMAIN_1\n   local-interface Vlan4094\n   peer-address 10.255.255.0\n\
-    \   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag\
-    \ 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default\
-    \ 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
-    !\nroute-map RM-MLAG-PEER-IN permit 10\n   description Make routes learned over\
-    \ MLAG Peer-link less preferred on spines to ensure optimal routing\n   set origin\
-    \ incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx 1200 multiplier\
-    \ 3\n!\nrouter bgp 65301\n   router-id 10.3.103.2\n   no bgp default ipv4-unicast\n\
-    \   distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n\
-    \   maximum-paths 4 ecmp 4\n   neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor\
-    \ EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n\
-    \   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS\
-    \ send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor\
-    \ IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n\
-    \   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65301\n   neighbor\
-    \ MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description\
-    \ DC3-LEAF1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \   vrf CORP\n   ip address virtual 10.40.40.1/24\n!\ninterface Vlan3009\n   description\
+    \ MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n   mtu 1500\n   vrf CORP\n   ip\
+    \ address 10.255.254.1/31\n!\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n\
+    \   no shutdown\n   mtu 1500\n   ip address 10.255.254.1/31\n!\ninterface Vlan4094\n\
+    \   description MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip\
+    \ address 10.255.255.1/31\n!\ninterface Vxlan1\n   description DC3-LEAF2_VTEP\n\
+    \   vxlan source-interface Loopback1\n   vxlan virtual-router encapsulation mac-address\
+    \ mlag-system-id\n   vxlan udp-port 4789\n   vxlan vlan 10 vni 10010\n   vxlan\
+    \ vlan 40 vni 10040\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time\
+    \ 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list\
+    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\n\
+    no ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n  \
+    \ seq 10 permit 10.3.103.0/24 eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\n\
+    mlag configuration\n   domain-id DC3_LEAF_DOMAIN_1\n   local-interface Vlan4094\n\
+    \   peer-address 10.255.255.0\n   peer-link Port-Channel551\n   reload-delay mlag\
+    \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
+    !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
+    \ ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN\
+    \ permit 10\n   description Make routes learned over MLAG Peer-link less preferred\
+    \ on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n\
+    \   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65301\n   router-id\
+    \ 10.3.103.2\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart\
+    \ restart-time 300\n   graceful-restart\n   maximum-paths 4 ecmp 4\n   neighbor\
+    \ EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source\
+    \ Loopback0\n   neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS\
+    \ ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor\
+    \ EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n\
+    \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
+    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER remote-as 65301\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description DC3-LEAF1\n \
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
     \ in\n   neighbor 10.3.0.4 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.3.0.4\
     \ remote-as 65003\n   neighbor 10.3.0.4 description DC3-SPINE1_Ethernet2/1\n \
@@ -463,16 +457,14 @@ CVP_CONFIGLETS:
     \   neighbor 10.255.254.0 description DC3-LEAF1\n   redistribute connected route-map\
     \ RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.3.103.2:10010\n      route-target\
     \ both 10010:10010\n      redistribute learned\n   !\n   vlan 40\n      rd 10.3.103.2:10040\n\
-    \      route-target both 10040:10040\n      redistribute learned\n   !\n   vlan\
-    \ 80\n      rd 10.3.103.2:10080\n      route-target both 10080:10080\n      redistribute\
-    \ learned\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n\
-    \   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n\
-    \      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf CORP\n      rd 10.3.103.2:10\n      route-target import\
-    \ evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.3.103.2\n\
-    \      neighbor 10.255.254.0 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
-    \ login\n************************************************************************\n\
+    \      route-target both 10040:10040\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n\
+    \      rd 10.3.103.2:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.3.103.2\n      neighbor 10.255.254.0 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -518,17 +510,13 @@ CVP_CONFIGLETS:
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
     \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name CORP_GLOBAL\n\
-    !\nvlan 40\n   name CORP_DC3\n!\nvlan 80\n   name CORP_DC3_NEW\n!\nvlan 3009\n\
-    \   name MLAG_iBGP_CORP\n   trunk group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance CORP\n!\nvrf instance management\n!\ninterface Port-Channel1\n\
-    \   description DC3-HOST2_PortChanne101\n   no shutdown\n   switchport\n   switchport\
-    \ access vlan 40\n   mlag 1\n   spanning-tree portfast\n   sflow enable\n!\ninterface\
-    \ Port-Channel551\n   description MLAG_PEER_DC3-LEAF4_Po551\n   no shutdown\n\
-    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
-    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
-    \ Ethernet1\n   description DC3-HOST2_Et1\n   no shutdown\n   channel-group 1\
-    \ mode active\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet3/1\n\
+    !\nvlan 40\n   name CORP_DC3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group\
+    \ LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\n\
+    vrf instance management\n!\ninterface Port-Channel551\n   description MLAG_PEER_DC3-LEAF4_Po551\n\
+    \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet3/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.9/31\n!\n\
     interface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet3/1\n  \
     \ no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.11/31\n!\n\
@@ -542,21 +530,19 @@ CVP_CONFIGLETS:
     !\ninterface Vlan10\n   description CORP_GLOBAL\n   no shutdown\n   vrf CORP\n\
     \   ip address virtual 10.10.10.1/24\n!\ninterface Vlan40\n   description CORP_DC3\n\
     \   no shutdown\n   vrf CORP\n   ip address virtual 10.40.40.1/24\n!\ninterface\
-    \ Vlan80\n   description CORP_DC3_NEW\n   no shutdown\n   vrf CORP\n   ip address\
-    \ virtual 10.80.80.1/24\n!\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP:\
-    \ vrf CORP\n   no shutdown\n   mtu 1500\n   vrf CORP\n   ip address 10.255.254.4/31\n\
-    !\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n \
-    \  mtu 1500\n   ip address 10.255.254.4/31\n!\ninterface Vlan4094\n   description\
-    \ MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.4/31\n\
-    !\ninterface Vxlan1\n   description DC3-LEAF3_VTEP\n   vxlan source-interface\
-    \ Loopback1\n   vxlan virtual-router encapsulation mac-address mlag-system-id\n\
-    \   vxlan udp-port 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n\
-    \   vxlan vlan 80 vni 10080\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time\
-    \ 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list\
-    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\n\
-    no ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n  \
-    \ seq 10 permit 10.3.103.0/24 eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\n\
-    mlag configuration\n   domain-id DC3_LEAF_DOMAIN_2\n   local-interface Vlan4094\n\
+    \ Vlan3009\n   description MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n   mtu\
+    \ 1500\n   vrf CORP\n   ip address 10.255.254.4/31\n!\ninterface Vlan4093\n  \
+    \ description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address\
+    \ 10.255.254.4/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n\
+    \   mtu 1500\n   no autostate\n   ip address 10.255.255.4/31\n!\ninterface Vxlan1\n\
+    \   description DC3-LEAF3_VTEP\n   vxlan source-interface Loopback1\n   vxlan\
+    \ virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n\
+    \   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n   vxlan vrf CORP vni\
+    \ 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n\
+    !\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\n\
+    ip routing vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.3.103.0/24 eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC3_LEAF_DOMAIN_2\n   local-interface Vlan4094\n\
     \   peer-address 10.255.255.5\n   peer-link Port-Channel551\n   reload-delay mlag\
     \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
     !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
@@ -587,16 +573,14 @@ CVP_CONFIGLETS:
     \   neighbor 10.255.254.5 description DC3-LEAF4\n   redistribute connected route-map\
     \ RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.3.103.3:10010\n      route-target\
     \ both 10010:10010\n      redistribute learned\n   !\n   vlan 40\n      rd 10.3.103.3:10040\n\
-    \      route-target both 10040:10040\n      redistribute learned\n   !\n   vlan\
-    \ 80\n      rd 10.3.103.3:10080\n      route-target both 10080:10080\n      redistribute\
-    \ learned\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n\
-    \   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n\
-    \      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf CORP\n      rd 10.3.103.3:10\n      route-target import\
-    \ evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.3.103.3\n\
-    \      neighbor 10.255.254.5 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
-    \ login\n************************************************************************\n\
+    \      route-target both 10040:10040\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n\
+    \      rd 10.3.103.3:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.3.103.3\n      neighbor 10.255.254.5 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\
@@ -642,17 +626,13 @@ CVP_CONFIGLETS:
     username dcapetz privilege 15 role network-admin secret sha512 $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/\n\
     username dcapetz ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=\
     \ dcapetz@dcapetz\n!\nclock timezone US/Central\n!\nvlan 10\n   name CORP_GLOBAL\n\
-    !\nvlan 40\n   name CORP_DC3\n!\nvlan 80\n   name CORP_DC3_NEW\n!\nvlan 3009\n\
-    \   name MLAG_iBGP_CORP\n   trunk group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n\
-    \   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group\
-    \ MLAG\n!\nvrf instance CORP\n!\nvrf instance management\n!\ninterface Port-Channel1\n\
-    \   description DC3-HOST2_PortChanne101\n   no shutdown\n   switchport\n   switchport\
-    \ access vlan 40\n   mlag 1\n   spanning-tree portfast\n   sflow enable\n!\ninterface\
-    \ Port-Channel551\n   description MLAG_PEER_DC3-LEAF3_Po551\n   no shutdown\n\
-    \   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport mode trunk\n\
-    \   switchport trunk group LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface\
-    \ Ethernet1\n   description DC3-HOST2_Et2\n   no shutdown\n   channel-group 1\
-    \ mode active\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet4/1\n\
+    !\nvlan 40\n   name CORP_DC3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group\
+    \ LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n\
+    !\nvlan 4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\n\
+    vrf instance management\n!\ninterface Port-Channel551\n   description MLAG_PEER_DC3-LEAF3_Po551\n\
+    \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
+    \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
+    \ MLAG\n!\ninterface Ethernet49/1\n   description P2P_LINK_TO_DC3-SPINE1_Ethernet4/1\n\
     \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.13/31\n!\n\
     interface Ethernet50/1\n   description P2P_LINK_TO_DC3-SPINE2_Ethernet4/1\n  \
     \ no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.3.0.15/31\n!\n\
@@ -666,21 +646,19 @@ CVP_CONFIGLETS:
     !\ninterface Vlan10\n   description CORP_GLOBAL\n   no shutdown\n   vrf CORP\n\
     \   ip address virtual 10.10.10.1/24\n!\ninterface Vlan40\n   description CORP_DC3\n\
     \   no shutdown\n   vrf CORP\n   ip address virtual 10.40.40.1/24\n!\ninterface\
-    \ Vlan80\n   description CORP_DC3_NEW\n   no shutdown\n   vrf CORP\n   ip address\
-    \ virtual 10.80.80.1/24\n!\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP:\
-    \ vrf CORP\n   no shutdown\n   mtu 1500\n   vrf CORP\n   ip address 10.255.254.5/31\n\
-    !\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n \
-    \  mtu 1500\n   ip address 10.255.254.5/31\n!\ninterface Vlan4094\n   description\
-    \ MLAG_PEER\n   no shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.5/31\n\
-    !\ninterface Vxlan1\n   description DC3-LEAF4_VTEP\n   vxlan source-interface\
-    \ Loopback1\n   vxlan virtual-router encapsulation mac-address mlag-system-id\n\
-    \   vxlan udp-port 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n\
-    \   vxlan vlan 80 vni 10080\n   vxlan vrf CORP vni 10\n!\nmac address-table aging-time\
-    \ 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n!\nip access-list\
-    \ standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\n\
-    no ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n  \
-    \ seq 10 permit 10.3.103.0/24 eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n!\n\
-    mlag configuration\n   domain-id DC3_LEAF_DOMAIN_2\n   local-interface Vlan4094\n\
+    \ Vlan3009\n   description MLAG_PEER_L3_iBGP: vrf CORP\n   no shutdown\n   mtu\
+    \ 1500\n   vrf CORP\n   ip address 10.255.254.5/31\n!\ninterface Vlan4093\n  \
+    \ description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip address\
+    \ 10.255.254.5/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no shutdown\n\
+    \   mtu 1500\n   no autostate\n   ip address 10.255.255.5/31\n!\ninterface Vxlan1\n\
+    \   description DC3-LEAF4_VTEP\n   vxlan source-interface Loopback1\n   vxlan\
+    \ virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n\
+    \   vxlan vlan 10 vni 10010\n   vxlan vlan 40 vni 10040\n   vxlan vrf CORP vni\
+    \ 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n\
+    !\nip access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\n\
+    ip routing vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
+    \   seq 10 permit 10.3.103.0/24 eq 32\n   seq 20 permit 10.3.113.0/24 eq 32\n\
+    !\nmlag configuration\n   domain-id DC3_LEAF_DOMAIN_2\n   local-interface Vlan4094\n\
     \   peer-address 10.255.255.4\n   peer-link Port-Channel551\n   reload-delay mlag\
     \ 300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n\
     !\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match\
@@ -711,16 +689,14 @@ CVP_CONFIGLETS:
     \   neighbor 10.255.254.4 description DC3-LEAF3\n   redistribute connected route-map\
     \ RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.3.103.4:10010\n      route-target\
     \ both 10010:10010\n      redistribute learned\n   !\n   vlan 40\n      rd 10.3.103.4:10040\n\
-    \      route-target both 10040:10040\n      redistribute learned\n   !\n   vlan\
-    \ 80\n      rd 10.3.103.4:10080\n      route-target both 10080:10080\n      redistribute\
-    \ learned\n   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n\
-    \   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n\
-    \      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf CORP\n      rd 10.3.103.4:10\n      route-target import\
-    \ evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.3.103.4\n\
-    \      neighbor 10.255.254.4 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner\
-    \ login\n************************************************************************\n\
+    \      route-target both 10040:10040\n      redistribute learned\n   !\n   address-family\
+    \ evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n\
+    \      no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n\
+    \      rd 10.3.103.4:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 10.3.103.4\n      neighbor 10.255.254.4 peer\
+    \ group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf\
+    \ management source-interface Management1\n!\nbanner login\n************************************************************************\n\
     \n   WARNING: This system is for the use of authorized clients only.\n       \
     \     Individuals using the computer network system without\n            authorization,\
     \ or in excess of their authorization, are\n            subject to having all\

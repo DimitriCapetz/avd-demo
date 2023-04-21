@@ -27,6 +27,9 @@ router_bgp:
       send_community: all
       maximum_routes: 0
       ebgp_multihop: 3
+    WAN:
+      send_community: all
+      maximum_routes: 100000
   address_family_ipv4:
     peer_groups:
       MLAG-IPv4-UNDERLAY-PEER:
@@ -78,6 +81,14 @@ router_bgp:
       neighbors:
         10.255.254.252:
           peer_group: MLAG-IPv4-UNDERLAY-PEER
+        33.33.33.5:
+          peer_group: WAN
+          remote_as: 22222
+      address_families:
+        ipv4:
+          neighbors:
+            33.33.33.5:
+              activate: true
   vlans:
     10:
       tenant: CORP
@@ -93,14 +104,6 @@ router_bgp:
       route_targets:
         both:
         - 10040:10040
-      redistribute_routes:
-      - learned
-    80:
-      tenant: CORP
-      rd: 10.3.103.128:10080
-      route_targets:
-        both:
-        - 10080:10080
       redistribute_routes:
       - learned
 static_routes:
@@ -185,9 +188,6 @@ vlans:
   40:
     tenant: CORP
     name: CORP_DC3
-  80:
-    tenant: CORP
-    name: CORP_DC3_NEW
   3009:
     tenant: CORP
     name: MLAG_iBGP_CORP
@@ -222,15 +222,6 @@ vlan_interfaces:
     description: CORP_DC3
     shutdown: false
     ip_address_virtual: 10.40.40.1/24
-    vrf: CORP
-  Vlan80:
-    tenant: CORP
-    tags:
-    - compute
-    - border
-    description: CORP_DC3_NEW
-    shutdown: false
-    ip_address_virtual: 10.80.80.1/24
     vrf: CORP
   Vlan3009:
     tenant: CORP
@@ -353,8 +344,6 @@ vxlan_interface:
           vni: 10010
         40:
           vni: 10040
-        80:
-          vni: 10080
       vrfs:
         CORP:
           vni: 10

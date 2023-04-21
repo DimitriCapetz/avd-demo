@@ -510,7 +510,6 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | CORP_GLOBAL | - |
 | 40 | CORP_DC3 | - |
-| 80 | CORP_DC3_NEW | - |
 | 3009 | MLAG_iBGP_CORP | LEAF_PEER_L3 |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
@@ -524,9 +523,6 @@ vlan 10
 !
 vlan 40
    name CORP_DC3
-!
-vlan 80
-   name CORP_DC3_NEW
 !
 vlan 3009
    name MLAG_iBGP_CORP
@@ -564,7 +560,6 @@ mac address-table aging-time 1300
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet1 | DC3-HOST2_Et2 | *access | *40 | *- | *- | 1 |
 | Ethernet55/1 | MLAG_PEER_DC3-LEAF3_Ethernet55/1 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 551 |
 | Ethernet56/1 | MLAG_PEER_DC3-LEAF3_Ethernet56/1 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 551 |
 
@@ -580,11 +575,6 @@ mac address-table aging-time 1300
 ### Ethernet Interfaces Device Configuration
 
 ```eos
-!
-interface Ethernet1
-   description DC3-HOST2_Et2
-   no shutdown
-   channel-group 1 mode active
 !
 interface Ethernet49/1
    description P2P_LINK_TO_DC3-SPINE1_Ethernet4/1
@@ -619,21 +609,11 @@ interface Ethernet56/1
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel1 | DC3-HOST2_PortChanne101 | switched | access | 40 | - | - | - | - | 1 | - |
 | Port-Channel551 | MLAG_PEER_DC3-LEAF3_Po551 | switched | trunk | 2-4094 | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
 
 ```eos
-!
-interface Port-Channel1
-   description DC3-HOST2_PortChanne101
-   no shutdown
-   switchport
-   switchport access vlan 40
-   mlag 1
-   spanning-tree portfast
-   sflow enable
 !
 interface Port-Channel551
    description MLAG_PEER_DC3-LEAF3_Po551
@@ -687,7 +667,6 @@ interface Loopback1
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | CORP_GLOBAL | CORP | - | False |
 | Vlan40 | CORP_DC3 | CORP | - | False |
-| Vlan80 | CORP_DC3_NEW | CORP | - | False |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf CORP | CORP | 1500 | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
@@ -698,7 +677,6 @@ interface Loopback1
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  CORP  |  -  |  10.10.10.1/24  |  -  |  -  |  -  |  -  |
 | Vlan40 |  CORP  |  -  |  10.40.40.1/24  |  -  |  -  |  -  |  -  |
-| Vlan80 |  CORP  |  -  |  10.80.80.1/24  |  -  |  -  |  -  |  -  |
 | Vlan3009 |  CORP  |  10.255.254.5/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.255.254.5/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.255.255.5/31  |  -  |  -  |  -  |  -  |  -  |
@@ -718,12 +696,6 @@ interface Vlan40
    no shutdown
    vrf CORP
    ip address virtual 10.40.40.1/24
-!
-interface Vlan80
-   description CORP_DC3_NEW
-   no shutdown
-   vrf CORP
-   ip address virtual 10.80.80.1/24
 !
 interface Vlan3009
    description MLAG_PEER_L3_iBGP: vrf CORP
@@ -762,7 +734,6 @@ interface Vlan4094
 | ---- | --- | ---------- | --------------- |
 | 10 | 10010 | - | - |
 | 40 | 10040 | - | - |
-| 80 | 10080 | - | - |
 
 #### VRF to VNI and Multicast Group Mappings
 
@@ -781,7 +752,6 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 40 vni 10040
-   vxlan vlan 80 vni 10080
    vxlan vrf CORP vni 10
 ```
 
@@ -927,7 +897,6 @@ Global ARP timeout: 900
 | ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
 | 10 | 10.3.103.4:10010 | 10010:10010 | - | - | learned |
 | 40 | 10.3.103.4:10040 | 10040:10040 | - | - | learned |
-| 80 | 10.3.103.4:10080 | 10080:10080 | - | - | learned |
 
 ### Router BGP VRFs
 
@@ -986,11 +955,6 @@ router bgp 65302
    vlan 40
       rd 10.3.103.4:10040
       route-target both 10040:10040
-      redistribute learned
-   !
-   vlan 80
-      rd 10.3.103.4:10080
-      route-target both 10080:10080
       redistribute learned
    !
    address-family evpn
