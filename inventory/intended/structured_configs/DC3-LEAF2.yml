@@ -95,12 +95,12 @@ router_bgp:
         - 10040:10040
       redistribute_routes:
       - learned
-    90:
+    80:
       tenant: CORP
-      rd: 10.3.103.2:10090
+      rd: 10.3.103.2:10080
       route_targets:
         both:
-        - 10090:10090
+        - 10080:10080
       redistribute_routes:
       - learned
 static_routes:
@@ -185,9 +185,9 @@ vlans:
   40:
     tenant: CORP
     name: CORP_DC3
-  90:
+  80:
     tenant: CORP
-    name: CORP_DC3
+    name: CORP_DC3_NEW
   3009:
     tenant: CORP
     name: MLAG_iBGP_CORP
@@ -221,16 +221,16 @@ vlan_interfaces:
     - border
     description: CORP_DC3
     shutdown: false
-    ip_address_virtual: 10.10.11.1/24
+    ip_address_virtual: 10.40.40.1/24
     vrf: CORP
-  Vlan90:
+  Vlan80:
     tenant: CORP
     tags:
     - compute
     - border
-    description: CORP_DC3
+    description: CORP_DC3_NEW
     shutdown: false
-    ip_address_virtual: 10.90.91.1/24
+    ip_address_virtual: 10.80.80.1/24
     vrf: CORP
   Vlan3009:
     tenant: CORP
@@ -341,11 +341,6 @@ loopback_interfaces:
     description: VTEP_VXLAN_Tunnel_Source
     shutdown: false
     ip_address: 10.3.113.1/32
-  Loopback10:
-    description: CORP_VTEP_DIAGNOSTICS
-    shutdown: false
-    vrf: CORP
-    ip_address: 10.255.10.2/32
 prefix_lists:
   PL-LOOPBACKS-EVPN-OVERLAY:
     sequence_numbers:
@@ -373,11 +368,8 @@ vxlan_interface:
           vni: 10010
         40:
           vni: 10040
-        90:
-          vni: 10090
+        80:
+          vni: 10080
       vrfs:
         CORP:
           vni: 10
-virtual_source_nat_vrfs:
-  CORP:
-    ip_address: 10.255.10.2

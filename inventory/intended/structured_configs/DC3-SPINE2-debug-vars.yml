@@ -495,7 +495,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,90
+        vlans: 10,40,80
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.1
         igmp_snooping_enabled: true
@@ -696,7 +696,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,90
+        vlans: 10,40,80
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.2
         igmp_snooping_enabled: true
@@ -897,7 +897,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,90
+        vlans: 10,40,80
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.3
         igmp_snooping_enabled: true
@@ -1098,7 +1098,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,90
+        vlans: 10,40,80
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.4
         igmp_snooping_enabled: true
@@ -1247,7 +1247,7 @@ ansible_facts:
         interface_descriptions:
           python_module: ansible_collections.arista.avd.roles.eos_designs.python_modules.interface_descriptions
           python_class_name: AvdInterfaceDescriptions
-        group: DC3_BORDER_LEAVES
+        group: DC3_BORDER_LEAFS
         id: 127
         mgmt_ip: 10.99.99.219/24
         platform: cEOSLab
@@ -1286,7 +1286,7 @@ ansible_facts:
         - all
         filter_tags:
         - border
-        - DC3_BORDER_LEAVES
+        - DC3_BORDER_LEAFS
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:99
         trunk_groups:
@@ -1299,7 +1299,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,90
+        vlans: 10,40,80
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.127
         igmp_snooping_enabled: true
@@ -1448,7 +1448,7 @@ ansible_facts:
         interface_descriptions:
           python_module: ansible_collections.arista.avd.roles.eos_designs.python_modules.interface_descriptions
           python_class_name: AvdInterfaceDescriptions
-        group: DC3_BORDER_LEAVES
+        group: DC3_BORDER_LEAFS
         id: 128
         mgmt_ip: 10.99.99.220/24
         platform: cEOSLab
@@ -1487,7 +1487,7 @@ ansible_facts:
         - all
         filter_tags:
         - border
-        - DC3_BORDER_LEAVES
+        - DC3_BORDER_LEAFS
         filter_only_vlans_in_use: false
         virtual_router_mac_address: 00:1c:73:00:00:99
         trunk_groups:
@@ -1500,7 +1500,7 @@ ansible_facts:
         enable_trunk_groups: false
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-        vlans: 10,40,90
+        vlans: 10,40,80
         spanning_tree_mode: mstp
         overlay_rd_type_admin_subfield: 10.3.103.128
         igmp_snooping_enabled: true
@@ -1988,7 +1988,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,90
+      vlans: 10,40,80
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.1
       igmp_snooping_enabled: true
@@ -2189,7 +2189,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,90
+      vlans: 10,40,80
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.2
       igmp_snooping_enabled: true
@@ -2390,7 +2390,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,90
+      vlans: 10,40,80
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.3
       igmp_snooping_enabled: true
@@ -2591,7 +2591,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,90
+      vlans: 10,40,80
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.4
       igmp_snooping_enabled: true
@@ -2740,7 +2740,7 @@ avd_switch_facts:
       interface_descriptions:
         python_module: ansible_collections.arista.avd.roles.eos_designs.python_modules.interface_descriptions
         python_class_name: AvdInterfaceDescriptions
-      group: DC3_BORDER_LEAVES
+      group: DC3_BORDER_LEAFS
       id: 127
       mgmt_ip: 10.99.99.219/24
       platform: cEOSLab
@@ -2779,7 +2779,7 @@ avd_switch_facts:
       - all
       filter_tags:
       - border
-      - DC3_BORDER_LEAVES
+      - DC3_BORDER_LEAFS
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:99
       trunk_groups:
@@ -2792,7 +2792,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,90
+      vlans: 10,40,80
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.127
       igmp_snooping_enabled: true
@@ -2941,7 +2941,7 @@ avd_switch_facts:
       interface_descriptions:
         python_module: ansible_collections.arista.avd.roles.eos_designs.python_modules.interface_descriptions
         python_class_name: AvdInterfaceDescriptions
-      group: DC3_BORDER_LEAVES
+      group: DC3_BORDER_LEAFS
       id: 128
       mgmt_ip: 10.99.99.220/24
       platform: cEOSLab
@@ -2980,7 +2980,7 @@ avd_switch_facts:
       - all
       filter_tags:
       - border
-      - DC3_BORDER_LEAVES
+      - DC3_BORDER_LEAFS
       filter_only_vlans_in_use: false
       virtual_router_mac_address: 00:1c:73:00:00:99
       trunk_groups:
@@ -2993,7 +2993,7 @@ avd_switch_facts:
       enable_trunk_groups: false
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-      vlans: 10,40,90
+      vlans: 10,40,80
       spanning_tree_mode: mstp
       overlay_rd_type_admin_subfield: 10.3.103.128
       igmp_snooping_enabled: true
@@ -3323,7 +3323,7 @@ groups:
   DC3_LEAF_DOMAIN_2:
   - DC3-LEAF3
   - DC3-LEAF4
-  DC3_BORDER_LEAVES:
+  DC3_BORDER_LEAFS:
   - DC3-BORDER1
   - DC3-BORDER2
   DC3_TENANT_NETWORKS:
@@ -3338,7 +3338,7 @@ groups:
   - DC3-LEAF2
   - DC3-LEAF3
   - DC3-LEAF4
-omit: __omit_place_holder__2c92b5e9437d1609ed4595eb7953393fce2c41e3
+omit: __omit_place_holder__0234127a01e59eaac285306f68c4c0a4ffdbe26b
 ansible_version:
   string: 2.14.4
   full: 2.14.4
@@ -3352,5 +3352,5 @@ ansible_inventory_sources:
 - /workspaces/avd-demo/inventory/inventory.yml
 ansible_skip_tags: []
 ansible_run_tags:
-- provision
+- build
 ansible_verbosity: 0

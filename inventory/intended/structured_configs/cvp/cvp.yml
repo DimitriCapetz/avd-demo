@@ -1,11 +1,11 @@
 ---
 CVP_DEVICES:
   - fqdn: DC3-BORDER1
-    parentContainerName: DC3_BORDER_LEAVES
+    parentContainerName: DC3_BORDER_LEAFS
     configlets:
       - AVD-L3LSV_DC3-BORDER1
   - fqdn: DC3-BORDER2
-    parentContainerName: DC3_BORDER_LEAVES
+    parentContainerName: DC3_BORDER_LEAFS
     configlets:
       - AVD-L3LSV_DC3-BORDER2
   - fqdn: DC3-LEAF1
@@ -33,7 +33,7 @@ CVP_DEVICES:
     configlets:
       - AVD-L3LSV_DC3-SPINE2
 CVP_CONTAINERS:
-  DC3_BORDER_LEAVES:
+  DC3_BORDER_LEAFS:
     parentContainerName: DC3_LEAVES
   DC3_FABRIC:
     parentContainerName: Tenant

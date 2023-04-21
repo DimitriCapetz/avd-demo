@@ -23,7 +23,7 @@ all:
                   hosts:
                     DC3-LEAF3:
                     DC3-LEAF4:
-                DC3_BORDER_LEAVES:
+                DC3_BORDER_LEAFS:
                   hosts:
                     DC3-BORDER1:
                     DC3-BORDER2:
@@ -31,7 +31,7 @@ all:
           children:
             DC3_LEAF_DOMAIN_1:
             DC3_LEAF_DOMAIN_2:
-            DC3_BORDER_LEAVES:
+            DC3_BORDER_LEAFS:
         DC3_ENDPOINTS:
           children:
             DC3_LEAF_DOMAIN_1:

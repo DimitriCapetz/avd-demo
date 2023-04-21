@@ -64,9 +64,6 @@
 - [VRF Instances](#vrf-instances)
   - [VRF Instances Summary](#vrf-instances-summary)
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
-- [Virtual Source NAT](#virtual-source-nat)
-  - [Virtual Source NAT Summary](#virtual-source-nat-summary)
-  - [Virtual Source NAT Configuration](#virtual-source-nat-configuration)
 - [Quality Of Service](#quality-of-service)
 
 # Management
@@ -513,7 +510,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | CORP_GLOBAL | - |
 | 40 | CORP_DC3 | - |
-| 90 | CORP_DC3 | - |
+| 80 | CORP_DC3_NEW | - |
 | 3009 | MLAG_iBGP_CORP | LEAF_PEER_L3 |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
@@ -528,8 +525,8 @@ vlan 10
 vlan 40
    name CORP_DC3
 !
-vlan 90
-   name CORP_DC3
+vlan 80
+   name CORP_DC3_NEW
 !
 vlan 3009
    name MLAG_iBGP_CORP
@@ -658,7 +655,6 @@ interface Port-Channel551
 | --------- | ----------- | --- | ---------- |
 | Loopback0 | EVPN_Overlay_Peering | default | 10.3.103.1/32 |
 | Loopback1 | VTEP_VXLAN_Tunnel_Source | default | 10.3.113.1/32 |
-| Loopback10 | CORP_VTEP_DIAGNOSTICS | CORP | 10.255.10.1/32 |
 
 #### IPv6
 
@@ -666,7 +662,6 @@ interface Port-Channel551
 | --------- | ----------- | --- | ------------ |
 | Loopback0 | EVPN_Overlay_Peering | default | - |
 | Loopback1 | VTEP_VXLAN_Tunnel_Source | default | - |
-| Loopback10 | CORP_VTEP_DIAGNOSTICS | CORP | - |
 
 
 ### Loopback Interfaces Device Configuration
@@ -682,12 +677,6 @@ interface Loopback1
    description VTEP_VXLAN_Tunnel_Source
    no shutdown
    ip address 10.3.113.1/32
-!
-interface Loopback10
-   description CORP_VTEP_DIAGNOSTICS
-   no shutdown
-   vrf CORP
-   ip address 10.255.10.1/32
 ```
 
 ## VLAN Interfaces
@@ -698,7 +687,7 @@ interface Loopback10
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | CORP_GLOBAL | CORP | - | False |
 | Vlan40 | CORP_DC3 | CORP | - | False |
-| Vlan90 | CORP_DC3 | CORP | - | False |
+| Vlan80 | CORP_DC3_NEW | CORP | - | False |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf CORP | CORP | 1500 | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
@@ -708,8 +697,8 @@ interface Loopback10
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  CORP  |  -  |  10.10.10.1/24  |  -  |  -  |  -  |  -  |
-| Vlan40 |  CORP  |  -  |  10.10.11.1/24  |  -  |  -  |  -  |  -  |
-| Vlan90 |  CORP  |  -  |  10.90.91.1/24  |  -  |  -  |  -  |  -  |
+| Vlan40 |  CORP  |  -  |  10.40.40.1/24  |  -  |  -  |  -  |  -  |
+| Vlan80 |  CORP  |  -  |  10.80.80.1/24  |  -  |  -  |  -  |  -  |
 | Vlan3009 |  CORP  |  10.255.254.0/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.255.254.0/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.255.255.0/31  |  -  |  -  |  -  |  -  |  -  |
@@ -728,13 +717,13 @@ interface Vlan40
    description CORP_DC3
    no shutdown
    vrf CORP
-   ip address virtual 10.10.11.1/24
+   ip address virtual 10.40.40.1/24
 !
-interface Vlan90
-   description CORP_DC3
+interface Vlan80
+   description CORP_DC3_NEW
    no shutdown
    vrf CORP
-   ip address virtual 10.90.91.1/24
+   ip address virtual 10.80.80.1/24
 !
 interface Vlan3009
    description MLAG_PEER_L3_iBGP: vrf CORP
@@ -773,7 +762,7 @@ interface Vlan4094
 | ---- | --- | ---------- | --------------- |
 | 10 | 10010 | - | - |
 | 40 | 10040 | - | - |
-| 90 | 10090 | - | - |
+| 80 | 10080 | - | - |
 
 #### VRF to VNI and Multicast Group Mappings
 
@@ -792,7 +781,7 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 40 vni 10040
-   vxlan vlan 90 vni 10090
+   vxlan vlan 80 vni 10080
    vxlan vrf CORP vni 10
 ```
 
@@ -938,7 +927,7 @@ Global ARP timeout: 900
 | ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
 | 10 | 10.3.103.1:10010 | 10010:10010 | - | - | learned |
 | 40 | 10.3.103.1:10040 | 10040:10040 | - | - | learned |
-| 90 | 10.3.103.1:10090 | 10090:10090 | - | - | learned |
+| 80 | 10.3.103.1:10080 | 10080:10080 | - | - | learned |
 
 ### Router BGP VRFs
 
@@ -999,9 +988,9 @@ router bgp 65301
       route-target both 10040:10040
       redistribute learned
    !
-   vlan 90
-      rd 10.3.103.1:10090
-      route-target both 10090:10090
+   vlan 80
+      rd 10.3.103.1:10080
+      route-target both 10080:10080
       redistribute learned
    !
    address-family evpn
@@ -1140,21 +1129,6 @@ ip access-list standard SNMP-ACL
 vrf instance CORP
 !
 vrf instance management
-```
-
-# Virtual Source NAT
-
-## Virtual Source NAT Summary
-
-| Source NAT VRF | Source NAT IP Address |
-| -------------- | --------------------- |
-| CORP | 10.255.10.1 |
-
-## Virtual Source NAT Configuration
-
-```eos
-!
-ip address virtual source-nat vrf CORP address 10.255.10.1
 ```
 
 # Quality Of Service

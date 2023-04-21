@@ -56,7 +56,7 @@ l3leaf:
           uplink_switch_interfaces: ['Ethernet4/1', 'Ethernet4/1']
           filter:
             tags: [ compute ]
-    DC3_BORDER_LEAVES:
+    DC3_BORDER_LEAFS:
       bgp_as: 65316
       nodes:
         DC3-BORDER1:
