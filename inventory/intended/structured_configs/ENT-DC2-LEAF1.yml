@@ -123,16 +123,6 @@ static_routes:
   gateway: 10.99.99.1
 service_routing_protocols_model: multi-agent
 ip_routing: true
-daemon_terminattr:
-  cvaddrs:
-  - apiserver.arista.io:443
-  cvauth:
-    method: token-secure
-    token_file: /mnt/flash/cv-onboarding-token
-  cvvrf: management
-  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
-  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-  disable_aaa: true
 vlan_internal_order:
   allocation: ascending
   range:
@@ -329,7 +319,7 @@ ethernet_interfaces:
     id: 1
     mode: active
 mlag_configuration:
-  domain_id: DC2_LEAF_DOMAIN_1
+  domain_id: ENT-DC2-LEAF-DOMAIN-1
   local_interface: Vlan4094
   peer_address: 10.255.255.1
   peer_link: Port-Channel551

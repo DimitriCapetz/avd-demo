@@ -2,12 +2,25 @@
 # L3LS Fabric Values - update these values with caution,
 # SOME CHANGES COULD BE DISRUPTIVE.
 
-fabric_name: DC
+fabric_name: ENTERPRISE-DC
 
 # TerminAttr Settings for CVaaS
-cvp_instance_ip: apiserver.arista.io
-cvp_token_file: /mnt/flash/cv-onboarding-token
-terminattr_disable_aaa: true
+daemon_terminattr:
+  cvaddrs:
+    - apiserver.arista.io:443
+  cvauth:
+    method: token-secure
+    token_file: /mnt/flash/cv-onboarding-token
+  cvvrf: management
+  disable_aaa: true
+  cvcompression: gzip
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+
+# TerminAttr Settings for CVaaS
+#cvp_instance_ip: apiserver.arista.io
+#cvp_token_file: /mnt/flash/cv-onboarding-token
+#terminattr_disable_aaa: true
 
 # DNS Settings for Fabric
 mgmt_interface_vrf: management

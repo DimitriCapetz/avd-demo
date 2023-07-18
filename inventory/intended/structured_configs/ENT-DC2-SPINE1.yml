@@ -108,16 +108,6 @@ static_routes:
   gateway: 10.99.99.1
 service_routing_protocols_model: multi-agent
 ip_routing: true
-daemon_terminattr:
-  cvaddrs:
-  - apiserver.arista.io:443
-  cvauth:
-    method: token-secure
-    token_file: /mnt/flash/cv-onboarding-token
-  cvvrf: management
-  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
-  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-  disable_aaa: true
 vlan_internal_order:
   allocation: ascending
   range:

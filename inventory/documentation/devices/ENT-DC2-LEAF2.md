@@ -448,7 +448,7 @@ sflow run
 
 | Domain-id | Local-interface | Peer-address | Peer-link |
 | --------- | --------------- | ------------ | --------- |
-| DC2_LEAF_DOMAIN_1 | Vlan4094 | 10.255.255.0 | Port-Channel551 |
+| ENT-DC2-LEAF-DOMAIN-1 | Vlan4094 | 10.255.255.0 | Port-Channel551 |
 
 Dual primary detection is disabled.
 
@@ -457,7 +457,7 @@ Dual primary detection is disabled.
 ```eos
 !
 mlag configuration
-   domain-id DC2_LEAF_DOMAIN_1
+   domain-id ENT-DC2-LEAF-DOMAIN-1
    local-interface Vlan4094
    peer-address 10.255.255.0
    peer-link Port-Channel551

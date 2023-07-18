@@ -63,7 +63,7 @@ cvp_configlets:
     vrf CORP address 10.255.10.31\n!\nip access-list standard SNMP-ACL\n   10 permit
     10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf management\n!\nip
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.101.0/24 eq 32\n
-    \  seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id DC1_BORDER_LEAVES\n
+    \  seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id ENT-DC1-BORDER-LEAVES\n
     \  local-interface Vlan4094\n   peer-address 10.255.255.61\n   peer-link Port-Channel551\n
     \  reload-delay mlag 300\n   reload-delay non-mlag 330\n!\nip route vrf management
     0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP
@@ -196,7 +196,7 @@ cvp_configlets:
     vrf CORP address 10.255.10.32\n!\nip access-list standard SNMP-ACL\n   10 permit
     10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf management\n!\nip
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.101.0/24 eq 32\n
-    \  seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id DC1_BORDER_LEAVES\n
+    \  seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id ENT-DC1-BORDER-LEAVES\n
     \  local-interface Vlan4094\n   peer-address 10.255.255.60\n   peer-link Port-Channel551\n
     \  reload-delay mlag 300\n   reload-delay non-mlag 330\n!\nip route vrf management
     0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP
@@ -334,31 +334,32 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC1_LEAF_DOMAIN_1\n   local-interface Vlan4094\n   peer-address
-    10.255.255.1\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65101\n   router-id 10.1.101.1\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC1-LEAF2\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.0 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.0 remote-as 65100\n   neighbor 10.1.0.0
-    description ENT-DC1-SPINE1_Ethernet1/1\n   neighbor 10.1.0.2 peer group IPv4-UNDERLAY-PEERS\n
-    \  neighbor 10.1.0.2 remote-as 65100\n   neighbor 10.1.0.2 description ENT-DC1-SPINE2_Ethernet1/1\n
-    \  neighbor 10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as
-    65100\n   neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2
-    peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
+    configuration\n   domain-id ENT-DC1-LEAF-DOMAIN-1\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.1\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65101\n   router-id 10.1.101.1\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC1-LEAF2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.0 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.1.0.0 remote-as 65100\n   neighbor 10.1.0.0 description ENT-DC1-SPINE1_Ethernet1/1\n
+    \  neighbor 10.1.0.2 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.2 remote-as
+    65100\n   neighbor 10.1.0.2 description ENT-DC1-SPINE2_Ethernet1/1\n   neighbor
+    10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as 65100\n
+    \  neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
     10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.1 peer group MLAG-IPv4-UNDERLAY-PEER\n
     \  neighbor 10.255.251.1 description ENT-DC1-LEAF2\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.1.101.1:10010\n      route-target
@@ -458,31 +459,32 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC1_LEAF_DOMAIN_1\n   local-interface Vlan4094\n   peer-address
-    10.255.255.0\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65101\n   router-id 10.1.101.2\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC1-LEAF1\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.4 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.4 remote-as 65100\n   neighbor 10.1.0.4
-    description ENT-DC1-SPINE1_Ethernet2/1\n   neighbor 10.1.0.6 peer group IPv4-UNDERLAY-PEERS\n
-    \  neighbor 10.1.0.6 remote-as 65100\n   neighbor 10.1.0.6 description ENT-DC1-SPINE2_Ethernet2/1\n
-    \  neighbor 10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as
-    65100\n   neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2
-    peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
+    configuration\n   domain-id ENT-DC1-LEAF-DOMAIN-1\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.0\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65101\n   router-id 10.1.101.2\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC1-LEAF1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.4 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.1.0.4 remote-as 65100\n   neighbor 10.1.0.4 description ENT-DC1-SPINE1_Ethernet2/1\n
+    \  neighbor 10.1.0.6 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.6 remote-as
+    65100\n   neighbor 10.1.0.6 description ENT-DC1-SPINE2_Ethernet2/1\n   neighbor
+    10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as 65100\n
+    \  neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
     10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER\n
     \  neighbor 10.255.251.0 description ENT-DC1-LEAF1\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.1.101.2:10010\n      route-target
@@ -582,31 +584,32 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC1_LEAF_DOMAIN_2\n   local-interface Vlan4094\n   peer-address
-    10.255.255.5\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65102\n   router-id 10.1.101.3\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC1-LEAF4\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.8 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.8 remote-as 65100\n   neighbor 10.1.0.8
-    description ENT-DC1-SPINE1_Ethernet3/1\n   neighbor 10.1.0.10 peer group IPv4-UNDERLAY-PEERS\n
-    \  neighbor 10.1.0.10 remote-as 65100\n   neighbor 10.1.0.10 description ENT-DC1-SPINE2_Ethernet3/1\n
-    \  neighbor 10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as
-    65100\n   neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2
-    peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
+    configuration\n   domain-id ENT-DC1-LEAF-DOMAIN-2\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.5\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65102\n   router-id 10.1.101.3\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC1-LEAF4\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.8 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.1.0.8 remote-as 65100\n   neighbor 10.1.0.8 description ENT-DC1-SPINE1_Ethernet3/1\n
+    \  neighbor 10.1.0.10 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.10 remote-as
+    65100\n   neighbor 10.1.0.10 description ENT-DC1-SPINE2_Ethernet3/1\n   neighbor
+    10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as 65100\n
+    \  neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
     10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER\n
     \  neighbor 10.255.251.5 description ENT-DC1-LEAF4\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.1.101.3:10010\n      route-target
@@ -706,46 +709,47 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC1_LEAF_DOMAIN_2\n   local-interface Vlan4094\n   peer-address
-    10.255.255.4\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65102\n   router-id 10.1.101.4\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC1-LEAF3\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.12 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.12 remote-as 65100\n   neighbor
-    10.1.0.12 description ENT-DC1-SPINE1_Ethernet4/1\n   neighbor 10.1.0.14 peer group
-    IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.14 remote-as 65100\n   neighbor 10.1.0.14
-    description ENT-DC1-SPINE2_Ethernet4/1\n   neighbor 10.1.100.1 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.1.100.1 remote-as 65100\n   neighbor 10.1.100.1 description ENT-DC1-SPINE1\n
-    \  neighbor 10.1.100.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as
-    65100\n   neighbor 10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.4
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.4 description ENT-DC1-LEAF3\n
-    \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
-    10.1.101.4:10010\n      route-target both 10010:10010\n      redistribute learned\n
-    \  !\n   vlan 110\n      rd 10.1.101.4:10110\n      route-target both 10110:10110\n
-    \     redistribute learned\n   !\n   vlan 112\n      rd 10.1.101.4:10112\n      route-target
-    both 10112:10112\n      redistribute learned\n   !\n   vlan 20\n      rd 10.1.101.4:10020\n
-    \     route-target both 10020:10020\n      redistribute learned\n   !\n   address-family
-    evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n
-    \     no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS
-    activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n
-    \     rd 10.1.101.4:10\n      route-target import evpn 10:10\n      route-target
-    export evpn 10:10\n      router-id 10.1.101.4\n      neighbor 10.255.251.4 peer
-    group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf
-    management source-interface Management1\n!\nbanner login\n************************************************************************\n\n
+    configuration\n   domain-id ENT-DC1-LEAF-DOMAIN-2\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.4\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65102\n   router-id 10.1.101.4\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC1-LEAF3\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.12 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.1.0.12 remote-as 65100\n   neighbor 10.1.0.12 description ENT-DC1-SPINE1_Ethernet4/1\n
+    \  neighbor 10.1.0.14 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.14 remote-as
+    65100\n   neighbor 10.1.0.14 description ENT-DC1-SPINE2_Ethernet4/1\n   neighbor
+    10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as 65100\n
+    \  neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
+    10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n
+    \  neighbor 10.255.251.4 description ENT-DC1-LEAF3\n   redistribute connected
+    route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.1.101.4:10010\n      route-target
+    both 10010:10010\n      redistribute learned\n   !\n   vlan 110\n      rd 10.1.101.4:10110\n
+    \     route-target both 10110:10110\n      redistribute learned\n   !\n   vlan
+    112\n      rd 10.1.101.4:10112\n      route-target both 10112:10112\n      redistribute
+    learned\n   !\n   vlan 20\n      rd 10.1.101.4:10020\n      route-target both
+    10020:10020\n      redistribute learned\n   !\n   address-family evpn\n      neighbor
+    EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
+    activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER
+    activate\n   !\n   vrf CORP\n      rd 10.1.101.4:10\n      route-target import
+    evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.1.101.4\n
+    \     neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute
+    connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner
+    login\n************************************************************************\n\n
     \  WARNING: This system is for the use of authorized clients only.\n            Individuals
     using the computer network system without\n            authorization, or in excess
     of their authorization, are\n            subject to having all their activity
@@ -830,46 +834,47 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC1_LEAF_DOMAIN_3\n   local-interface Vlan4094\n   peer-address
-    10.255.255.9\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65103\n   router-id 10.1.101.5\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65103\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC1-LEAF6\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.16 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.16 remote-as 65100\n   neighbor
-    10.1.0.16 description ENT-DC1-SPINE1_Ethernet5/1\n   neighbor 10.1.0.18 peer group
-    IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.18 remote-as 65100\n   neighbor 10.1.0.18
-    description ENT-DC1-SPINE2_Ethernet5/1\n   neighbor 10.1.100.1 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.1.100.1 remote-as 65100\n   neighbor 10.1.100.1 description ENT-DC1-SPINE1\n
-    \  neighbor 10.1.100.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as
-    65100\n   neighbor 10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.9
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.9 description ENT-DC1-LEAF6\n
-    \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
-    10.1.101.5:10010\n      route-target both 10010:10010\n      redistribute learned\n
-    \  !\n   vlan 110\n      rd 10.1.101.5:10110\n      route-target both 10110:10110\n
-    \     redistribute learned\n   !\n   vlan 113\n      rd 10.1.101.5:10113\n      route-target
-    both 10113:10113\n      redistribute learned\n   !\n   vlan 20\n      rd 10.1.101.5:10020\n
-    \     route-target both 10020:10020\n      redistribute learned\n   !\n   address-family
-    evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n
-    \     no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS
-    activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n
-    \     rd 10.1.101.5:10\n      route-target import evpn 10:10\n      route-target
-    export evpn 10:10\n      router-id 10.1.101.5\n      neighbor 10.255.251.9 peer
-    group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf
-    management source-interface Management1\n!\nbanner login\n************************************************************************\n\n
+    configuration\n   domain-id ENT-DC1-LEAF-DOMAIN-3\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.9\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65103\n   router-id 10.1.101.5\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65103\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC1-LEAF6\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.16 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.1.0.16 remote-as 65100\n   neighbor 10.1.0.16 description ENT-DC1-SPINE1_Ethernet5/1\n
+    \  neighbor 10.1.0.18 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.18 remote-as
+    65100\n   neighbor 10.1.0.18 description ENT-DC1-SPINE2_Ethernet5/1\n   neighbor
+    10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as 65100\n
+    \  neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
+    10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.9 peer group MLAG-IPv4-UNDERLAY-PEER\n
+    \  neighbor 10.255.251.9 description ENT-DC1-LEAF6\n   redistribute connected
+    route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.1.101.5:10010\n      route-target
+    both 10010:10010\n      redistribute learned\n   !\n   vlan 110\n      rd 10.1.101.5:10110\n
+    \     route-target both 10110:10110\n      redistribute learned\n   !\n   vlan
+    113\n      rd 10.1.101.5:10113\n      route-target both 10113:10113\n      redistribute
+    learned\n   !\n   vlan 20\n      rd 10.1.101.5:10020\n      route-target both
+    10020:10020\n      redistribute learned\n   !\n   address-family evpn\n      neighbor
+    EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
+    activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER
+    activate\n   !\n   vrf CORP\n      rd 10.1.101.5:10\n      route-target import
+    evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.1.101.5\n
+    \     neighbor 10.255.251.9 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute
+    connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner
+    login\n************************************************************************\n\n
     \  WARNING: This system is for the use of authorized clients only.\n            Individuals
     using the computer network system without\n            authorization, or in excess
     of their authorization, are\n            subject to having all their activity
@@ -954,46 +959,47 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC1_LEAF_DOMAIN_3\n   local-interface Vlan4094\n   peer-address
-    10.255.255.8\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65103\n   router-id 10.1.101.6\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65103\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC1-LEAF5\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.20 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.20 remote-as 65100\n   neighbor
-    10.1.0.20 description ENT-DC1-SPINE1_Ethernet6/1\n   neighbor 10.1.0.22 peer group
-    IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.22 remote-as 65100\n   neighbor 10.1.0.22
-    description ENT-DC1-SPINE2_Ethernet6/1\n   neighbor 10.1.100.1 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.1.100.1 remote-as 65100\n   neighbor 10.1.100.1 description ENT-DC1-SPINE1\n
-    \  neighbor 10.1.100.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as
-    65100\n   neighbor 10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.8
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.8 description ENT-DC1-LEAF5\n
-    \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
-    10.1.101.6:10010\n      route-target both 10010:10010\n      redistribute learned\n
-    \  !\n   vlan 110\n      rd 10.1.101.6:10110\n      route-target both 10110:10110\n
-    \     redistribute learned\n   !\n   vlan 113\n      rd 10.1.101.6:10113\n      route-target
-    both 10113:10113\n      redistribute learned\n   !\n   vlan 20\n      rd 10.1.101.6:10020\n
-    \     route-target both 10020:10020\n      redistribute learned\n   !\n   address-family
-    evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n
-    \     no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS
-    activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n
-    \     rd 10.1.101.6:10\n      route-target import evpn 10:10\n      route-target
-    export evpn 10:10\n      router-id 10.1.101.6\n      neighbor 10.255.251.8 peer
-    group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf
-    management source-interface Management1\n!\nbanner login\n************************************************************************\n\n
+    configuration\n   domain-id ENT-DC1-LEAF-DOMAIN-3\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.8\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65103\n   router-id 10.1.101.6\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65103\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC1-LEAF5\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.1.0.20 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.1.0.20 remote-as 65100\n   neighbor 10.1.0.20 description ENT-DC1-SPINE1_Ethernet6/1\n
+    \  neighbor 10.1.0.22 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.22 remote-as
+    65100\n   neighbor 10.1.0.22 description ENT-DC1-SPINE2_Ethernet6/1\n   neighbor
+    10.1.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.1 remote-as 65100\n
+    \  neighbor 10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.1.100.2 remote-as 65100\n   neighbor
+    10.1.100.2 description ENT-DC1-SPINE2\n   neighbor 10.255.251.8 peer group MLAG-IPv4-UNDERLAY-PEER\n
+    \  neighbor 10.255.251.8 description ENT-DC1-LEAF5\n   redistribute connected
+    route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.1.101.6:10010\n      route-target
+    both 10010:10010\n      redistribute learned\n   !\n   vlan 110\n      rd 10.1.101.6:10110\n
+    \     route-target both 10110:10110\n      redistribute learned\n   !\n   vlan
+    113\n      rd 10.1.101.6:10113\n      route-target both 10113:10113\n      redistribute
+    learned\n   !\n   vlan 20\n      rd 10.1.101.6:10020\n      route-target both
+    10020:10020\n      redistribute learned\n   !\n   address-family evpn\n      neighbor
+    EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
+    activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER
+    activate\n   !\n   vrf CORP\n      rd 10.1.101.6:10\n      route-target import
+    evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.1.101.6\n
+    \     neighbor 10.255.251.8 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute
+    connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner
+    login\n************************************************************************\n\n
     \  WARNING: This system is for the use of authorized clients only.\n            Individuals
     using the computer network system without\n            authorization, or in excess
     of their authorization, are\n            subject to having all their activity
@@ -1285,7 +1291,7 @@ cvp_configlets:
     vrf CORP address 10.255.10.31\n!\nip access-list standard SNMP-ACL\n   10 permit
     10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf management\n!\nip
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24 eq 32\n
-    \  seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id DC2_BORDER_LEAVES\n
+    \  seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id ENT-DC2-BORDER-LEAVES\n
     \  local-interface Vlan4094\n   peer-address 10.255.255.61\n   peer-link Port-Channel551\n
     \  reload-delay mlag 300\n   reload-delay non-mlag 330\n!\nip route vrf management
     0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP
@@ -1418,7 +1424,7 @@ cvp_configlets:
     vrf CORP address 10.255.10.32\n!\nip access-list standard SNMP-ACL\n   10 permit
     10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf management\n!\nip
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24 eq 32\n
-    \  seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id DC2_BORDER_LEAVES\n
+    \  seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id ENT-DC2-BORDER-LEAVES\n
     \  local-interface Vlan4094\n   peer-address 10.255.255.60\n   peer-link Port-Channel551\n
     \  reload-delay mlag 300\n   reload-delay non-mlag 330\n!\nip route vrf management
     0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map RM-CONN-2-BGP
@@ -1556,31 +1562,32 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC2_LEAF_DOMAIN_1\n   local-interface Vlan4094\n   peer-address
-    10.255.255.1\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65201\n   router-id 10.2.101.1\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65201\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC2-LEAF2\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.0 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.0 remote-as 65200\n   neighbor 10.2.0.0
-    description ENT-DC2-SPINE1_Ethernet1/1\n   neighbor 10.2.0.2 peer group IPv4-UNDERLAY-PEERS\n
-    \  neighbor 10.2.0.2 remote-as 65200\n   neighbor 10.2.0.2 description ENT-DC2-SPINE2_Ethernet1/1\n
-    \  neighbor 10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as
-    65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2
-    peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
+    configuration\n   domain-id ENT-DC2-LEAF-DOMAIN-1\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.1\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65201\n   router-id 10.2.101.1\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65201\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC2-LEAF2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.0 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.2.0.0 remote-as 65200\n   neighbor 10.2.0.0 description ENT-DC2-SPINE1_Ethernet1/1\n
+    \  neighbor 10.2.0.2 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.2 remote-as
+    65200\n   neighbor 10.2.0.2 description ENT-DC2-SPINE2_Ethernet1/1\n   neighbor
+    10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as 65200\n
+    \  neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
     10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.1 peer group MLAG-IPv4-UNDERLAY-PEER\n
     \  neighbor 10.255.252.1 description ENT-DC2-LEAF2\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.1:10010\n      route-target
@@ -1680,31 +1687,32 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC2_LEAF_DOMAIN_1\n   local-interface Vlan4094\n   peer-address
-    10.255.255.0\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65201\n   router-id 10.2.101.2\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65201\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC2-LEAF1\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.4 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.4 remote-as 65200\n   neighbor 10.2.0.4
-    description ENT-DC2-SPINE1_Ethernet2/1\n   neighbor 10.2.0.6 peer group IPv4-UNDERLAY-PEERS\n
-    \  neighbor 10.2.0.6 remote-as 65200\n   neighbor 10.2.0.6 description ENT-DC2-SPINE2_Ethernet2/1\n
-    \  neighbor 10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as
-    65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2
-    peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
+    configuration\n   domain-id ENT-DC2-LEAF-DOMAIN-1\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.0\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65201\n   router-id 10.2.101.2\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65201\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC2-LEAF1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.4 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.2.0.4 remote-as 65200\n   neighbor 10.2.0.4 description ENT-DC2-SPINE1_Ethernet2/1\n
+    \  neighbor 10.2.0.6 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.6 remote-as
+    65200\n   neighbor 10.2.0.6 description ENT-DC2-SPINE2_Ethernet2/1\n   neighbor
+    10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as 65200\n
+    \  neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
     10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.0 peer group MLAG-IPv4-UNDERLAY-PEER\n
     \  neighbor 10.255.252.0 description ENT-DC2-LEAF1\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.2:10010\n      route-target
@@ -1804,31 +1812,32 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC2_LEAF_DOMAIN_2\n   local-interface Vlan4094\n   peer-address
-    10.255.255.5\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65202\n   router-id 10.2.101.3\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65202\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC2-LEAF4\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.8 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.8 remote-as 65200\n   neighbor 10.2.0.8
-    description ENT-DC2-SPINE1_Ethernet3/1\n   neighbor 10.2.0.10 peer group IPv4-UNDERLAY-PEERS\n
-    \  neighbor 10.2.0.10 remote-as 65200\n   neighbor 10.2.0.10 description ENT-DC2-SPINE2_Ethernet3/1\n
-    \  neighbor 10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as
-    65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2
-    peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
+    configuration\n   domain-id ENT-DC2-LEAF-DOMAIN-2\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.5\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65202\n   router-id 10.2.101.3\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65202\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC2-LEAF4\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.8 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.2.0.8 remote-as 65200\n   neighbor 10.2.0.8 description ENT-DC2-SPINE1_Ethernet3/1\n
+    \  neighbor 10.2.0.10 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.10 remote-as
+    65200\n   neighbor 10.2.0.10 description ENT-DC2-SPINE2_Ethernet3/1\n   neighbor
+    10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as 65200\n
+    \  neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
     10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.5 peer group MLAG-IPv4-UNDERLAY-PEER\n
     \  neighbor 10.255.252.5 description ENT-DC2-LEAF4\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.3:10010\n      route-target
@@ -1928,46 +1937,47 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC2_LEAF_DOMAIN_2\n   local-interface Vlan4094\n   peer-address
-    10.255.255.4\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65202\n   router-id 10.2.101.4\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65202\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC2-LEAF3\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.12 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.12 remote-as 65200\n   neighbor
-    10.2.0.12 description ENT-DC2-SPINE1_Ethernet4/1\n   neighbor 10.2.0.14 peer group
-    IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.14 remote-as 65200\n   neighbor 10.2.0.14
-    description ENT-DC2-SPINE2_Ethernet4/1\n   neighbor 10.2.100.1 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.2.100.1 remote-as 65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n
-    \  neighbor 10.2.100.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as
-    65200\n   neighbor 10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.4
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.252.4 description ENT-DC2-LEAF3\n
-    \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
-    10.2.101.4:10010\n      route-target both 10010:10010\n      redistribute learned\n
-    \  !\n   vlan 20\n      rd 10.2.101.4:10020\n      route-target both 10020:10020\n
-    \     redistribute learned\n   !\n   vlan 210\n      rd 10.2.101.4:10210\n      route-target
-    both 10210:10210\n      redistribute learned\n   !\n   vlan 212\n      rd 10.2.101.4:10212\n
-    \     route-target both 10212:10212\n      redistribute learned\n   !\n   address-family
-    evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n
-    \     no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS
-    activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n
-    \     rd 10.2.101.4:10\n      route-target import evpn 10:10\n      route-target
-    export evpn 10:10\n      router-id 10.2.101.4\n      neighbor 10.255.252.4 peer
-    group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf
-    management source-interface Management1\n!\nbanner login\n************************************************************************\n\n
+    configuration\n   domain-id ENT-DC2-LEAF-DOMAIN-2\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.4\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65202\n   router-id 10.2.101.4\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65202\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC2-LEAF3\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.12 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.2.0.12 remote-as 65200\n   neighbor 10.2.0.12 description ENT-DC2-SPINE1_Ethernet4/1\n
+    \  neighbor 10.2.0.14 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.14 remote-as
+    65200\n   neighbor 10.2.0.14 description ENT-DC2-SPINE2_Ethernet4/1\n   neighbor
+    10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as 65200\n
+    \  neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
+    10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.4 peer group MLAG-IPv4-UNDERLAY-PEER\n
+    \  neighbor 10.255.252.4 description ENT-DC2-LEAF3\n   redistribute connected
+    route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.4:10010\n      route-target
+    both 10010:10010\n      redistribute learned\n   !\n   vlan 20\n      rd 10.2.101.4:10020\n
+    \     route-target both 10020:10020\n      redistribute learned\n   !\n   vlan
+    210\n      rd 10.2.101.4:10210\n      route-target both 10210:10210\n      redistribute
+    learned\n   !\n   vlan 212\n      rd 10.2.101.4:10212\n      route-target both
+    10212:10212\n      redistribute learned\n   !\n   address-family evpn\n      neighbor
+    EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
+    activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER
+    activate\n   !\n   vrf CORP\n      rd 10.2.101.4:10\n      route-target import
+    evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.2.101.4\n
+    \     neighbor 10.255.252.4 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute
+    connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner
+    login\n************************************************************************\n\n
     \  WARNING: This system is for the use of authorized clients only.\n            Individuals
     using the computer network system without\n            authorization, or in excess
     of their authorization, are\n            subject to having all their activity
@@ -2052,46 +2062,47 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC2_LEAF_DOMAIN_3\n   local-interface Vlan4094\n   peer-address
-    10.255.255.9\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65203\n   router-id 10.2.101.5\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65203\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC2-LEAF6\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.16 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.16 remote-as 65200\n   neighbor
-    10.2.0.16 description ENT-DC2-SPINE1_Ethernet5/1\n   neighbor 10.2.0.18 peer group
-    IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.18 remote-as 65200\n   neighbor 10.2.0.18
-    description ENT-DC2-SPINE2_Ethernet5/1\n   neighbor 10.2.100.1 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.2.100.1 remote-as 65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n
-    \  neighbor 10.2.100.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as
-    65200\n   neighbor 10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.9
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.252.9 description ENT-DC2-LEAF6\n
-    \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
-    10.2.101.5:10010\n      route-target both 10010:10010\n      redistribute learned\n
-    \  !\n   vlan 20\n      rd 10.2.101.5:10020\n      route-target both 10020:10020\n
-    \     redistribute learned\n   !\n   vlan 210\n      rd 10.2.101.5:10210\n      route-target
-    both 10210:10210\n      redistribute learned\n   !\n   vlan 213\n      rd 10.2.101.5:10213\n
-    \     route-target both 10213:10213\n      redistribute learned\n   !\n   address-family
-    evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n
-    \     no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS
-    activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n
-    \     rd 10.2.101.5:10\n      route-target import evpn 10:10\n      route-target
-    export evpn 10:10\n      router-id 10.2.101.5\n      neighbor 10.255.252.9 peer
-    group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf
-    management source-interface Management1\n!\nbanner login\n************************************************************************\n\n
+    configuration\n   domain-id ENT-DC2-LEAF-DOMAIN-3\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.9\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65203\n   router-id 10.2.101.5\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65203\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC2-LEAF6\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.16 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.2.0.16 remote-as 65200\n   neighbor 10.2.0.16 description ENT-DC2-SPINE1_Ethernet5/1\n
+    \  neighbor 10.2.0.18 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.18 remote-as
+    65200\n   neighbor 10.2.0.18 description ENT-DC2-SPINE2_Ethernet5/1\n   neighbor
+    10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as 65200\n
+    \  neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
+    10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.9 peer group MLAG-IPv4-UNDERLAY-PEER\n
+    \  neighbor 10.255.252.9 description ENT-DC2-LEAF6\n   redistribute connected
+    route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.5:10010\n      route-target
+    both 10010:10010\n      redistribute learned\n   !\n   vlan 20\n      rd 10.2.101.5:10020\n
+    \     route-target both 10020:10020\n      redistribute learned\n   !\n   vlan
+    210\n      rd 10.2.101.5:10210\n      route-target both 10210:10210\n      redistribute
+    learned\n   !\n   vlan 213\n      rd 10.2.101.5:10213\n      route-target both
+    10213:10213\n      redistribute learned\n   !\n   address-family evpn\n      neighbor
+    EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
+    activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER
+    activate\n   !\n   vrf CORP\n      rd 10.2.101.5:10\n      route-target import
+    evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.2.101.5\n
+    \     neighbor 10.255.252.9 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute
+    connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner
+    login\n************************************************************************\n\n
     \  WARNING: This system is for the use of authorized clients only.\n            Individuals
     using the computer network system without\n            authorization, or in excess
     of their authorization, are\n            subject to having all their activity
@@ -2176,46 +2187,47 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id DC2_LEAF_DOMAIN_3\n   local-interface Vlan4094\n   peer-address
-    10.255.255.8\n   peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay
-    non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout
-    default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list
-    PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n   description
-    Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal
-    routing\n   set origin incomplete\n!\nrouter bfd\n   multihop interval 1200 min-rx
-    1200 multiplier 3\n!\nrouter bgp 65203\n   router-id 10.2.101.6\n   maximum-paths
-    4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n   graceful-restart
-    restart-time 300\n   graceful-restart\n   neighbor EVPN-OVERLAY-PEERS peer group\n
-    \  neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n   neighbor EVPN-OVERLAY-PEERS
-    bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3\n   neighbor EVPN-OVERLAY-PEERS
-    send-community\n   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS
-    peer group\n   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS
-    maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER remote-as 65203\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n
-    \  neighbor MLAG-IPv4-UNDERLAY-PEER description ENT-DC2-LEAF5\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor
-    MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.20 peer
-    group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.20 remote-as 65200\n   neighbor
-    10.2.0.20 description ENT-DC2-SPINE1_Ethernet6/1\n   neighbor 10.2.0.22 peer group
-    IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.22 remote-as 65200\n   neighbor 10.2.0.22
-    description ENT-DC2-SPINE2_Ethernet6/1\n   neighbor 10.2.100.1 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.2.100.1 remote-as 65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n
-    \  neighbor 10.2.100.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as
-    65200\n   neighbor 10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.8
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.252.8 description ENT-DC2-LEAF5\n
-    \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
-    10.2.101.6:10010\n      route-target both 10010:10010\n      redistribute learned\n
-    \  !\n   vlan 20\n      rd 10.2.101.6:10020\n      route-target both 10020:10020\n
-    \     redistribute learned\n   !\n   vlan 210\n      rd 10.2.101.6:10210\n      route-target
-    both 10210:10210\n      redistribute learned\n   !\n   vlan 213\n      rd 10.2.101.6:10213\n
-    \     route-target both 10213:10213\n      redistribute learned\n   !\n   address-family
-    evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n
-    \     no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS
-    activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf CORP\n
-    \     rd 10.2.101.6:10\n      route-target import evpn 10:10\n      route-target
-    export evpn 10:10\n      router-id 10.2.101.6\n      neighbor 10.255.252.8 peer
-    group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nip tacacs vrf
-    management source-interface Management1\n!\nbanner login\n************************************************************************\n\n
+    configuration\n   domain-id ENT-DC2-LEAF-DOMAIN-3\n   local-interface Vlan4094\n
+    \  peer-address 10.255.255.8\n   peer-link Port-Channel551\n   reload-delay mlag
+    300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
+    aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
+    prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
+    \  description Make routes learned over MLAG Peer-link less preferred on spines
+    to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
+    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65203\n   router-id 10.2.101.6\n
+    \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
+    200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
+    EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source Loopback0\n
+    \  neighbor EVPN-OVERLAY-PEERS bfd\n   neighbor EVPN-OVERLAY-PEERS ebgp-multihop
+    3\n   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS
+    maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS
+    send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
+    MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
+    65203\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    description ENT-DC2-LEAF5\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
+    route-map RM-MLAG-PEER-IN in\n   neighbor 10.2.0.20 peer group IPv4-UNDERLAY-PEERS\n
+    \  neighbor 10.2.0.20 remote-as 65200\n   neighbor 10.2.0.20 description ENT-DC2-SPINE1_Ethernet6/1\n
+    \  neighbor 10.2.0.22 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.22 remote-as
+    65200\n   neighbor 10.2.0.22 description ENT-DC2-SPINE2_Ethernet6/1\n   neighbor
+    10.2.100.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.1 remote-as 65200\n
+    \  neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2 peer
+    group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
+    10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.8 peer group MLAG-IPv4-UNDERLAY-PEER\n
+    \  neighbor 10.255.252.8 description ENT-DC2-LEAF5\n   redistribute connected
+    route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.6:10010\n      route-target
+    both 10010:10010\n      redistribute learned\n   !\n   vlan 20\n      rd 10.2.101.6:10020\n
+    \     route-target both 10020:10020\n      redistribute learned\n   !\n   vlan
+    210\n      rd 10.2.101.6:10210\n      route-target both 10210:10210\n      redistribute
+    learned\n   !\n   vlan 213\n      rd 10.2.101.6:10213\n      route-target both
+    10213:10213\n      redistribute learned\n   !\n   address-family evpn\n      neighbor
+    EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
+    activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER
+    activate\n   !\n   vrf CORP\n      rd 10.2.101.6:10\n      route-target import
+    evpn 10:10\n      route-target export evpn 10:10\n      router-id 10.2.101.6\n
+    \     neighbor 10.255.252.8 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute
+    connected\n!\nip tacacs vrf management source-interface Management1\n!\nbanner
+    login\n************************************************************************\n\n
     \  WARNING: This system is for the use of authorized clients only.\n            Individuals
     using the computer network system without\n            authorization, or in excess
     of their authorization, are\n            subject to having all their activity
@@ -2444,68 +2456,68 @@ cvp_configlets:
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
     \     no shutdown\n!\nend\n"
 cvp_topology:
-  DC:
+  ENT-DC1:
     devices: []
-    parent_container: Tenant
-  DC1:
-    devices: []
-    parent_container: DC
-  DC1_BORDER_LEAVES:
+    parent_container: ENTERPRISE-DC
+  ENT-DC1-BORDER-LEAVES:
     devices:
     - ENT-DC1-BORDER1
     - ENT-DC1-BORDER2
-    parent_container: DC1_LEAVES
-  DC1_LEAF_DOMAIN_1:
+    parent_container: ENT-DC1-LEAVES
+  ENT-DC1-LEAF-DOMAIN-1:
     devices:
     - ENT-DC1-LEAF1
     - ENT-DC1-LEAF2
-    parent_container: DC1_LEAVES
-  DC1_LEAF_DOMAIN_2:
+    parent_container: ENT-DC1-LEAVES
+  ENT-DC1-LEAF-DOMAIN-2:
     devices:
     - ENT-DC1-LEAF3
     - ENT-DC1-LEAF4
-    parent_container: DC1_LEAVES
-  DC1_LEAF_DOMAIN_3:
+    parent_container: ENT-DC1-LEAVES
+  ENT-DC1-LEAF-DOMAIN-3:
     devices:
     - ENT-DC1-LEAF5
     - ENT-DC1-LEAF6
-    parent_container: DC1_LEAVES
-  DC1_LEAVES:
+    parent_container: ENT-DC1-LEAVES
+  ENT-DC1-LEAVES:
     devices: []
-    parent_container: DC1
-  DC1_SPINES:
+    parent_container: ENT-DC1
+  ENT-DC1-SPINES:
     devices:
     - ENT-DC1-SPINE1
     - ENT-DC1-SPINE2
-    parent_container: DC1
-  DC2:
+    parent_container: ENT-DC1
+  ENT-DC2:
     devices: []
-    parent_container: DC
-  DC2_BORDER_LEAVES:
+    parent_container: ENTERPRISE-DC
+  ENT-DC2-BORDER-LEAVES:
     devices:
     - ENT-DC2-BORDER1
     - ENT-DC2-BORDER2
-    parent_container: DC2_LEAVES
-  DC2_LEAF_DOMAIN_1:
+    parent_container: ENT-DC2-LEAVES
+  ENT-DC2-LEAF-DOMAIN-1:
     devices:
     - ENT-DC2-LEAF1
     - ENT-DC2-LEAF2
-    parent_container: DC2_LEAVES
-  DC2_LEAF_DOMAIN_2:
+    parent_container: ENT-DC2-LEAVES
+  ENT-DC2-LEAF-DOMAIN-2:
     devices:
     - ENT-DC2-LEAF3
     - ENT-DC2-LEAF4
-    parent_container: DC2_LEAVES
-  DC2_LEAF_DOMAIN_3:
+    parent_container: ENT-DC2-LEAVES
+  ENT-DC2-LEAF-DOMAIN-3:
     devices:
     - ENT-DC2-LEAF5
     - ENT-DC2-LEAF6
-    parent_container: DC2_LEAVES
-  DC2_LEAVES:
+    parent_container: ENT-DC2-LEAVES
+  ENT-DC2-LEAVES:
     devices: []
-    parent_container: DC2
-  DC2_SPINES:
+    parent_container: ENT-DC2
+  ENT-DC2-SPINES:
     devices:
     - ENT-DC2-SPINE1
     - ENT-DC2-SPINE2
-    parent_container: DC2
+    parent_container: ENT-DC2
+  ENTERPRISE-DC:
+    devices: []
+    parent_container: Tenant

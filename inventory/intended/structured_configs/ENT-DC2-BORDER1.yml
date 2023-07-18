@@ -151,16 +151,6 @@ static_routes:
   gateway: 10.99.99.1
 service_routing_protocols_model: multi-agent
 ip_routing: true
-daemon_terminattr:
-  cvaddrs:
-  - apiserver.arista.io:443
-  cvauth:
-    method: token-secure
-    token_file: /mnt/flash/cv-onboarding-token
-  cvvrf: management
-  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
-  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-  disable_aaa: true
 vlan_internal_order:
   allocation: ascending
   range:
@@ -335,7 +325,7 @@ ethernet_interfaces:
   eos_cli: sflow enable
   ip_address: 10.0.22.1/31
 mlag_configuration:
-  domain_id: DC2_BORDER_LEAVES
+  domain_id: ENT-DC2-BORDER-LEAVES
   local_interface: Vlan4094
   peer_address: 10.255.255.61
   peer_link: Port-Channel551

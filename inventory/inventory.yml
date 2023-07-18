@@ -5,73 +5,73 @@ all:
     CVP:
       hosts:
         cvp:
-    DC:
+    ENTERPRISE-DC:
       children:
-        DC1:
+        ENT-DC1:
           children:
-            DC1_SPINES:
+            ENT-DC1-SPINES:
               hosts:
                 ENT-DC1-SPINE1:
                 ENT-DC1-SPINE2:
-            DC1_LEAVES:
+            ENT-DC1-LEAVES:
               children:
-                DC1_LEAF_DOMAIN_1:
+                ENT-DC1-LEAF-DOMAIN-1:
                   hosts:
                     ENT-DC1-LEAF1:
                     ENT-DC1-LEAF2:
-                DC1_LEAF_DOMAIN_2:
+                ENT-DC1-LEAF-DOMAIN-2:
                   hosts:
                     ENT-DC1-LEAF3:
                     ENT-DC1-LEAF4:
-                DC1_LEAF_DOMAIN_3:
+                ENT-DC1-LEAF-DOMAIN-3:
                   hosts:
                     ENT-DC1-LEAF5:
                     ENT-DC1-LEAF6:
-                DC1_BORDER_LEAVES:
+                ENT-DC1-BORDER-LEAVES:
                   hosts:
                     ENT-DC1-BORDER1:
                     ENT-DC1-BORDER2:
-        DC2:
+        ENT-DC2:
           children:
-            DC2_SPINES:
+            ENT-DC2-SPINES:
               hosts:
                 ENT-DC2-SPINE1:
                 ENT-DC2-SPINE2:
-            DC2_LEAVES:
+            ENT-DC2-LEAVES:
               children:
-                DC2_LEAF_DOMAIN_1:
+                ENT-DC2-LEAF-DOMAIN-1:
                   hosts:
                     ENT-DC2-LEAF1:
                     ENT-DC2-LEAF2:
-                DC2_LEAF_DOMAIN_2:
+                ENT-DC2-LEAF-DOMAIN-2:
                   hosts:
                     ENT-DC2-LEAF3:
                     ENT-DC2-LEAF4:
-                DC2_LEAF_DOMAIN_3:
+                ENT-DC2-LEAF-DOMAIN-3:
                   hosts:
                     ENT-DC2-LEAF5:
                     ENT-DC2-LEAF6:
-                DC2_BORDER_LEAVES:
+                ENT-DC2-BORDER-LEAVES:
                   hosts:
                     ENT-DC2-BORDER1:
                     ENT-DC2-BORDER2:
-    TENANT_NETWORKS:
+    TENANT-NETWORKS:
       children:
-        DC1_LEAF_DOMAIN_1:
-        DC1_LEAF_DOMAIN_2:
-        DC1_LEAF_DOMAIN_3:
-        DC1_BORDER_LEAVES:
-        DC2_LEAF_DOMAIN_1:
-        DC2_LEAF_DOMAIN_2:
-        DC2_LEAF_DOMAIN_3:
-        DC2_BORDER_LEAVES:
-    CONNECTED_ENDPOINTS:
+        ENT-DC1-LEAF-DOMAIN-1:
+        ENT-DC1-LEAF-DOMAIN-2:
+        ENT-DC1-LEAF-DOMAIN-3:
+        ENT-DC1-BORDER-LEAVES:
+        ENT-DC2-LEAF-DOMAIN-1:
+        ENT-DC2-LEAF-DOMAIN-2:
+        ENT-DC2-LEAF-DOMAIN-3:
+        ENT-DC2-BORDER-LEAVES:
+    CONNECTED-ENDPOINTS:
       children:
-        DC1_LEAF_DOMAIN_1:
-        DC1_LEAF_DOMAIN_2:
-        DC1_LEAF_DOMAIN_3:
-        DC1_BORDER_LEAVES:
-        DC2_LEAF_DOMAIN_1:
-        DC2_LEAF_DOMAIN_2:
-        DC2_LEAF_DOMAIN_3:
-        DC2_BORDER_LEAVES:
+        ENT-DC1-LEAF-DOMAIN-1:
+        ENT-DC1-LEAF-DOMAIN-2:
+        ENT-DC1-LEAF-DOMAIN-3:
+        ENT-DC1-BORDER-LEAVES:
+        ENT-DC2-LEAF-DOMAIN-1:
+        ENT-DC2-LEAF-DOMAIN-2:
+        ENT-DC2-LEAF-DOMAIN-3:
+        ENT-DC2-BORDER-LEAVES:
