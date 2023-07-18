@@ -1,47 +1,57 @@
 ---
 CVP_DEVICES:
-  - fqdn: DC3-BORDER1
-    parentContainerName: DC3_BORDER_LEAFS
+  - fqdn: ENT-DC1-BORDER1
+    parentContainerName: DC1_BORDER_LEAFS
     configlets:
-      - AVD-L3LSV_DC3-BORDER1
-  - fqdn: DC3-BORDER2
-    parentContainerName: DC3_BORDER_LEAFS
+      - AVD-L3LSV_ENT-DC1-BORDER1
+  - fqdn: ENT-DC1-BORDER2
+    parentContainerName: DC1_BORDER_LEAFS
     configlets:
-      - AVD-L3LSV_DC3-BORDER2
-  - fqdn: DC3-LEAF1
-    parentContainerName: DC3_LEAF_DOMAIN_1
+      - AVD-L3LSV_ENT-DC1-BORDER2
+  - fqdn: ENT-DC1-LEAF1
+    parentContainerName: DC1_LEAF_DOMAIN_1
     configlets:
-      - AVD-L3LSV_DC3-LEAF1
-  - fqdn: DC3-LEAF2
-    parentContainerName: DC3_LEAF_DOMAIN_1
+      - AVD-L3LSV_ENT-DC1-LEAF1
+  - fqdn: ENT-DC1-LEAF2
+    parentContainerName: DC1_LEAF_DOMAIN_1
     configlets:
-      - AVD-L3LSV_DC3-LEAF2
-  - fqdn: DC3-LEAF3
-    parentContainerName: DC3_LEAF_DOMAIN_2
+      - AVD-L3LSV_ENT-DC1-LEAF2
+  - fqdn: ENT-DC1-LEAF3
+    parentContainerName: DC1_LEAF_DOMAIN_2
     configlets:
-      - AVD-L3LSV_DC3-LEAF3
-  - fqdn: DC3-LEAF4
-    parentContainerName: DC3_LEAF_DOMAIN_2
+      - AVD-L3LSV_ENT-DC1-LEAF3
+  - fqdn: ENT-DC1-LEAF4
+    parentContainerName: DC1_LEAF_DOMAIN_2
     configlets:
-      - AVD-L3LSV_DC3-LEAF4
-  - fqdn: DC3-SPINE1
-    parentContainerName: DC3_SPINES
+      - AVD-L3LSV_ENT-DC1-LEAF4
+  - fqdn: ENT-DC1-LEAF5
+    parentContainerName: DC1_LEAF_DOMAIN_3
     configlets:
-      - AVD-L3LSV_DC3-SPINE1
-  - fqdn: DC3-SPINE2
-    parentContainerName: DC3_SPINES
+      - AVD-L3LSV_ENT-DC1-LEAF5
+  - fqdn: ENT-DC1-LEAF6
+    parentContainerName: DC1_LEAF_DOMAIN_3
     configlets:
-      - AVD-L3LSV_DC3-SPINE2
+      - AVD-L3LSV_ENT-DC1-LEAF6
+  - fqdn: ENT-DC1-SPINE1
+    parentContainerName: DC1_SPINES
+    configlets:
+      - AVD-L3LSV_ENT-DC1-SPINE1
+  - fqdn: ENT-DC1-SPINE2
+    parentContainerName: DC1_SPINES
+    configlets:
+      - AVD-L3LSV_ENT-DC1-SPINE2
 CVP_CONTAINERS:
-  DC3_BORDER_LEAFS:
-    parentContainerName: DC3_LEAVES
-  DC3_FABRIC:
+  DC1_BORDER_LEAFS:
+    parentContainerName: DC1_LEAVES
+  DC1_FABRIC:
     parentContainerName: Tenant
-  DC3_LEAF_DOMAIN_1:
-    parentContainerName: DC3_LEAVES
-  DC3_LEAF_DOMAIN_2:
-    parentContainerName: DC3_LEAVES
-  DC3_LEAVES:
-    parentContainerName: DC3_FABRIC
-  DC3_SPINES:
-    parentContainerName: DC3_FABRIC
+  DC1_LEAF_DOMAIN_1:
+    parentContainerName: DC1_LEAVES
+  DC1_LEAF_DOMAIN_2:
+    parentContainerName: DC1_LEAVES
+  DC1_LEAF_DOMAIN_3:
+    parentContainerName: DC1_LEAVES
+  DC1_LEAVES:
+    parentContainerName: DC1_FABRIC
+  DC1_SPINES:
+    parentContainerName: DC1_FABRIC

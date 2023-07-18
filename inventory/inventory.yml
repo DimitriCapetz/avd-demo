@@ -5,34 +5,40 @@ all:
     CVP:
       hosts:
         cvp:
-    DC3:
+    DC1:
       children:
-        DC3_FABRIC:
+        DC1_FABRIC:
           children:
-            DC3_SPINES:
+            DC1_SPINES:
               hosts:
-                DC3-SPINE1:
-                DC3-SPINE2:
-            DC3_LEAVES:
+                ENT-DC1-SPINE1:
+                ENT-DC1-SPINE2:
+            DC1_LEAVES:
               children:
-                DC3_LEAF_DOMAIN_1:
+                DC1_LEAF_DOMAIN_1:
                   hosts:
-                    DC3-LEAF1:
-                    DC3-LEAF2:
-                DC3_LEAF_DOMAIN_2:
+                    ENT-DC1-LEAF1:
+                    ENT-DC1-LEAF2:
+                DC1_LEAF_DOMAIN_2:
                   hosts:
-                    DC3-LEAF3:
-                    DC3-LEAF4:
-                DC3_BORDER_LEAFS:
+                    ENT-DC1-LEAF3:
+                    ENT-DC1-LEAF4:
+                DC1_LEAF_DOMAIN_3:
                   hosts:
-                    DC3-BORDER1:
-                    DC3-BORDER2:
-        DC3_TENANT_NETWORKS:
+                    ENT-DC1-LEAF5:
+                    ENT-DC1-LEAF6:
+                DC1_BORDER_LEAFS:
+                  hosts:
+                    ENT-DC1-BORDER1:
+                    ENT-DC1-BORDER2:
+        DC1_TENANT_NETWORKS:
           children:
-            DC3_LEAF_DOMAIN_1:
-            DC3_LEAF_DOMAIN_2:
-            DC3_BORDER_LEAFS:
-        DC3_ENDPOINTS:
+            DC1_LEAF_DOMAIN_1:
+            DC1_LEAF_DOMAIN_2:
+            DC1_LEAF_DOMAIN_3:
+            DC1_BORDER_LEAFS:
+        DC1_ENDPOINTS:
           children:
-            DC3_LEAF_DOMAIN_1:
-            DC3_LEAF_DOMAIN_2:
+            DC1_LEAF_DOMAIN_1:
+            DC1_LEAF_DOMAIN_2:
+            DC1_LEAF_DOMAIN_3:
