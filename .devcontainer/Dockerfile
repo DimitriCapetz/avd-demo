@@ -33,9 +33,9 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 # Install Python Packages
 RUN pip install --upgrade pip
-RUN pip install dotbot docutils rcvpapi Pyyaml lxml jsonrpclib ansible cvprac pyeapi jsonschema treelib
+RUN pip install dotbot docutils rcvpapi Pyyaml lxml jsonrpclib ansible-core==2.14.8 cvprac pyeapi jsonschema treelib
 
 # Install AVD and CVP Collections
-RUN ansible-galaxy collection install arista.avd
+RUN ansible-galaxy collection install arista.avd community.general
 RUN export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 #RUN pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt

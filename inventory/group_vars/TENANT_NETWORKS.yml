@@ -7,35 +7,65 @@ mlag_ibgp_peering_vrfs:
 
 tenants:
   # CORP Specific Information - VRFs / VLANs
-  CORP:
+  - name: CORP
     mac_vrf_vni_base: 10000
     vrfs:
-      CORP:
+      - name: CORP
         vrf_vni: 10
         vtep_diagnostic:
           loopback: 10
           loopback_ip_range: 10.255.10.0/24
         svis:
-          110:
+          - id: 10
             name: CORP_DC1_SHARED
-            tags: [compute]
+            tags: [GLOBAL_LEAVES]
+            enabled: true
+            ip_address_virtual: 10.10.10.1/24
+          - id: 20
+            name: CORP_DC1_SHARED
+            tags: [GLOBAL_LEAVES]
+            enabled: true
+            ip_address_virtual: 10.20.20.1/24
+          - id: 110
+            name: CORP_DC1_SHARED
+            tags: [DC1_COMPUTE_LEAVES]
             enabled: true
             ip_address_virtual: 10.110.110.1/24
-          111:
+          - id: 111
             name: CORP_DC1_RACK1
             tags: [DC1_LEAF_DOMAIN_1]
             enabled: true
             ip_address_virtual: 10.111.111.1/24
-          112:
+          - id: 112
             name: CORP_DC1_RACK2
             tags: [DC1_LEAF_DOMAIN_2]
             enabled: true
             ip_address_virtual: 10.112.112.1/24
-          113:
+          - id: 113
             name: CORP_DC1_RACK3
             tags: [DC1_LEAF_DOMAIN_3]
             enabled: true
             ip_address_virtual: 10.113.113.1/24
+          - id: 210
+            name: CORP_DC2_SHARED
+            tags: [DC2_COMPUTE_LEAVES]
+            enabled: true
+            ip_address_virtual: 10.210.210.1/24
+          - id: 211
+            name: CORP_DC2_RACK1
+            tags: [DC2_LEAF_DOMAIN_1]
+            enabled: true
+            ip_address_virtual: 10.211.211.1/24
+          - id: 212
+            name: CORP_DC2_RACK2
+            tags: [DC2_LEAF_DOMAIN_2]
+            enabled: true
+            ip_address_virtual: 10.212.212.1/24
+          - id: 213
+            name: CORP_DC2_RACK3
+            tags: [DC2_LEAF_DOMAIN_3]
+            enabled: true
+            ip_address_virtual: 10.213.213.1/24
 #        # WAN Peering Config to Border Leaves
 #        l3_interfaces:
 #          - interfaces: [ Ethernet1 ]

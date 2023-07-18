@@ -1,0 +1,194 @@
+---
+# L3LS Fabric Values - update these values with caution,
+# SOME CHANGES COULD BE DISRUPTIVE.
+
+fabric_name: DC
+
+# TerminAttr Settings for CVaaS
+cvp_instance_ip: apiserver.arista.io
+cvp_token_file: /mnt/flash/cv-onboarding-token
+terminattr_disable_aaa: true
+
+# DNS Settings for Fabric
+mgmt_interface_vrf: management
+mgmt_gateway: 10.99.99.1
+name_servers:
+  - 1.1.1.1
+dns_domain: dime-a-tron.com
+ip_domain_lookup:
+  source_interfaces:
+    Management1:
+      vrf: management
+
+# Time Settings for Fabric
+timezone: US/Central
+ntp:
+  local_interface:
+    name: Management1
+    vrf: management
+  servers:
+    - name: 0.pool.ntp.org
+      burst: false
+      iburst: true
+      local_interface: Management1
+      vrf: management
+  authenticate: false
+
+# Syslog Settings
+logging:
+  buffered:
+    size: 100000000
+    level: informational
+  source_interface: Management1
+  vrfs:
+    management:
+      source_interface: Management1
+      hosts:
+        10.112.112.31:
+          ports:
+            - 514
+
+# sFlow Settings
+sflow:
+  sample: 16384
+  dangerous: false
+  vrfs:
+    default :
+      destinations:
+        127.0.0.1:
+      source_interface: Loopback0
+  run: true
+
+# SNMP Settings
+snmp_server:
+  communities:
+    COMMUNITY:
+      access: ro
+      access_list_ipv4:
+        name: SNMP-ACL
+  ipv4_acls:
+    - name: SNMP-ACL
+      vrf: management
+  local_interfaces:
+    Management1:
+      vrf: management
+  hosts:
+    - host: 10.112.34.58
+      vrf: management
+      version: 2c
+      community: COMMUNITY
+  traps:
+    enable: true
+
+standard_access_lists:
+  SNMP-ACL:
+    counters_per_entry: false
+    sequence_numbers:
+      10:
+        action: permit 10.0.0.0/8
+
+# Default Local Users
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0
+  dcapetz:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/
+    ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU= dcapetz@dcapetz
+
+# AAA Settings
+aaa_root:
+  secret:
+    sha512_password: $6$x0ppcOsYOjpmGwSZ$nnOTjeSDYjQGcGUQswgeCD.j7Xfu1Kjz6Rr8C4X61NE0KQ5ozaWQXUdxuq6jR4DUP/nxlufvmlAHrUQOXICFl1
+aaa_authentication:
+  login:
+    default: local
+    console: local
+aaa_authorization:
+  exec:
+    default: local
+  commands:
+    all_default: local
+aaa_accounting:
+  commands:
+    console:
+      - commands: all
+        type: start-stop
+        logging: true
+aaa_server_groups:
+  - name: home-ise
+    type: tacacs+
+    servers:
+      - server: home-ise.dime-a-tron.com
+        vrf: management
+ip_tacacs_source_interfaces:
+    - name: Management1
+      vrf: management
+tacacs_servers:
+  hosts:
+    - host: home-ise.dime-a-tron.com
+      vrf: management
+      key: 014354560C2F052B220D
+      key_type: 7
+      single_connection: false
+
+# Banner Setup
+banners:
+  login: |
+    ************************************************************************
+    
+       WARNING: This system is for the use of authorized clients only.
+                Individuals using the computer network system without
+                authorization, or in excess of their authorization, are
+                subject to having all their activity on this computer
+                network system monitored and recorded by system
+                personnel.  To protect the computer network system from
+                unauthorized use and to ensure the computer network systems
+                is functioning properly, system administrators monitor this
+                system.  Anyone using this computer network system
+                expressly consents to such monitoring and is advised that
+                if such monitoring reveals possible conduct of criminal
+                activity, system personnel may provide the evidence of
+                such activity to law enforcement officers.
+    
+                Access is restricted to authorized users only.
+                Unauthorized access is a violation of state and federal,
+                civil and criminal laws.
+    
+    **************************************************************************
+    EOF
+
+# Default Timers and other random settings
+arp:
+  aging:
+    timeout_default: 900
+mac_address_table:
+  aging_time: 1300
+event_monitor:
+  enabled: true
+aliases: |-
+  alias 1min show log last 1 minute
+  alias tail bash sudo tail -f /var/log/messages
+# vEOS-lab / cEOSLab Specific Variables
+# Adjusts for virtualized Data Plane
+# Not needed in physical deployment
+# Update p2p mtu 9000 -> 1500, MTU 9000 not supported in vEOS-LAB / cEOSLab.
+p2p_uplinks_mtu: 1500
+
+# Adjust default bfd values, to avoid high CPU.
+bfd_multihop:
+  interval: 1200
+  min_rx: 1200
+  multiplier: 3
+
+# List of additional CVP configlets to bind to devices and containers
+# Configlets MUST be configured on CVP before running AVD playbooks.
+
+#cv_configlets:
+#  containers:
+#    DC_FABRIC:
+#      - AVD_DC-SWITCH-AAA
+#      - AVD_DC-SWITCH-DEFAULTS

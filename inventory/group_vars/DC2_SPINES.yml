@@ -1,0 +1,22 @@
+---
+# Define Node Type for Group
+type: spine
+
+# Spine Switch Definitions
+spine:
+  defaults:
+    platform: cEOSLab
+    mgmt_interface: Management1
+    bgp_as: 65200
+    loopback_ipv4_pool: 10.2.100.0/24
+    bgp_defaults:
+      - 'distance bgp 20 200 200'
+      - 'graceful-restart restart-time 300'
+      - 'graceful-restart'
+  nodes:
+    ENT-DC2-SPINE1:
+      id: 1
+      mgmt_ip: 10.99.99.41/24
+    ENT-DC2-SPINE2:
+      id: 2
+      mgmt_ip: 10.99.99.42/24

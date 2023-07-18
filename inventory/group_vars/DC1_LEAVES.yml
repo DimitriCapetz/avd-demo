@@ -20,7 +20,6 @@ l3leaf:
     mlag_peer_l3_ipv4_pool: 10.255.251.0/24
     virtual_router_mac_address: 00:1c:73:00:00:01
     bgp_defaults:
-      - 'no bgp default ipv4-unicast'
       - 'distance bgp 20 200 200'
       - 'graceful-restart restart-time 300'
       - 'graceful-restart'
@@ -34,13 +33,13 @@ l3leaf:
           mgmt_ip: 10.99.99.43/24
           uplink_switch_interfaces: ['Ethernet1/1', 'Ethernet1/1']
           filter:
-            tags: [ compute, DC1_LEAF_DOMAIN_1 ]
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_1 ]
         ENT-DC1-LEAF2:
           id: 2
           mgmt_ip: 10.99.99.44/24
           uplink_switch_interfaces: ['Ethernet2/1', 'Ethernet2/1']
           filter:
-            tags: [ compute, DC1_LEAF_DOMAIN_1 ]
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_1 ]
     DC1_LEAF_DOMAIN_2:
       bgp_as: 65102
       nodes:
@@ -49,13 +48,13 @@ l3leaf:
           mgmt_ip: 10.99.99.45/24
           uplink_switch_interfaces: ['Ethernet3/1', 'Ethernet3/1']
           filter:
-            tags: [ compute, DC1_LEAF_DOMAIN_2 ]
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_2 ]
         ENT-DC1-LEAF4:
           id: 4
           mgmt_ip: 10.99.99.46/24
           uplink_switch_interfaces: ['Ethernet4/1', 'Ethernet4/1']
           filter:
-            tags: [ compute, DC1_LEAF_DOMAIN_2 ]
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_2 ]
     DC1_LEAF_DOMAIN_3:
       bgp_as: 65103
       nodes:
@@ -64,25 +63,94 @@ l3leaf:
           mgmt_ip: 10.99.99.47/24
           uplink_switch_interfaces: ['Ethernet5/1', 'Ethernet5/1']
           filter:
-            tags: [ compute, DC1_LEAF_DOMAIN_3 ]
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
         ENT-DC1-LEAF6:
           id: 6
           mgmt_ip: 10.99.99.48/24
           uplink_switch_interfaces: ['Ethernet6/1', 'Ethernet6/1']
           filter:
-            tags: [ compute, DC1_LEAF_DOMAIN_3 ]
-    DC1_BORDER_LEAFS:
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
+    DC1_BORDER_LEAVES:
       bgp_as: 65116
+      evpn_gateway:
+        evpn_l2:
+          enabled: true
+        evpn_l3:
+          enabled: true
+          inter_domain: true
       nodes:
         ENT-DC1-BORDER1:
           id: 31
           mgmt_ip: 10.99.99.55/24
           uplink_switch_interfaces: ['Ethernet7/1', 'Ethernet7/1']
+          evpn_gateway:
+            remote_peers:
+              - hostname: ENT-DC2-BORDER1
+              - hostname: ENT-DC2-BORDER2
           filter:
-            tags: [ border ]
+            tags: [ GLOBAL_LEAVES, DC1_BORDER_LEAVES ]
         ENT-DC1-BORDER2:
           id: 32
           mgmt_ip: 10.99.99.56/24
           uplink_switch_interfaces: ['Ethernet8/1', 'Ethernet8/1']
+          evpn_gateway:
+            remote_peers:
+              - hostname: ENT-DC2-BORDER1
+              - hostname: ENT-DC2-BORDER2
           filter:
-            tags: [ border ]
+            tags: [ GLOBAL_LEAVES, DC1_BORDER_LEAVES ]
+# Uplink to Core Definition for Underlay
+l3_edge:
+  p2p_links:
+    - nodes: [ ENT-DC1-BORDER1, ENT-DC1-CORE1 ]
+      interfaces:
+        - Ethernet51/1
+        - Ethernet51/1
+      ip:
+        - 10.0.11.1/31
+        - 10.0.11.0/31
+      as:
+        - '65116'
+        - '64991'
+      include_in_underlay_protocol: true
+      mtu: '9214'
+      raw_eos_cli: 'sflow enable'
+    - nodes: [ ENT-DC1-BORDER1, ENT-DC1-CORE2 ]
+      interfaces:
+        - Ethernet52/1
+        - Ethernet51/1
+      ip:
+        - 10.0.12.1/31
+        - 10.0.12.0/31
+      as:
+        - '65116'
+        - '64991'
+      include_in_underlay_protocol: true
+      mtu: '9214'
+      raw_eos_cli: 'sflow enable'
+    - nodes: [ ENT-DC1-BORDER2, ENT-DC1-CORE1 ]
+      interfaces:
+        - Ethernet51/1
+        - Ethernet52/1
+      ip:
+        - 10.0.11.3/31
+        - 10.0.11.2/31
+      as:
+        - '65116'
+        - '64991'
+      include_in_underlay_protocol: true
+      mtu: '9214'
+      raw_eos_cli: 'sflow enable'
+    - nodes: [ ENT-DC1-BORDER2, ENT-DC1-CORE2 ]
+      interfaces:
+        - Ethernet52/1
+        - Ethernet52/1
+      ip:
+        - 10.0.12.3/31
+        - 10.0.12.2/31
+      as:
+        - '65116'
+        - '64991'
+      include_in_underlay_protocol: true
+      mtu: '9214'
+      raw_eos_cli: 'sflow enable'

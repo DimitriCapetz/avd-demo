@@ -2,7 +2,7 @@
 # L3LS Fabric Values - update these values with caution,
 # SOME CHANGES COULD BE DISRUPTIVE.
 
-fabric_name: DC1_FABRIC
+fabric_name: DC
 
 # TerminAttr Settings for CVaaS
 cvp_instance_ip: apiserver.arista.io

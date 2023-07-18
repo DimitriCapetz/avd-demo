@@ -1,0 +1,402 @@
+router_bgp:
+  as: '65203'
+  router_id: 10.2.101.6
+  bgp_defaults:
+  - distance bgp 20 200 200
+  - graceful-restart restart-time 300
+  - graceful-restart
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  peer_groups:
+  - name: MLAG-IPv4-UNDERLAY-PEER
+    type: ipv4
+    remote_as: '65203'
+    next_hop_self: true
+    description: ENT-DC2-LEAF5
+    maximum_routes: 12000
+    send_community: all
+    route_map_in: RM-MLAG-PEER-IN
+  - name: IPv4-UNDERLAY-PEERS
+    type: ipv4
+    maximum_routes: 12000
+    send_community: all
+  - name: EVPN-OVERLAY-PEERS
+    type: evpn
+    update_source: Loopback0
+    bfd: true
+    send_community: all
+    maximum_routes: 0
+    ebgp_multihop: 3
+  address_family_ipv4:
+    peer_groups:
+    - name: MLAG-IPv4-UNDERLAY-PEER
+      activate: true
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
+    - name: EVPN-OVERLAY-PEERS
+      activate: false
+  neighbors:
+  - ip_address: 10.255.252.8
+    peer_group: MLAG-IPv4-UNDERLAY-PEER
+    description: ENT-DC2-LEAF5
+  - ip_address: 10.2.0.20
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65200'
+    description: ENT-DC2-SPINE1_Ethernet6/1
+  - ip_address: 10.2.0.22
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65200'
+    description: ENT-DC2-SPINE2_Ethernet6/1
+  - ip_address: 10.2.100.1
+    peer_group: EVPN-OVERLAY-PEERS
+    description: ENT-DC2-SPINE1
+    remote_as: '65200'
+  - ip_address: 10.2.100.2
+    peer_group: EVPN-OVERLAY-PEERS
+    description: ENT-DC2-SPINE2
+    remote_as: '65200'
+  redistribute_routes:
+  - source_protocol: connected
+    route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+    - name: EVPN-OVERLAY-PEERS
+      activate: true
+  vrfs:
+  - name: CORP
+    router_id: 10.2.101.6
+    rd: 10.2.101.6:10
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+      export:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+    redistribute_routes:
+    - source_protocol: connected
+    neighbors:
+    - ip_address: 10.255.252.8
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+  vlans:
+  - id: 10
+    tenant: CORP
+    rd: 10.2.101.6:10010
+    route_targets:
+      both:
+      - 10010:10010
+    redistribute_routes:
+    - learned
+  - id: 20
+    tenant: CORP
+    rd: 10.2.101.6:10020
+    route_targets:
+      both:
+      - 10020:10020
+    redistribute_routes:
+    - learned
+  - id: 210
+    tenant: CORP
+    rd: 10.2.101.6:10210
+    route_targets:
+      both:
+      - 10210:10210
+    redistribute_routes:
+    - learned
+  - id: 213
+    tenant: CORP
+    rd: 10.2.101.6:10213
+    route_targets:
+      both:
+      - 10213:10213
+    redistribute_routes:
+    - learned
+static_routes:
+- vrf: management
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 10.99.99.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+daemon_terminattr:
+  cvaddrs:
+  - apiserver.arista.io:443
+  cvauth:
+    method: token-secure
+    token_file: /mnt/flash/cv-onboarding-token
+  cvvrf: management
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  disable_aaa: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+ip_name_servers:
+- ip_address: 1.1.1.1
+  vrf: management
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 32768
+  no_spanning_tree_vlan: 4093-4094
+local_users:
+- name: admin
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$cObeccKViX0iyttR$A.3Pb7XxO15mEowsBC8fUjcrt3E77viyGgoWroBJ6jh0ZppqqMhVHpR2xyDBxOOIJD0aXh.mYpZjz5F88rbR.0
+- name: dcapetz
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$MmPwehEOaBQNSZCO$eAg4JPnxxyqKVqVNYak76EoYiCjaJAFQVQSFVXqTzBKcA57ZbYpJt/1lIFtVwGOpnD4/OgSHMxfmyWIhbq7bB/
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ148VUrWGE12gbl/yuMn2tCKwaJTmayGqEZGseVCtWO54gB0J2vt/m75xY5dmHquZvLQVfgp7JfV/FUa+Ao+QhHFFxdq7Br+T8PBE8u64Mr97MWpUT3Kc79lL48MvJfNH/adQ8sRK2LkLDp2Lgfc8XQNsA28NkOOh0EV4iSWVCv9K0m19Hihp6cjfvAb8Jt9y5NvtZiJvsBmv+A6DJ5okEsmQ3qVgmEzJ2xWHigYwZOmJsW5XcS0+cqVVT28J/rE4d6QPds6kSx9gkp3/RJxxH9lwhzDQFoOmfMlz5TixG7a4cnvvxETmEfw+QKYcKcIbCZdTi8/1+FLLQ2SOVQlVFsbzRcfUa3Z+FfYk358H6AYQ5fY2R7pYHC8jIOjVyp4Q0KcCo29NzZ07eXr6Z0hmaB7cXTP2devB6VqPxnhLeBXIPgLs8JU/yJd7aneYEonn5vSnEBiC3E61l8Dx3pz0WBYsZHNfL+A/stCBdJRl35XAoGqnEfU73eaZiXx46CU=
+    dcapetz@dcapetz
+clock:
+  timezone: US/Central
+vrfs:
+- name: management
+  ip_routing: false
+- name: CORP
+  tenant: CORP
+  ip_routing: true
+management_interfaces:
+- name: Management1
+  description: oob_management
+  shutdown: false
+  vrf: management
+  ip_address: 10.99.99.54/24
+  gateway: 10.99.99.1
+  type: oob
+mac_address_table:
+  aging_time: 1300
+management_api_http:
+  enable_vrfs:
+  - name: management
+  enable_https: true
+vlans:
+- id: 4093
+  tenant: system
+  name: LEAF_PEER_L3
+  trunk_groups:
+  - LEAF_PEER_L3
+- id: 4094
+  tenant: system
+  name: MLAG_PEER
+  trunk_groups:
+  - MLAG
+- id: 10
+  name: CORP_DC1_SHARED
+  tenant: CORP
+- id: 20
+  name: CORP_DC1_SHARED
+  tenant: CORP
+- id: 210
+  name: CORP_DC2_SHARED
+  tenant: CORP
+- id: 213
+  name: CORP_DC2_RACK3
+  tenant: CORP
+- id: 3009
+  name: MLAG_iBGP_CORP
+  trunk_groups:
+  - LEAF_PEER_L3
+  tenant: CORP
+vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_PEER_L3_PEERING
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.255.252.9/31
+- name: Vlan4094
+  description: MLAG_PEER
+  shutdown: false
+  ip_address: 10.255.255.9/31
+  no_autostate: true
+  mtu: 1500
+- name: Vlan10
+  tenant: CORP
+  tags:
+  - GLOBAL_LEAVES
+  description: CORP_DC1_SHARED
+  shutdown: false
+  ip_address_virtual: 10.10.10.1/24
+  vrf: CORP
+- name: Vlan20
+  tenant: CORP
+  tags:
+  - GLOBAL_LEAVES
+  description: CORP_DC1_SHARED
+  shutdown: false
+  ip_address_virtual: 10.20.20.1/24
+  vrf: CORP
+- name: Vlan210
+  tenant: CORP
+  tags:
+  - DC2_COMPUTE_LEAVES
+  description: CORP_DC2_SHARED
+  shutdown: false
+  ip_address_virtual: 10.210.210.1/24
+  vrf: CORP
+- name: Vlan213
+  tenant: CORP
+  tags:
+  - DC2_LEAF_DOMAIN_3
+  description: CORP_DC2_RACK3
+  shutdown: false
+  ip_address_virtual: 10.213.213.1/24
+  vrf: CORP
+- name: Vlan3009
+  tenant: CORP
+  type: underlay_peering
+  shutdown: false
+  description: 'MLAG_PEER_L3_iBGP: vrf CORP'
+  vrf: CORP
+  mtu: 1500
+  ip_address: 10.255.252.9/31
+port_channel_interfaces:
+- name: Port-Channel551
+  description: MLAG_PEER_ENT-DC2-LEAF5_Po551
+  type: switched
+  shutdown: false
+  mode: trunk
+  trunk_groups:
+  - LEAF_PEER_L3
+  - MLAG
+- name: Port-Channel1
+  description: ENT-DC2-HOST3_PortChannel1
+  type: switched
+  shutdown: false
+  eos_cli: sflow enable
+  mode: trunk
+  vlans: 10,20,210,213
+  spanning_tree_portfast: edge
+  mlag: 1
+ethernet_interfaces:
+- name: Ethernet55/1
+  peer: ENT-DC2-LEAF5
+  peer_interface: Ethernet55/1
+  peer_type: mlag_peer
+  description: MLAG_PEER_ENT-DC2-LEAF5_Ethernet55/1
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 551
+    mode: active
+- name: Ethernet56/1
+  peer: ENT-DC2-LEAF5
+  peer_interface: Ethernet56/1
+  peer_type: mlag_peer
+  description: MLAG_PEER_ENT-DC2-LEAF5_Ethernet56/1
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 551
+    mode: active
+- name: Ethernet49/1
+  peer: ENT-DC2-SPINE1
+  peer_interface: Ethernet6/1
+  peer_type: spine
+  description: P2P_LINK_TO_ENT-DC2-SPINE1_Ethernet6/1
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 10.2.0.21/31
+- name: Ethernet50/1
+  peer: ENT-DC2-SPINE2
+  peer_interface: Ethernet6/1
+  peer_type: spine
+  description: P2P_LINK_TO_ENT-DC2-SPINE2_Ethernet6/1
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 10.2.0.23/31
+- name: Ethernet1
+  peer: ENT-DC2-HOST3
+  peer_interface: Et2
+  peer_type: server
+  port_profile: DC2_RACK3_SERVER
+  description: ENT-DC2-HOST3_Et2
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 1
+    mode: active
+mlag_configuration:
+  domain_id: DC2_LEAF_DOMAIN_3
+  local_interface: Vlan4094
+  peer_address: 10.255.255.8
+  peer_link: Port-Channel551
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+route_maps:
+- name: RM-MLAG-PEER-IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    set:
+    - origin incomplete
+    description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+loopback_interfaces:
+- name: Loopback0
+  description: EVPN_Overlay_Peering
+  shutdown: false
+  ip_address: 10.2.101.6/32
+- name: Loopback1
+  description: VTEP_VXLAN_Tunnel_Source
+  shutdown: false
+  ip_address: 10.2.102.5/32
+- name: Loopback10
+  description: CORP_VTEP_DIAGNOSTICS
+  shutdown: false
+  vrf: CORP
+  ip_address: 10.255.10.6/32
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.2.101.0/24 eq 32
+  - sequence: 20
+    action: permit 10.2.102.0/24 eq 32
+router_bfd:
+  multihop:
+    interval: 1200
+    min_rx: 1200
+    multiplier: 3
+ip_igmp_snooping:
+  globally_enabled: true
+ip_virtual_router_mac_address: 00:1c:73:00:00:01
+vxlan_interface:
+  Vxlan1:
+    description: ENT-DC2-LEAF6_VTEP
+    vxlan:
+      udp_port: 4789
+      source_interface: Loopback1
+      virtual_router_encapsulation_mac_address: mlag-system-id
+      vlans:
+      - id: 10
+        vni: 10010
+      - id: 20
+        vni: 10020
+      - id: 210
+        vni: 10210
+      - id: 213
+        vni: 10213
+      vrfs:
+      - name: CORP
+        vni: 10
+virtual_source_nat_vrfs:
+- name: CORP
+  ip_address: 10.255.10.6

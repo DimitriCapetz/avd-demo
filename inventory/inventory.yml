@@ -5,9 +5,9 @@ all:
     CVP:
       hosts:
         cvp:
-    DC1:
+    DC:
       children:
-        DC1_FABRIC:
+        DC1:
           children:
             DC1_SPINES:
               hosts:
@@ -27,18 +27,51 @@ all:
                   hosts:
                     ENT-DC1-LEAF5:
                     ENT-DC1-LEAF6:
-                DC1_BORDER_LEAFS:
+                DC1_BORDER_LEAVES:
                   hosts:
                     ENT-DC1-BORDER1:
                     ENT-DC1-BORDER2:
-        DC1_TENANT_NETWORKS:
+        DC2:
           children:
-            DC1_LEAF_DOMAIN_1:
-            DC1_LEAF_DOMAIN_2:
-            DC1_LEAF_DOMAIN_3:
-            DC1_BORDER_LEAFS:
-        DC1_ENDPOINTS:
-          children:
-            DC1_LEAF_DOMAIN_1:
-            DC1_LEAF_DOMAIN_2:
-            DC1_LEAF_DOMAIN_3:
+            DC2_SPINES:
+              hosts:
+                ENT-DC2-SPINE1:
+                ENT-DC2-SPINE2:
+            DC2_LEAVES:
+              children:
+                DC2_LEAF_DOMAIN_1:
+                  hosts:
+                    ENT-DC2-LEAF1:
+                    ENT-DC2-LEAF2:
+                DC2_LEAF_DOMAIN_2:
+                  hosts:
+                    ENT-DC2-LEAF3:
+                    ENT-DC2-LEAF4:
+                DC2_LEAF_DOMAIN_3:
+                  hosts:
+                    ENT-DC2-LEAF5:
+                    ENT-DC2-LEAF6:
+                DC2_BORDER_LEAVES:
+                  hosts:
+                    ENT-DC2-BORDER1:
+                    ENT-DC2-BORDER2:
+    TENANT_NETWORKS:
+      children:
+        DC1_LEAF_DOMAIN_1:
+        DC1_LEAF_DOMAIN_2:
+        DC1_LEAF_DOMAIN_3:
+        DC1_BORDER_LEAVES:
+        DC2_LEAF_DOMAIN_1:
+        DC2_LEAF_DOMAIN_2:
+        DC2_LEAF_DOMAIN_3:
+        DC2_BORDER_LEAVES:
+    CONNECTED_ENDPOINTS:
+      children:
+        DC1_LEAF_DOMAIN_1:
+        DC1_LEAF_DOMAIN_2:
+        DC1_LEAF_DOMAIN_3:
+        DC1_BORDER_LEAVES:
+        DC2_LEAF_DOMAIN_1:
+        DC2_LEAF_DOMAIN_2:
+        DC2_LEAF_DOMAIN_3:
+        DC2_BORDER_LEAVES:
