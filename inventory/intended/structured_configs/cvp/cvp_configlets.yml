@@ -1,6 +1,6 @@
 cvp_configlets:
-  AVD-L3LSV_ENT-DC1-BORDER1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
-    last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
+  AVD-L3LSV_ENT-DC1-EDGE1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
+    1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
     -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata
     -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n!\nvlan
@@ -8,7 +8,7 @@ cvp_configlets:
     default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\nlogging
     buffered 100000000 informational\nlogging vrf management host 10.112.112.31 514\nlogging
     source-interface Management1\nlogging vrf management source-interface Management1\n!\nhostname
-    ENT-DC1-BORDER1\nip domain lookup vrf management source-interface Management1\nip
+    ENT-DC1-EDGE1\nip domain lookup vrf management source-interface Management1\nip
     name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n!\nntp local-interface
     vrf management Management1\nntp server vrf management 0.pool.ntp.org iburst local-interface
     Management1\n!\nsflow sample 16384\nsflow vrf default destination 127.0.0.1\nsflow
@@ -30,7 +30,7 @@ cvp_configlets:
     20\n   name CORP_GLOBAL_SHARED_20\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk
     group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan
     4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\nvrf instance
-    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC1-BORDER2_Po551\n
+    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC1-EDGE2_Po551\n
     \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
     LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description
     P2P_LINK_TO_ENT-DC1-SPINE1_Ethernet7/1\n   no shutdown\n   mtu 1500\n   no switchport\n
@@ -40,8 +40,8 @@ cvp_configlets:
     \  mtu 9214\n   no switchport\n   ip address 10.0.11.1/31\n   sflow enable\n!\ninterface
     Ethernet52/1\n   description P2P_LINK_TO_ENT-DC1-CORE2_Ethernet51/1\n   no shutdown\n
     \  mtu 9214\n   no switchport\n   ip address 10.0.12.1/31\n   sflow enable\n!\ninterface
-    Ethernet55/1\n   description MLAG_PEER_ENT-DC1-BORDER2_Ethernet55/1\n   no shutdown\n
-    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC1-BORDER2_Ethernet56/1\n
+    Ethernet55/1\n   description MLAG_PEER_ENT-DC1-EDGE2_Ethernet55/1\n   no shutdown\n
+    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC1-EDGE2_Ethernet56/1\n
     \  no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.1.101.31/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
@@ -56,7 +56,7 @@ cvp_configlets:
     Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip
     address 10.255.251.60/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no
     shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.60/31\n!\ninterface
-    Vxlan1\n   description ENT-DC1-BORDER1_VTEP\n   vxlan source-interface Loopback1\n
+    Vxlan1\n   description ENT-DC1-EDGE1_VTEP\n   vxlan source-interface Loopback1\n
     \  vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vrf CORP
     vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address
@@ -64,7 +64,7 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id ENT-DC1-BORDER-LEAVES\n   local-interface Vlan4094\n
+    configuration\n   domain-id EnterpriseDC1EdgeLeaves\n   local-interface Vlan4094\n
     \  peer-address 10.255.255.61\n   peer-link Port-Channel551\n   reload-delay mlag
     300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
     aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
@@ -84,7 +84,7 @@ cvp_configlets:
     send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
     MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
     65116\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    description ENT-DC1-BORDER2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    description ENT-DC1-EDGE2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
     \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
     route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.11.0 peer group IPv4-UNDERLAY-PEERS\n
     \  neighbor 10.0.11.0 remote-as 64991\n   neighbor 10.0.11.0 description ENT-DC1-CORE1\n
@@ -98,10 +98,10 @@ cvp_configlets:
     10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer group EVPN-OVERLAY-PEERS\n
     \  neighbor 10.1.100.2 remote-as 65100\n   neighbor 10.1.100.2 description ENT-DC1-SPINE2\n
     \  neighbor 10.2.101.31 peer group EVPN-OVERLAY-CORE\n   neighbor 10.2.101.31
-    remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-BORDER1\n   neighbor
+    remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-EDGE1\n   neighbor
     10.2.101.32 peer group EVPN-OVERLAY-CORE\n   neighbor 10.2.101.32 remote-as 65216\n
-    \  neighbor 10.2.101.32 description ENT-DC2-BORDER2\n   neighbor 10.255.251.61
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.61 description ENT-DC1-BORDER2\n
+    \  neighbor 10.2.101.32 description ENT-DC2-EDGE2\n   neighbor 10.255.251.61 peer
+    group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.61 description ENT-DC1-EDGE2\n
     \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
     10.1.101.31:10010\n      rd evpn domain remote 10.1.101.31:10010\n      route-target
     both 10010:10010\n      route-target import export evpn domain remote 10010:10010\n
@@ -133,8 +133,8 @@ cvp_configlets:
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
     \     no shutdown\n!\nend\n"
-  AVD-L3LSV_ENT-DC1-BORDER2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
-    last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
+  AVD-L3LSV_ENT-DC1-EDGE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
+    1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
     -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata
     -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n!\nvlan
@@ -142,7 +142,7 @@ cvp_configlets:
     default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\nlogging
     buffered 100000000 informational\nlogging vrf management host 10.112.112.31 514\nlogging
     source-interface Management1\nlogging vrf management source-interface Management1\n!\nhostname
-    ENT-DC1-BORDER2\nip domain lookup vrf management source-interface Management1\nip
+    ENT-DC1-EDGE2\nip domain lookup vrf management source-interface Management1\nip
     name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n!\nntp local-interface
     vrf management Management1\nntp server vrf management 0.pool.ntp.org iburst local-interface
     Management1\n!\nsflow sample 16384\nsflow vrf default destination 127.0.0.1\nsflow
@@ -164,7 +164,7 @@ cvp_configlets:
     20\n   name CORP_GLOBAL_SHARED_20\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk
     group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan
     4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\nvrf instance
-    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC1-BORDER1_Po551\n
+    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC1-EDGE1_Po551\n
     \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
     LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description
     P2P_LINK_TO_ENT-DC1-SPINE1_Ethernet8/1\n   no shutdown\n   mtu 1500\n   no switchport\n
@@ -174,8 +174,8 @@ cvp_configlets:
     \  mtu 9214\n   no switchport\n   ip address 10.0.11.3/31\n   sflow enable\n!\ninterface
     Ethernet52/1\n   description P2P_LINK_TO_ENT-DC1-CORE2_Ethernet52/1\n   no shutdown\n
     \  mtu 9214\n   no switchport\n   ip address 10.0.12.3/31\n   sflow enable\n!\ninterface
-    Ethernet55/1\n   description MLAG_PEER_ENT-DC1-BORDER1_Ethernet55/1\n   no shutdown\n
-    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC1-BORDER1_Ethernet56/1\n
+    Ethernet55/1\n   description MLAG_PEER_ENT-DC1-EDGE1_Ethernet55/1\n   no shutdown\n
+    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC1-EDGE1_Ethernet56/1\n
     \  no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.1.101.32/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
@@ -190,7 +190,7 @@ cvp_configlets:
     Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip
     address 10.255.251.61/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no
     shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.61/31\n!\ninterface
-    Vxlan1\n   description ENT-DC1-BORDER2_VTEP\n   vxlan source-interface Loopback1\n
+    Vxlan1\n   description ENT-DC1-EDGE2_VTEP\n   vxlan source-interface Loopback1\n
     \  vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vrf CORP
     vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address
@@ -198,7 +198,7 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.1.101.0/24 eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id ENT-DC1-BORDER-LEAVES\n   local-interface Vlan4094\n
+    configuration\n   domain-id EnterpriseDC1EdgeLeaves\n   local-interface Vlan4094\n
     \  peer-address 10.255.255.60\n   peer-link Port-Channel551\n   reload-delay mlag
     300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
     aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
@@ -218,7 +218,7 @@ cvp_configlets:
     send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
     MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
     65116\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    description ENT-DC1-BORDER1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    description ENT-DC1-EDGE1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
     \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
     route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.11.2 peer group IPv4-UNDERLAY-PEERS\n
     \  neighbor 10.0.11.2 remote-as 64991\n   neighbor 10.0.11.2 description ENT-DC1-CORE1\n
@@ -232,10 +232,10 @@ cvp_configlets:
     10.1.100.1 description ENT-DC1-SPINE1\n   neighbor 10.1.100.2 peer group EVPN-OVERLAY-PEERS\n
     \  neighbor 10.1.100.2 remote-as 65100\n   neighbor 10.1.100.2 description ENT-DC1-SPINE2\n
     \  neighbor 10.2.101.31 peer group EVPN-OVERLAY-CORE\n   neighbor 10.2.101.31
-    remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-BORDER1\n   neighbor
+    remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-EDGE1\n   neighbor
     10.2.101.32 peer group EVPN-OVERLAY-CORE\n   neighbor 10.2.101.32 remote-as 65216\n
-    \  neighbor 10.2.101.32 description ENT-DC2-BORDER2\n   neighbor 10.255.251.60
-    peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.60 description ENT-DC1-BORDER1\n
+    \  neighbor 10.2.101.32 description ENT-DC2-EDGE2\n   neighbor 10.255.251.60 peer
+    group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.60 description ENT-DC1-EDGE1\n
     \  redistribute connected route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd
     10.1.101.32:10010\n      rd evpn domain remote 10.1.101.32:10010\n      route-target
     both 10010:10010\n      route-target import export evpn domain remote 10010:10010\n
@@ -337,7 +337,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.101.0/24
     eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC1-LEAF-DOMAIN-1\n   local-interface Vlan4094\n   peer-address 10.255.255.1\n
+    EnterpriseDC1LeafDomain1\n   local-interface Vlan4094\n   peer-address 10.255.255.1\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -462,7 +462,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.101.0/24
     eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC1-LEAF-DOMAIN-1\n   local-interface Vlan4094\n   peer-address 10.255.255.0\n
+    EnterpriseDC1LeafDomain1\n   local-interface Vlan4094\n   peer-address 10.255.255.0\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -587,7 +587,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.101.0/24
     eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC1-LEAF-DOMAIN-2\n   local-interface Vlan4094\n   peer-address 10.255.255.5\n
+    EnterpriseDC1LeafDomain2\n   local-interface Vlan4094\n   peer-address 10.255.255.5\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -712,7 +712,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.101.0/24
     eq 32\n   seq 20 permit 10.1.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC1-LEAF-DOMAIN-2\n   local-interface Vlan4094\n   peer-address 10.255.255.4\n
+    EnterpriseDC1LeafDomain2\n   local-interface Vlan4094\n   peer-address 10.255.255.4\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -802,9 +802,9 @@ cvp_configlets:
     1500\n   no switchport\n   ip address 10.1.0.8/31\n!\ninterface Ethernet4/1\n
     \  description P2P_LINK_TO_ENT-DC1-LEAF4_Ethernet49/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.1.0.12/31\n!\ninterface Ethernet7/1\n
-    \  description P2P_LINK_TO_ENT-DC1-BORDER1_Ethernet49/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC1-EDGE1_Ethernet49/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.1.0.120/31\n!\ninterface Ethernet8/1\n
-    \  description P2P_LINK_TO_ENT-DC1-BORDER2_Ethernet49/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC1-EDGE2_Ethernet49/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.1.0.124/31\n!\ninterface Loopback0\n
     \  description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.1.100.1/32\n!\ninterface
     Management1\n   description oob_management\n   no shutdown\n   vrf management\n
@@ -830,9 +830,9 @@ cvp_configlets:
     peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.13 remote-as 65102\n   neighbor
     10.1.0.13 description ENT-DC1-LEAF4_Ethernet49/1\n   neighbor 10.1.0.121 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.121 remote-as 65116\n   neighbor
-    10.1.0.121 description ENT-DC1-BORDER1_Ethernet49/1\n   neighbor 10.1.0.125 peer
+    10.1.0.121 description ENT-DC1-EDGE1_Ethernet49/1\n   neighbor 10.1.0.125 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.125 remote-as 65116\n   neighbor
-    10.1.0.125 description ENT-DC1-BORDER2_Ethernet49/1\n   neighbor 10.1.101.1 peer
+    10.1.0.125 description ENT-DC1-EDGE2_Ethernet49/1\n   neighbor 10.1.101.1 peer
     group EVPN-OVERLAY-PEERS\n   neighbor 10.1.101.1 remote-as 65101\n   neighbor
     10.1.101.1 description ENT-DC1-LEAF1\n   neighbor 10.1.101.2 peer group EVPN-OVERLAY-PEERS\n
     \  neighbor 10.1.101.2 remote-as 65101\n   neighbor 10.1.101.2 description ENT-DC1-LEAF2\n
@@ -840,9 +840,9 @@ cvp_configlets:
     65102\n   neighbor 10.1.101.3 description ENT-DC1-LEAF3\n   neighbor 10.1.101.4
     peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.101.4 remote-as 65102\n   neighbor
     10.1.101.4 description ENT-DC1-LEAF4\n   neighbor 10.1.101.31 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.1.101.31 remote-as 65116\n   neighbor 10.1.101.31 description ENT-DC1-BORDER1\n
+    \  neighbor 10.1.101.31 remote-as 65116\n   neighbor 10.1.101.31 description ENT-DC1-EDGE1\n
     \  neighbor 10.1.101.32 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.101.32
-    remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-BORDER2\n   redistribute
+    remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-EDGE2\n   redistribute
     connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor
     EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
     activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n!\nip tacacs vrf management
@@ -897,9 +897,9 @@ cvp_configlets:
     1500\n   no switchport\n   ip address 10.1.0.10/31\n!\ninterface Ethernet4/1\n
     \  description P2P_LINK_TO_ENT-DC1-LEAF4_Ethernet50/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.1.0.14/31\n!\ninterface Ethernet7/1\n
-    \  description P2P_LINK_TO_ENT-DC1-BORDER1_Ethernet50/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC1-EDGE1_Ethernet50/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.1.0.122/31\n!\ninterface Ethernet8/1\n
-    \  description P2P_LINK_TO_ENT-DC1-BORDER2_Ethernet50/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC1-EDGE2_Ethernet50/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.1.0.126/31\n!\ninterface Loopback0\n
     \  description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.1.100.2/32\n!\ninterface
     Management1\n   description oob_management\n   no shutdown\n   vrf management\n
@@ -925,9 +925,9 @@ cvp_configlets:
     peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.15 remote-as 65102\n   neighbor
     10.1.0.15 description ENT-DC1-LEAF4_Ethernet50/1\n   neighbor 10.1.0.123 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.123 remote-as 65116\n   neighbor
-    10.1.0.123 description ENT-DC1-BORDER1_Ethernet50/1\n   neighbor 10.1.0.127 peer
+    10.1.0.123 description ENT-DC1-EDGE1_Ethernet50/1\n   neighbor 10.1.0.127 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.1.0.127 remote-as 65116\n   neighbor
-    10.1.0.127 description ENT-DC1-BORDER2_Ethernet50/1\n   neighbor 10.1.101.1 peer
+    10.1.0.127 description ENT-DC1-EDGE2_Ethernet50/1\n   neighbor 10.1.101.1 peer
     group EVPN-OVERLAY-PEERS\n   neighbor 10.1.101.1 remote-as 65101\n   neighbor
     10.1.101.1 description ENT-DC1-LEAF1\n   neighbor 10.1.101.2 peer group EVPN-OVERLAY-PEERS\n
     \  neighbor 10.1.101.2 remote-as 65101\n   neighbor 10.1.101.2 description ENT-DC1-LEAF2\n
@@ -935,9 +935,9 @@ cvp_configlets:
     65102\n   neighbor 10.1.101.3 description ENT-DC1-LEAF3\n   neighbor 10.1.101.4
     peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.101.4 remote-as 65102\n   neighbor
     10.1.101.4 description ENT-DC1-LEAF4\n   neighbor 10.1.101.31 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.1.101.31 remote-as 65116\n   neighbor 10.1.101.31 description ENT-DC1-BORDER1\n
+    \  neighbor 10.1.101.31 remote-as 65116\n   neighbor 10.1.101.31 description ENT-DC1-EDGE1\n
     \  neighbor 10.1.101.32 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.1.101.32
-    remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-BORDER2\n   redistribute
+    remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-EDGE2\n   redistribute
     connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor
     EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
     activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n!\nip tacacs vrf management
@@ -957,8 +957,8 @@ cvp_configlets:
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
     \     no shutdown\n!\nend\n"
-  AVD-L3LSV_ENT-DC2-BORDER1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
-    last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
+  AVD-L3LSV_ENT-DC2-EDGE1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
+    1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
     -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata
     -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n!\nvlan
@@ -966,7 +966,7 @@ cvp_configlets:
     default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\nlogging
     buffered 100000000 informational\nlogging vrf management host 10.112.112.31 514\nlogging
     source-interface Management1\nlogging vrf management source-interface Management1\n!\nhostname
-    ENT-DC2-BORDER1\nip domain lookup vrf management source-interface Management1\nip
+    ENT-DC2-EDGE1\nip domain lookup vrf management source-interface Management1\nip
     name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n!\nntp local-interface
     vrf management Management1\nntp server vrf management 0.pool.ntp.org iburst local-interface
     Management1\n!\nsflow sample 16384\nsflow vrf default destination 127.0.0.1\nsflow
@@ -988,7 +988,7 @@ cvp_configlets:
     20\n   name CORP_GLOBAL_SHARED_20\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk
     group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan
     4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\nvrf instance
-    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC2-BORDER2_Po551\n
+    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC2-EDGE2_Po551\n
     \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
     LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description
     P2P_LINK_TO_ENT-DC2-SPINE1_Ethernet7/1\n   no shutdown\n   mtu 1500\n   no switchport\n
@@ -998,8 +998,8 @@ cvp_configlets:
     \  mtu 9214\n   no switchport\n   ip address 10.0.21.1/31\n   sflow enable\n!\ninterface
     Ethernet52/1\n   description P2P_LINK_TO_ENT-DC2-CORE2_Ethernet51/1\n   no shutdown\n
     \  mtu 9214\n   no switchport\n   ip address 10.0.22.1/31\n   sflow enable\n!\ninterface
-    Ethernet55/1\n   description MLAG_PEER_ENT-DC2-BORDER2_Ethernet55/1\n   no shutdown\n
-    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC2-BORDER2_Ethernet56/1\n
+    Ethernet55/1\n   description MLAG_PEER_ENT-DC2-EDGE2_Ethernet55/1\n   no shutdown\n
+    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC2-EDGE2_Ethernet56/1\n
     \  no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.31/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
@@ -1014,7 +1014,7 @@ cvp_configlets:
     Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip
     address 10.255.252.60/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no
     shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.60/31\n!\ninterface
-    Vxlan1\n   description ENT-DC2-BORDER1_VTEP\n   vxlan source-interface Loopback1\n
+    Vxlan1\n   description ENT-DC2-EDGE1_VTEP\n   vxlan source-interface Loopback1\n
     \  vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vrf CORP
     vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address
@@ -1022,7 +1022,7 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id ENT-DC2-BORDER-LEAVES\n   local-interface Vlan4094\n
+    configuration\n   domain-id EnterpriseDC2EdgeLeaves\n   local-interface Vlan4094\n
     \  peer-address 10.255.255.61\n   peer-link Port-Channel551\n   reload-delay mlag
     300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
     aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
@@ -1042,15 +1042,15 @@ cvp_configlets:
     send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
     MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
     65216\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    description ENT-DC2-BORDER2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    description ENT-DC2-EDGE2\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
     \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
     route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.21.0 peer group IPv4-UNDERLAY-PEERS\n
     \  neighbor 10.0.21.0 remote-as 64992\n   neighbor 10.0.21.0 description ENT-DC2-CORE1\n
     \  neighbor 10.0.22.0 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.22.0 remote-as
     64992\n   neighbor 10.0.22.0 description ENT-DC2-CORE2\n   neighbor 10.1.101.31
     peer group EVPN-OVERLAY-CORE\n   neighbor 10.1.101.31 remote-as 65116\n   neighbor
-    10.1.101.31 description ENT-DC1-BORDER1\n   neighbor 10.1.101.32 peer group EVPN-OVERLAY-CORE\n
-    \  neighbor 10.1.101.32 remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-BORDER2\n
+    10.1.101.31 description ENT-DC1-EDGE1\n   neighbor 10.1.101.32 peer group EVPN-OVERLAY-CORE\n
+    \  neighbor 10.1.101.32 remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-EDGE2\n
     \  neighbor 10.2.0.120 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.120
     remote-as 65200\n   neighbor 10.2.0.120 description ENT-DC2-SPINE1_Ethernet7/1\n
     \  neighbor 10.2.0.122 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.122
@@ -1059,7 +1059,7 @@ cvp_configlets:
     65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2
     peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
     10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.61 peer group MLAG-IPv4-UNDERLAY-PEER\n
-    \  neighbor 10.255.252.61 description ENT-DC2-BORDER2\n   redistribute connected
+    \  neighbor 10.255.252.61 description ENT-DC2-EDGE2\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.31:10010\n      rd
     evpn domain remote 10.2.101.31:10010\n      route-target both 10010:10010\n      route-target
     import export evpn domain remote 10010:10010\n      redistribute learned\n   !\n
@@ -1091,8 +1091,8 @@ cvp_configlets:
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
     \     no shutdown\n!\nend\n"
-  AVD-L3LSV_ENT-DC2-BORDER2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
-    last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
+  AVD-L3LSV_ENT-DC2-EDGE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
+    1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
     -cvvrf=management -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata
     -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n!\nvlan
@@ -1100,7 +1100,7 @@ cvp_configlets:
     default-mode 4x10G\n!\nservice routing protocols model multi-agent\n!\nlogging
     buffered 100000000 informational\nlogging vrf management host 10.112.112.31 514\nlogging
     source-interface Management1\nlogging vrf management source-interface Management1\n!\nhostname
-    ENT-DC2-BORDER2\nip domain lookup vrf management source-interface Management1\nip
+    ENT-DC2-EDGE2\nip domain lookup vrf management source-interface Management1\nip
     name-server vrf management 1.1.1.1\ndns domain dime-a-tron.com\n!\nntp local-interface
     vrf management Management1\nntp server vrf management 0.pool.ntp.org iburst local-interface
     Management1\n!\nsflow sample 16384\nsflow vrf default destination 127.0.0.1\nsflow
@@ -1122,7 +1122,7 @@ cvp_configlets:
     20\n   name CORP_GLOBAL_SHARED_20\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk
     group LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan
     4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\nvrf instance
-    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC2-BORDER1_Po551\n
+    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC2-EDGE1_Po551\n
     \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
     LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description
     P2P_LINK_TO_ENT-DC2-SPINE1_Ethernet8/1\n   no shutdown\n   mtu 1500\n   no switchport\n
@@ -1132,8 +1132,8 @@ cvp_configlets:
     \  mtu 9214\n   no switchport\n   ip address 10.0.21.3/31\n   sflow enable\n!\ninterface
     Ethernet52/1\n   description P2P_LINK_TO_ENT-DC2-CORE2_Ethernet52/1\n   no shutdown\n
     \  mtu 9214\n   no switchport\n   ip address 10.0.22.3/31\n   sflow enable\n!\ninterface
-    Ethernet55/1\n   description MLAG_PEER_ENT-DC2-BORDER1_Ethernet55/1\n   no shutdown\n
-    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC2-BORDER1_Ethernet56/1\n
+    Ethernet55/1\n   description MLAG_PEER_ENT-DC2-EDGE1_Ethernet55/1\n   no shutdown\n
+    \  channel-group 551 mode active\n!\ninterface Ethernet56/1\n   description MLAG_PEER_ENT-DC2-EDGE1_Ethernet56/1\n
     \  no shutdown\n   channel-group 551 mode active\n!\ninterface Loopback0\n   description
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.32/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
@@ -1148,7 +1148,7 @@ cvp_configlets:
     Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1500\n   ip
     address 10.255.252.61/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no
     shutdown\n   mtu 1500\n   no autostate\n   ip address 10.255.255.61/31\n!\ninterface
-    Vxlan1\n   description ENT-DC2-BORDER2_VTEP\n   vxlan source-interface Loopback1\n
+    Vxlan1\n   description ENT-DC2-EDGE2_VTEP\n   vxlan source-interface Loopback1\n
     \  vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vrf CORP
     vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address
@@ -1156,7 +1156,7 @@ cvp_configlets:
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
-    configuration\n   domain-id ENT-DC2-BORDER-LEAVES\n   local-interface Vlan4094\n
+    configuration\n   domain-id EnterpriseDC2EdgeLeaves\n   local-interface Vlan4094\n
     \  peer-address 10.255.255.60\n   peer-link Port-Channel551\n   reload-delay mlag
     300\n   reload-delay non-mlag 330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp
     aging timeout default 900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address
@@ -1176,15 +1176,15 @@ cvp_configlets:
     send-community\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000\n   neighbor
     MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as
     65216\n   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER
-    description ENT-DC2-BORDER1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
+    description ENT-DC2-EDGE1\n   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n
     \  neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER
     route-map RM-MLAG-PEER-IN in\n   neighbor 10.0.21.2 peer group IPv4-UNDERLAY-PEERS\n
     \  neighbor 10.0.21.2 remote-as 64992\n   neighbor 10.0.21.2 description ENT-DC2-CORE1\n
     \  neighbor 10.0.22.2 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.0.22.2 remote-as
     64992\n   neighbor 10.0.22.2 description ENT-DC2-CORE2\n   neighbor 10.1.101.31
     peer group EVPN-OVERLAY-CORE\n   neighbor 10.1.101.31 remote-as 65116\n   neighbor
-    10.1.101.31 description ENT-DC1-BORDER1\n   neighbor 10.1.101.32 peer group EVPN-OVERLAY-CORE\n
-    \  neighbor 10.1.101.32 remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-BORDER2\n
+    10.1.101.31 description ENT-DC1-EDGE1\n   neighbor 10.1.101.32 peer group EVPN-OVERLAY-CORE\n
+    \  neighbor 10.1.101.32 remote-as 65116\n   neighbor 10.1.101.32 description ENT-DC1-EDGE2\n
     \  neighbor 10.2.0.124 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.124
     remote-as 65200\n   neighbor 10.2.0.124 description ENT-DC2-SPINE1_Ethernet8/1\n
     \  neighbor 10.2.0.126 peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.126
@@ -1193,7 +1193,7 @@ cvp_configlets:
     65200\n   neighbor 10.2.100.1 description ENT-DC2-SPINE1\n   neighbor 10.2.100.2
     peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.100.2 remote-as 65200\n   neighbor
     10.2.100.2 description ENT-DC2-SPINE2\n   neighbor 10.255.252.60 peer group MLAG-IPv4-UNDERLAY-PEER\n
-    \  neighbor 10.255.252.60 description ENT-DC2-BORDER1\n   redistribute connected
+    \  neighbor 10.255.252.60 description ENT-DC2-EDGE1\n   redistribute connected
     route-map RM-CONN-2-BGP\n   !\n   vlan 10\n      rd 10.2.101.32:10010\n      rd
     evpn domain remote 10.2.101.32:10010\n      route-target both 10010:10010\n      route-target
     import export evpn domain remote 10010:10010\n      redistribute learned\n   !\n
@@ -1295,7 +1295,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC2-LEAF-DOMAIN-1\n   local-interface Vlan4094\n   peer-address 10.255.255.1\n
+    EnterpriseDC2LeafDomain1\n   local-interface Vlan4094\n   peer-address 10.255.255.1\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -1420,7 +1420,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC2-LEAF-DOMAIN-1\n   local-interface Vlan4094\n   peer-address 10.255.255.0\n
+    EnterpriseDC2LeafDomain1\n   local-interface Vlan4094\n   peer-address 10.255.255.0\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -1545,7 +1545,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC2-LEAF-DOMAIN-2\n   local-interface Vlan4094\n   peer-address 10.255.255.5\n
+    EnterpriseDC2LeafDomain2\n   local-interface Vlan4094\n   peer-address 10.255.255.5\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -1670,7 +1670,7 @@ cvp_configlets:
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
-    ENT-DC2-LEAF-DOMAIN-2\n   local-interface Vlan4094\n   peer-address 10.255.255.4\n
+    EnterpriseDC2LeafDomain2\n   local-interface Vlan4094\n   peer-address 10.255.255.4\n
     \  peer-link Port-Channel551\n   reload-delay mlag 300\n   reload-delay non-mlag
     330\n!\nip route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
@@ -1760,9 +1760,9 @@ cvp_configlets:
     1500\n   no switchport\n   ip address 10.2.0.8/31\n!\ninterface Ethernet4/1\n
     \  description P2P_LINK_TO_ENT-DC2-LEAF4_Ethernet49/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.2.0.12/31\n!\ninterface Ethernet7/1\n
-    \  description P2P_LINK_TO_ENT-DC2-BORDER1_Ethernet49/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC2-EDGE1_Ethernet49/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.2.0.120/31\n!\ninterface Ethernet8/1\n
-    \  description P2P_LINK_TO_ENT-DC2-BORDER2_Ethernet49/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC2-EDGE2_Ethernet49/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.2.0.124/31\n!\ninterface Loopback0\n
     \  description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.100.1/32\n!\ninterface
     Management1\n   description oob_management\n   no shutdown\n   vrf management\n
@@ -1788,9 +1788,9 @@ cvp_configlets:
     peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.13 remote-as 65202\n   neighbor
     10.2.0.13 description ENT-DC2-LEAF4_Ethernet49/1\n   neighbor 10.2.0.121 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.121 remote-as 65216\n   neighbor
-    10.2.0.121 description ENT-DC2-BORDER1_Ethernet49/1\n   neighbor 10.2.0.125 peer
+    10.2.0.121 description ENT-DC2-EDGE1_Ethernet49/1\n   neighbor 10.2.0.125 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.125 remote-as 65216\n   neighbor
-    10.2.0.125 description ENT-DC2-BORDER2_Ethernet49/1\n   neighbor 10.2.101.1 peer
+    10.2.0.125 description ENT-DC2-EDGE2_Ethernet49/1\n   neighbor 10.2.101.1 peer
     group EVPN-OVERLAY-PEERS\n   neighbor 10.2.101.1 remote-as 65201\n   neighbor
     10.2.101.1 description ENT-DC2-LEAF1\n   neighbor 10.2.101.2 peer group EVPN-OVERLAY-PEERS\n
     \  neighbor 10.2.101.2 remote-as 65201\n   neighbor 10.2.101.2 description ENT-DC2-LEAF2\n
@@ -1798,9 +1798,9 @@ cvp_configlets:
     65202\n   neighbor 10.2.101.3 description ENT-DC2-LEAF3\n   neighbor 10.2.101.4
     peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.101.4 remote-as 65202\n   neighbor
     10.2.101.4 description ENT-DC2-LEAF4\n   neighbor 10.2.101.31 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.2.101.31 remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-BORDER1\n
+    \  neighbor 10.2.101.31 remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-EDGE1\n
     \  neighbor 10.2.101.32 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.101.32
-    remote-as 65216\n   neighbor 10.2.101.32 description ENT-DC2-BORDER2\n   redistribute
+    remote-as 65216\n   neighbor 10.2.101.32 description ENT-DC2-EDGE2\n   redistribute
     connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor
     EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
     activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n!\nip tacacs vrf management
@@ -1855,9 +1855,9 @@ cvp_configlets:
     1500\n   no switchport\n   ip address 10.2.0.10/31\n!\ninterface Ethernet4/1\n
     \  description P2P_LINK_TO_ENT-DC2-LEAF4_Ethernet50/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.2.0.14/31\n!\ninterface Ethernet7/1\n
-    \  description P2P_LINK_TO_ENT-DC2-BORDER1_Ethernet50/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC2-EDGE1_Ethernet50/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.2.0.122/31\n!\ninterface Ethernet8/1\n
-    \  description P2P_LINK_TO_ENT-DC2-BORDER2_Ethernet50/1\n   no shutdown\n   mtu
+    \  description P2P_LINK_TO_ENT-DC2-EDGE2_Ethernet50/1\n   no shutdown\n   mtu
     1500\n   no switchport\n   ip address 10.2.0.126/31\n!\ninterface Loopback0\n
     \  description EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.100.2/32\n!\ninterface
     Management1\n   description oob_management\n   no shutdown\n   vrf management\n
@@ -1883,9 +1883,9 @@ cvp_configlets:
     peer group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.15 remote-as 65202\n   neighbor
     10.2.0.15 description ENT-DC2-LEAF4_Ethernet50/1\n   neighbor 10.2.0.123 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.123 remote-as 65216\n   neighbor
-    10.2.0.123 description ENT-DC2-BORDER1_Ethernet50/1\n   neighbor 10.2.0.127 peer
+    10.2.0.123 description ENT-DC2-EDGE1_Ethernet50/1\n   neighbor 10.2.0.127 peer
     group IPv4-UNDERLAY-PEERS\n   neighbor 10.2.0.127 remote-as 65216\n   neighbor
-    10.2.0.127 description ENT-DC2-BORDER2_Ethernet50/1\n   neighbor 10.2.101.1 peer
+    10.2.0.127 description ENT-DC2-EDGE2_Ethernet50/1\n   neighbor 10.2.101.1 peer
     group EVPN-OVERLAY-PEERS\n   neighbor 10.2.101.1 remote-as 65201\n   neighbor
     10.2.101.1 description ENT-DC2-LEAF1\n   neighbor 10.2.101.2 peer group EVPN-OVERLAY-PEERS\n
     \  neighbor 10.2.101.2 remote-as 65201\n   neighbor 10.2.101.2 description ENT-DC2-LEAF2\n
@@ -1893,9 +1893,9 @@ cvp_configlets:
     65202\n   neighbor 10.2.101.3 description ENT-DC2-LEAF3\n   neighbor 10.2.101.4
     peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.101.4 remote-as 65202\n   neighbor
     10.2.101.4 description ENT-DC2-LEAF4\n   neighbor 10.2.101.31 peer group EVPN-OVERLAY-PEERS\n
-    \  neighbor 10.2.101.31 remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-BORDER1\n
+    \  neighbor 10.2.101.31 remote-as 65216\n   neighbor 10.2.101.31 description ENT-DC2-EDGE1\n
     \  neighbor 10.2.101.32 peer group EVPN-OVERLAY-PEERS\n   neighbor 10.2.101.32
-    remote-as 65216\n   neighbor 10.2.101.32 description ENT-DC2-BORDER2\n   redistribute
+    remote-as 65216\n   neighbor 10.2.101.32 description ENT-DC2-EDGE2\n   redistribute
     connected route-map RM-CONN-2-BGP\n   !\n   address-family evpn\n      neighbor
     EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS
     activate\n      neighbor IPv4-UNDERLAY-PEERS activate\n!\nip tacacs vrf management
@@ -1916,58 +1916,58 @@ cvp_configlets:
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
     \     no shutdown\n!\nend\n"
 cvp_topology:
-  ENT DC1:
+  EnterpriseDC:
     devices: []
-    parent_container: ENTERPRISE DC
-  ENT DC1 EDGE LEAVES:
+    parent_container: Tenant
+  EnterpriseDC1:
+    devices: []
+    parent_container: EnterpriseDC
+  EnterpriseDC1EdgeLeaves:
     devices:
     - ENT-DC1-EDGE1
     - ENT-DC1-EDGE2
-    parent_container: ENT DC1 LEAVES
-  ENT DC1 LEAF DOMAIN 1:
+    parent_container: EnterpriseDC1Leaves
+  EnterpriseDC1LeafDomain1:
     devices:
     - ENT-DC1-LEAF1
     - ENT-DC1-LEAF2
-    parent_container: ENT DC1 LEAVES
-  ENT DC1 LEAF DOMAIN 2:
+    parent_container: EnterpriseDC1Leaves
+  EnterpriseDC1LeafDomain2:
     devices:
     - ENT-DC1-LEAF3
     - ENT-DC1-LEAF4
-    parent_container: ENT DC1 LEAVES
-  ENT DC1 LEAVES:
+    parent_container: EnterpriseDC1Leaves
+  EnterpriseDC1Leaves:
     devices: []
-    parent_container: ENT DC1
-  ENT DC1 SPINES:
+    parent_container: EnterpriseDC1
+  EnterpriseDC1Spines:
     devices:
     - ENT-DC1-SPINE1
     - ENT-DC1-SPINE2
-    parent_container: ENT DC1
-  ENT DC2:
+    parent_container: EnterpriseDC1
+  EnterpriseDC2:
     devices: []
-    parent_container: ENTERPRISE DC
-  ENT DC2 EDGE LEAVES:
+    parent_container: EnterpriseDC
+  EnterpriseDC2EdgeLeaves:
     devices:
     - ENT-DC2-EDGE1
     - ENT-DC2-EDGE2
-    parent_container: ENT DC2 LEAVES
-  ENT DC2 LEAF DOMAIN 1:
+    parent_container: EnterpriseDC2Leaves
+  EnterpriseDC2LeafDomain1:
     devices:
     - ENT-DC2-LEAF1
     - ENT-DC2-LEAF2
-    parent_container: ENT DC2 LEAVES
-  ENT DC2 LEAF DOMAIN 2:
+    parent_container: EnterpriseDC2Leaves
+  EnterpriseDC2LeafDomain2:
     devices:
     - ENT-DC2-LEAF3
     - ENT-DC2-LEAF4
-    parent_container: ENT DC2 LEAVES
-  ENT DC2 LEAVES:
+    parent_container: EnterpriseDC2Leaves
+  EnterpriseDC2Leaves:
     devices: []
-    parent_container: ENT DC2
-  ENT DC2 SPINES:
+    parent_container: EnterpriseDC2
+  EnterpriseDC2Spines:
     devices:
     - ENT-DC2-SPINE1
     - ENT-DC2-SPINE2
-    parent_container: ENT DC2
-  ENTERPRISE DC:
-    devices: []
-    parent_container: Tenant
+    parent_container: EnterpriseDC2

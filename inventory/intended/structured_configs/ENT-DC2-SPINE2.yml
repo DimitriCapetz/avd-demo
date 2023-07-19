@@ -53,18 +53,18 @@ router_bgp:
   - ip_address: 10.2.0.123
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65216'
-    description: ENT-DC2-BORDER1_Ethernet50/1
+    description: ENT-DC2-EDGE1_Ethernet50/1
   - ip_address: 10.2.0.127
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65216'
-    description: ENT-DC2-BORDER2_Ethernet50/1
+    description: ENT-DC2-EDGE2_Ethernet50/1
   - ip_address: 10.2.101.31
     peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC2-BORDER1
+    description: ENT-DC2-EDGE1
     remote_as: '65216'
   - ip_address: 10.2.101.32
     peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC2-BORDER2
+    description: ENT-DC2-EDGE2
     remote_as: '65216'
   - ip_address: 10.2.101.1
     peer_group: EVPN-OVERLAY-PEERS
@@ -170,19 +170,19 @@ ethernet_interfaces:
   type: routed
   ip_address: 10.2.0.14/31
 - name: Ethernet7/1
-  peer: ENT-DC2-BORDER1
+  peer: ENT-DC2-EDGE1
   peer_interface: Ethernet50/1
   peer_type: l3leaf
-  description: P2P_LINK_TO_ENT-DC2-BORDER1_Ethernet50/1
+  description: P2P_LINK_TO_ENT-DC2-EDGE1_Ethernet50/1
   shutdown: false
   mtu: 1500
   type: routed
   ip_address: 10.2.0.122/31
 - name: Ethernet8/1
-  peer: ENT-DC2-BORDER2
+  peer: ENT-DC2-EDGE2
   peer_interface: Ethernet50/1
   peer_type: l3leaf
-  description: P2P_LINK_TO_ENT-DC2-BORDER2_Ethernet50/1
+  description: P2P_LINK_TO_ENT-DC2-EDGE2_Ethernet50/1
   shutdown: false
   mtu: 1500
   type: routed

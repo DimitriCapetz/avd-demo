@@ -5,7 +5,7 @@ all:
     CVP:
       hosts:
         cvp:
-    EnterpriseDataCenter:
+    EnterpriseDC:
       children:
         EnterpriseDC1:
           children:

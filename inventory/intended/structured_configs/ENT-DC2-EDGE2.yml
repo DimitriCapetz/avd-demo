@@ -1,6 +1,6 @@
 router_bgp:
-  as: '65116'
-  router_id: 10.1.101.31
+  as: '65216'
+  router_id: 10.2.101.32
   bgp_defaults:
   - distance bgp 20 200 200
   - graceful-restart restart-time 300
@@ -14,9 +14,9 @@ router_bgp:
   peer_groups:
   - name: MLAG-IPv4-UNDERLAY-PEER
     type: ipv4
-    remote_as: '65116'
+    remote_as: '65216'
     next_hop_self: true
-    description: ENT-DC1-BORDER2
+    description: ENT-DC2-EDGE1
     maximum_routes: 12000
     send_community: all
     route_map_in: RM-MLAG-PEER-IN
@@ -49,40 +49,40 @@ router_bgp:
     - name: EVPN-OVERLAY-CORE
       activate: false
   neighbors:
-  - ip_address: 10.255.251.61
+  - ip_address: 10.255.252.60
     peer_group: MLAG-IPv4-UNDERLAY-PEER
-    description: ENT-DC1-BORDER2
-  - ip_address: 10.1.0.120
+    description: ENT-DC2-EDGE1
+  - ip_address: 10.2.0.124
     peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65100'
-    description: ENT-DC1-SPINE1_Ethernet7/1
-  - ip_address: 10.1.0.122
+    remote_as: '65200'
+    description: ENT-DC2-SPINE1_Ethernet8/1
+  - ip_address: 10.2.0.126
     peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65100'
-    description: ENT-DC1-SPINE2_Ethernet7/1
-  - ip_address: 10.1.100.1
+    remote_as: '65200'
+    description: ENT-DC2-SPINE2_Ethernet8/1
+  - ip_address: 10.2.100.1
     peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC1-SPINE1
-    remote_as: '65100'
-  - ip_address: 10.1.100.2
+    description: ENT-DC2-SPINE1
+    remote_as: '65200'
+  - ip_address: 10.2.100.2
     peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC1-SPINE2
-    remote_as: '65100'
-  - ip_address: 10.2.101.31
+    description: ENT-DC2-SPINE2
+    remote_as: '65200'
+  - ip_address: 10.1.101.31
     peer_group: EVPN-OVERLAY-CORE
-    description: ENT-DC2-BORDER1
-    remote_as: '65216'
-  - ip_address: 10.2.101.32
+    description: ENT-DC1-EDGE1
+    remote_as: '65116'
+  - ip_address: 10.1.101.32
     peer_group: EVPN-OVERLAY-CORE
-    description: ENT-DC2-BORDER2
-    remote_as: '65216'
-  - ip_address: 10.0.11.0
-    remote_as: '64991'
-    description: ENT-DC1-CORE1
+    description: ENT-DC1-EDGE2
+    remote_as: '65116'
+  - ip_address: 10.0.21.2
+    remote_as: '64992'
+    description: ENT-DC2-CORE1
     peer_group: IPv4-UNDERLAY-PEERS
-  - ip_address: 10.0.12.0
-    remote_as: '64991'
-    description: ENT-DC1-CORE2
+  - ip_address: 10.0.22.2
+    remote_as: '64992'
+    description: ENT-DC2-CORE2
     peer_group: IPv4-UNDERLAY-PEERS
   redistribute_routes:
   - source_protocol: connected
@@ -100,8 +100,8 @@ router_bgp:
       activate: true
   vrfs:
   - name: CORP
-    router_id: 10.1.101.31
-    rd: 10.1.101.31:10
+    router_id: 10.2.101.32
+    rd: 10.2.101.32:10
     route_targets:
       import:
       - address_family: evpn
@@ -114,12 +114,12 @@ router_bgp:
     redistribute_routes:
     - source_protocol: connected
     neighbors:
-    - ip_address: 10.255.251.61
+    - ip_address: 10.255.252.60
       peer_group: MLAG-IPv4-UNDERLAY-PEER
   vlans:
   - id: 10
     tenant: CORP
-    rd: 10.1.101.31:10010
+    rd: 10.2.101.32:10010
     route_targets:
       both:
       - 10010:10010
@@ -130,10 +130,10 @@ router_bgp:
     - learned
     rd_evpn_domain:
       domain: remote
-      rd: 10.1.101.31:10010
+      rd: 10.2.101.32:10010
   - id: 20
     tenant: CORP
-    rd: 10.1.101.31:10020
+    rd: 10.2.101.32:10020
     route_targets:
       both:
       - 10020:10020
@@ -144,7 +144,7 @@ router_bgp:
     - learned
     rd_evpn_domain:
       domain: remote
-      rd: 10.1.101.31:10020
+      rd: 10.2.101.32:10020
 static_routes:
 - vrf: management
   destination_address_prefix: 0.0.0.0/0
@@ -189,7 +189,7 @@ management_interfaces:
   description: oob_management
   shutdown: false
   vrf: management
-  ip_address: 10.99.99.55/24
+  ip_address: 10.99.99.58/24
   gateway: 10.99.99.1
   type: oob
 mac_address_table:
@@ -225,11 +225,11 @@ vlan_interfaces:
   description: MLAG_PEER_L3_PEERING
   shutdown: false
   mtu: 1500
-  ip_address: 10.255.251.60/31
+  ip_address: 10.255.252.61/31
 - name: Vlan4094
   description: MLAG_PEER
   shutdown: false
-  ip_address: 10.255.255.60/31
+  ip_address: 10.255.255.61/31
   no_autostate: true
   mtu: 1500
 - name: Vlan10
@@ -255,10 +255,10 @@ vlan_interfaces:
   description: 'MLAG_PEER_L3_iBGP: vrf CORP'
   vrf: CORP
   mtu: 1500
-  ip_address: 10.255.251.60/31
+  ip_address: 10.255.252.61/31
 port_channel_interfaces:
 - name: Port-Channel551
-  description: MLAG_PEER_ENT-DC1-BORDER2_Po551
+  description: MLAG_PEER_ENT-DC2-EDGE1_Po551
   type: switched
   shutdown: false
   mode: trunk
@@ -267,67 +267,67 @@ port_channel_interfaces:
   - MLAG
 ethernet_interfaces:
 - name: Ethernet55/1
-  peer: ENT-DC1-BORDER2
+  peer: ENT-DC2-EDGE1
   peer_interface: Ethernet55/1
   peer_type: mlag_peer
-  description: MLAG_PEER_ENT-DC1-BORDER2_Ethernet55/1
+  description: MLAG_PEER_ENT-DC2-EDGE1_Ethernet55/1
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 551
     mode: active
 - name: Ethernet56/1
-  peer: ENT-DC1-BORDER2
+  peer: ENT-DC2-EDGE1
   peer_interface: Ethernet56/1
   peer_type: mlag_peer
-  description: MLAG_PEER_ENT-DC1-BORDER2_Ethernet56/1
+  description: MLAG_PEER_ENT-DC2-EDGE1_Ethernet56/1
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 551
     mode: active
 - name: Ethernet49/1
-  peer: ENT-DC1-SPINE1
-  peer_interface: Ethernet7/1
+  peer: ENT-DC2-SPINE1
+  peer_interface: Ethernet8/1
   peer_type: spine
-  description: P2P_LINK_TO_ENT-DC1-SPINE1_Ethernet7/1
+  description: P2P_LINK_TO_ENT-DC2-SPINE1_Ethernet8/1
   shutdown: false
   mtu: 1500
   type: routed
-  ip_address: 10.1.0.121/31
+  ip_address: 10.2.0.125/31
 - name: Ethernet50/1
-  peer: ENT-DC1-SPINE2
-  peer_interface: Ethernet7/1
+  peer: ENT-DC2-SPINE2
+  peer_interface: Ethernet8/1
   peer_type: spine
-  description: P2P_LINK_TO_ENT-DC1-SPINE2_Ethernet7/1
+  description: P2P_LINK_TO_ENT-DC2-SPINE2_Ethernet8/1
   shutdown: false
   mtu: 1500
   type: routed
-  ip_address: 10.1.0.123/31
+  ip_address: 10.2.0.127/31
 - name: Ethernet51/1
-  peer: ENT-DC1-CORE1
-  peer_interface: Ethernet51/1
+  peer: ENT-DC2-CORE1
+  peer_interface: Ethernet52/1
   peer_type: other
-  description: P2P_LINK_TO_ENT-DC1-CORE1_Ethernet51/1
+  description: P2P_LINK_TO_ENT-DC2-CORE1_Ethernet52/1
   type: routed
   shutdown: false
   mtu: 9214
   eos_cli: sflow enable
-  ip_address: 10.0.11.1/31
+  ip_address: 10.0.21.3/31
 - name: Ethernet52/1
-  peer: ENT-DC1-CORE2
-  peer_interface: Ethernet51/1
+  peer: ENT-DC2-CORE2
+  peer_interface: Ethernet52/1
   peer_type: other
-  description: P2P_LINK_TO_ENT-DC1-CORE2_Ethernet51/1
+  description: P2P_LINK_TO_ENT-DC2-CORE2_Ethernet52/1
   type: routed
   shutdown: false
   mtu: 9214
   eos_cli: sflow enable
-  ip_address: 10.0.12.1/31
+  ip_address: 10.0.22.3/31
 mlag_configuration:
-  domain_id: ENT-DC1-BORDER-LEAVES
+  domain_id: EnterpriseDC2EdgeLeaves
   local_interface: Vlan4094
-  peer_address: 10.255.255.61
+  peer_address: 10.255.255.60
   peer_link: Port-Channel551
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'
@@ -349,23 +349,23 @@ loopback_interfaces:
 - name: Loopback0
   description: EVPN_Overlay_Peering
   shutdown: false
-  ip_address: 10.1.101.31/32
+  ip_address: 10.2.101.32/32
 - name: Loopback1
   description: VTEP_VXLAN_Tunnel_Source
   shutdown: false
-  ip_address: 10.1.102.31/32
+  ip_address: 10.2.102.31/32
 - name: Loopback10
   description: CORP_VTEP_DIAGNOSTICS
   shutdown: false
   vrf: CORP
-  ip_address: 10.255.10.31/32
+  ip_address: 10.255.10.32/32
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:
   - sequence: 10
-    action: permit 10.1.101.0/24 eq 32
+    action: permit 10.2.101.0/24 eq 32
   - sequence: 20
-    action: permit 10.1.102.0/24 eq 32
+    action: permit 10.2.102.0/24 eq 32
 router_bfd:
   multihop:
     interval: 1200
@@ -376,7 +376,7 @@ ip_igmp_snooping:
 ip_virtual_router_mac_address: 00:1c:73:00:00:01
 vxlan_interface:
   Vxlan1:
-    description: ENT-DC1-BORDER1_VTEP
+    description: ENT-DC2-EDGE2_VTEP
     vxlan:
       udp_port: 4789
       source_interface: Loopback1
@@ -391,4 +391,4 @@ vxlan_interface:
         vni: 10
 virtual_source_nat_vrfs:
 - name: CORP
-  ip_address: 10.255.10.31
+  ip_address: 10.255.10.32

@@ -16,7 +16,7 @@ router_bgp:
     type: ipv4
     remote_as: '65216'
     next_hop_self: true
-    description: ENT-DC2-BORDER2
+    description: ENT-DC2-EDGE2
     maximum_routes: 12000
     send_community: all
     route_map_in: RM-MLAG-PEER-IN
@@ -51,7 +51,7 @@ router_bgp:
   neighbors:
   - ip_address: 10.255.252.61
     peer_group: MLAG-IPv4-UNDERLAY-PEER
-    description: ENT-DC2-BORDER2
+    description: ENT-DC2-EDGE2
   - ip_address: 10.2.0.120
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65200'
@@ -70,11 +70,11 @@ router_bgp:
     remote_as: '65200'
   - ip_address: 10.1.101.31
     peer_group: EVPN-OVERLAY-CORE
-    description: ENT-DC1-BORDER1
+    description: ENT-DC1-EDGE1
     remote_as: '65116'
   - ip_address: 10.1.101.32
     peer_group: EVPN-OVERLAY-CORE
-    description: ENT-DC1-BORDER2
+    description: ENT-DC1-EDGE2
     remote_as: '65116'
   - ip_address: 10.0.21.0
     remote_as: '64992'
@@ -258,7 +258,7 @@ vlan_interfaces:
   ip_address: 10.255.252.60/31
 port_channel_interfaces:
 - name: Port-Channel551
-  description: MLAG_PEER_ENT-DC2-BORDER2_Po551
+  description: MLAG_PEER_ENT-DC2-EDGE2_Po551
   type: switched
   shutdown: false
   mode: trunk
@@ -267,20 +267,20 @@ port_channel_interfaces:
   - MLAG
 ethernet_interfaces:
 - name: Ethernet55/1
-  peer: ENT-DC2-BORDER2
+  peer: ENT-DC2-EDGE2
   peer_interface: Ethernet55/1
   peer_type: mlag_peer
-  description: MLAG_PEER_ENT-DC2-BORDER2_Ethernet55/1
+  description: MLAG_PEER_ENT-DC2-EDGE2_Ethernet55/1
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 551
     mode: active
 - name: Ethernet56/1
-  peer: ENT-DC2-BORDER2
+  peer: ENT-DC2-EDGE2
   peer_interface: Ethernet56/1
   peer_type: mlag_peer
-  description: MLAG_PEER_ENT-DC2-BORDER2_Ethernet56/1
+  description: MLAG_PEER_ENT-DC2-EDGE2_Ethernet56/1
   type: port-channel-member
   shutdown: false
   channel_group:
@@ -325,7 +325,7 @@ ethernet_interfaces:
   eos_cli: sflow enable
   ip_address: 10.0.22.1/31
 mlag_configuration:
-  domain_id: ENT-DC2-BORDER-LEAVES
+  domain_id: EnterpriseDC2EdgeLeaves
   local_interface: Vlan4094
   peer_address: 10.255.255.61
   peer_link: Port-Channel551
@@ -376,7 +376,7 @@ ip_igmp_snooping:
 ip_virtual_router_mac_address: 00:1c:73:00:00:01
 vxlan_interface:
   Vxlan1:
-    description: ENT-DC2-BORDER1_VTEP
+    description: ENT-DC2-EDGE1_VTEP
     vxlan:
       udp_port: 4789
       source_interface: Loopback1

@@ -319,7 +319,7 @@ ethernet_interfaces:
     id: 1
     mode: active
 mlag_configuration:
-  domain_id: ENT-DC1-LEAF-DOMAIN-1
+  domain_id: EnterpriseDC1LeafDomain1
   local_interface: Vlan4094
   peer_address: 10.255.255.1
   peer_link: Port-Channel551
