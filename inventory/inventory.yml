@@ -55,7 +55,7 @@ all:
                   hosts:
                     ENT-DC2-EDGE1:
                     ENT-DC2-EDGE2:
-    TENANT-NETWORKS:
+    TENANT NETWORKS:
       children:
         ENT DC1 LEAF DOMAIN 1:
         ENT DC1 LEAF DOMAIN 2:
@@ -65,7 +65,7 @@ all:
         ENT DC2 LEAF DOMAIN 2:
 #        ENT DC2 LEAF DOMAIN 3:
         ENT-DC2-EDGE-LEAVES:
-    CONNECTED-ENDPOINTS:
+    CONNECTED ENDPOINTS:
       children:
         ENT DC1 LEAF DOMAIN 1:
         ENT DC1 LEAF DOMAIN 2:
