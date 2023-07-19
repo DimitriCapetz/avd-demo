@@ -8,7 +8,6 @@ connected_endpoints_keys:
     type: router
 
 port_profiles:
-
   DC1_RACK1_SERVER:
     mode: trunk
     vlans: 10,20,110,111
@@ -17,10 +16,10 @@ port_profiles:
     mode: trunk
     vlans: 10,20,110,112
     spanning_tree_portfast: edge
-#  DC1_RACK3_SERVER:
-#    mode: trunk
-#    vlans: 10,20,110,113
-#    spanning_tree_portfast: edge
+  DC1_RACK3_SERVER:
+    mode: trunk
+    vlans: 10,20,110,113
+    spanning_tree_portfast: edge
   DC2_RACK1_SERVER:
     mode: trunk
     vlans: 10,20,210,211
@@ -29,10 +28,10 @@ port_profiles:
     mode: trunk
     vlans: 10,20,210,212
     spanning_tree_portfast: edge
-#  DC2_RACK3_SERVER:
-#    mode: trunk
-#    vlans: 10,20,210,213
-#    spanning_tree_portfast: edge
+  DC2_RACK3_SERVER:
+    mode: trunk
+    vlans: 10,20,210,213
+    spanning_tree_portfast: edge
 
 # servers
 servers:
@@ -64,20 +63,6 @@ servers:
           mode: active
           raw_eos_cli: |-
             sflow enable
-#  - name: ENT-DC1-HOST3
-#    rack: DC1_LEAF_DOMAIN_3
-#    adapters:
-#      # MLAG dual-homed connection from Et1 to ENT-DC1-LEAF5_Eth1
-#      #                            from Et2 to ENT-DC1-LEAF6_Eth1
-#      - endpoint_ports: [ Et1, Et2 ]
-#        switch_ports: [ Ethernet1, Ethernet1 ]
-#        switches: [ ENT-DC1-LEAF5, ENT-DC1-LEAF6 ]
-#        profile: DC1_RACK3_SERVER
-#        port_channel:
-#          description: PortChannel1
-#          mode: active
-#          raw_eos_cli: |-
-#            sflow enable
   - name: ENT-DC2-HOST1
     rack: DC2_LEAF_DOMAIN_1
     adapters:
@@ -106,17 +91,3 @@ servers:
           mode: active
           raw_eos_cli: |-
             sflow enable
-#  - name: ENT-DC2-HOST3
-#    rack: DC2_LEAF_DOMAIN_3
-#    adapters:
-#      # MLAG dual-homed connection from Et1 to ENT-DC2-LEAF5_Eth1
-#      #                            from Et2 to ENT-DC2-LEAF6_Eth1
-#      - endpoint_ports: [ Et1, Et2 ]
-#        switch_ports: [ Ethernet1, Ethernet1 ]
-#        switches: [ ENT-DC2-LEAF5, ENT-DC2-LEAF6 ]
-#        profile: DC2_RACK3_SERVER
-#        port_channel:
-#          description: PortChannel1
-#          mode: active
-#          raw_eos_cli: |-
-#            sflow enable

@@ -24,6 +24,14 @@ cvp_devices:
     parentContainerName: EnterpriseDC1LeafDomain2
     configlets:
       - AVD-L3LSV_ENT-DC1-LEAF4
+  - fqdn: ENT-DC1-LEAF5
+    parentContainerName: EnterpriseDC1LeafDomain3
+    configlets:
+      - AVD-L3LSV_ENT-DC1-LEAF5
+  - fqdn: ENT-DC1-LEAF6
+    parentContainerName: EnterpriseDC1LeafDomain3
+    configlets:
+      - AVD-L3LSV_ENT-DC1-LEAF6
   - fqdn: ENT-DC1-SPINE1
     parentContainerName: EnterpriseDC1Spines
     configlets:
@@ -56,6 +64,14 @@ cvp_devices:
     parentContainerName: EnterpriseDC2LeafDomain2
     configlets:
       - AVD-L3LSV_ENT-DC2-LEAF4
+  - fqdn: ENT-DC2-LEAF5
+    parentContainerName: EnterpriseDC2LeafDomain3
+    configlets:
+      - AVD-L3LSV_ENT-DC2-LEAF5
+  - fqdn: ENT-DC2-LEAF6
+    parentContainerName: EnterpriseDC2LeafDomain3
+    configlets:
+      - AVD-L3LSV_ENT-DC2-LEAF6
   - fqdn: ENT-DC2-SPINE1
     parentContainerName: EnterpriseDC2Spines
     configlets:
@@ -73,6 +89,8 @@ cvp_containers:
     parentContainerName: EnterpriseDC1Leaves
   EnterpriseDC1LeafDomain2:
     parentContainerName: EnterpriseDC1Leaves
+  EnterpriseDC1LeafDomain3:
+    parentContainerName: EnterpriseDC1Leaves
   EnterpriseDC1Leaves:
     parentContainerName: EnterpriseDC1
   EnterpriseDC1Spines:
@@ -84,6 +102,8 @@ cvp_containers:
   EnterpriseDC2LeafDomain1:
     parentContainerName: EnterpriseDC2Leaves
   EnterpriseDC2LeafDomain2:
+    parentContainerName: EnterpriseDC2Leaves
+  EnterpriseDC2LeafDomain3:
     parentContainerName: EnterpriseDC2Leaves
   EnterpriseDC2Leaves:
     parentContainerName: EnterpriseDC2

@@ -26,8 +26,8 @@ l3leaf:
     spanning_tree_mode: mstp
     raw_eos_cli: |-
       interface Management1
-      no lldp transmit
-      no lldp receive
+         no lldp transmit
+         no lldp receive
   node_groups:
     EnterpriseDC1LeafDomain1:
       bgp_as: 65101
@@ -59,21 +59,21 @@ l3leaf:
           uplink_switch_interfaces: ['Ethernet4/1', 'Ethernet4/1']
           filter:
             tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_2 ]
-#    EnterpriseDC1LeafDomain3:
-#      bgp_as: 65103
-#      nodes:
-#        ENT-DC1-LEAF5:
-#          id: 5
-#          mgmt_ip: 10.99.99.47/24
-#          uplink_switch_interfaces: ['Ethernet5/1', 'Ethernet5/1']
-#          filter:
-#            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
-#        ENT-DC1-LEAF6:
-#          id: 6
-#          mgmt_ip: 10.99.99.48/24
-#          uplink_switch_interfaces: ['Ethernet6/1', 'Ethernet6/1']
-#          filter:
-#            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
+    EnterpriseDC1LeafDomain3:
+      bgp_as: 65103
+      nodes:
+        ENT-DC1-LEAF5:
+          id: 5
+          mgmt_ip: 10.99.99.47/24
+          uplink_switch_interfaces: ['Ethernet5/1', 'Ethernet5/1']
+          filter:
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
+        ENT-DC1-LEAF6:
+          id: 6
+          mgmt_ip: 10.99.99.48/24
+          uplink_switch_interfaces: ['Ethernet6/1', 'Ethernet6/1']
+          filter:
+            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
     EnterpriseDC1EdgeLeaves:
       bgp_as: 65116
       evpn_gateway:

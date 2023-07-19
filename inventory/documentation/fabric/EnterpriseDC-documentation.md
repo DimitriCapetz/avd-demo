@@ -23,6 +23,8 @@
 | EnterpriseDC1 | l3leaf | ENT-DC1-LEAF2 | 10.99.99.44/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC1 | l3leaf | ENT-DC1-LEAF3 | 10.99.99.45/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC1 | l3leaf | ENT-DC1-LEAF4 | 10.99.99.46/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-LEAF5 | 10.99.99.47/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-LEAF6 | 10.99.99.48/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC1 | spine | ENT-DC1-SPINE1 | 10.99.99.39/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC1 | spine | ENT-DC1-SPINE2 | 10.99.99.40/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC2 | l3leaf | ENT-DC2-EDGE1 | 10.99.99.57/24 | cEOSLab | Provisioned | - |
@@ -31,6 +33,8 @@
 | EnterpriseDC2 | l3leaf | ENT-DC2-LEAF2 | 10.99.99.50/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC2 | l3leaf | ENT-DC2-LEAF3 | 10.99.99.51/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC2 | l3leaf | ENT-DC2-LEAF4 | 10.99.99.52/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-LEAF5 | 10.99.99.53/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-LEAF6 | 10.99.99.54/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC2 | spine | ENT-DC2-SPINE1 | 10.99.99.41/24 | cEOSLab | Provisioned | - |
 | EnterpriseDC2 | spine | ENT-DC2-SPINE2 | 10.99.99.42/24 | cEOSLab | Provisioned | - |
 
@@ -63,6 +67,12 @@
 | l3leaf | ENT-DC1-LEAF3 | Ethernet56/1 | mlag_peer | ENT-DC1-LEAF4 | Ethernet56/1 |
 | l3leaf | ENT-DC1-LEAF4 | Ethernet49/1 | spine | ENT-DC1-SPINE1 | Ethernet4/1 |
 | l3leaf | ENT-DC1-LEAF4 | Ethernet50/1 | spine | ENT-DC1-SPINE2 | Ethernet4/1 |
+| l3leaf | ENT-DC1-LEAF5 | Ethernet49/1 | spine | ENT-DC1-SPINE1 | Ethernet5/1 |
+| l3leaf | ENT-DC1-LEAF5 | Ethernet50/1 | spine | ENT-DC1-SPINE2 | Ethernet5/1 |
+| l3leaf | ENT-DC1-LEAF5 | Ethernet55/1 | mlag_peer | ENT-DC1-LEAF6 | Ethernet55/1 |
+| l3leaf | ENT-DC1-LEAF5 | Ethernet56/1 | mlag_peer | ENT-DC1-LEAF6 | Ethernet56/1 |
+| l3leaf | ENT-DC1-LEAF6 | Ethernet49/1 | spine | ENT-DC1-SPINE1 | Ethernet6/1 |
+| l3leaf | ENT-DC1-LEAF6 | Ethernet50/1 | spine | ENT-DC1-SPINE2 | Ethernet6/1 |
 | l3leaf | ENT-DC2-EDGE1 | Ethernet49/1 | spine | ENT-DC2-SPINE1 | Ethernet7/1 |
 | l3leaf | ENT-DC2-EDGE1 | Ethernet50/1 | spine | ENT-DC2-SPINE2 | Ethernet7/1 |
 | l3leaf | ENT-DC2-EDGE1 | Ethernet55/1 | mlag_peer | ENT-DC2-EDGE2 | Ethernet55/1 |
@@ -81,6 +91,12 @@
 | l3leaf | ENT-DC2-LEAF3 | Ethernet56/1 | mlag_peer | ENT-DC2-LEAF4 | Ethernet56/1 |
 | l3leaf | ENT-DC2-LEAF4 | Ethernet49/1 | spine | ENT-DC2-SPINE1 | Ethernet4/1 |
 | l3leaf | ENT-DC2-LEAF4 | Ethernet50/1 | spine | ENT-DC2-SPINE2 | Ethernet4/1 |
+| l3leaf | ENT-DC2-LEAF5 | Ethernet49/1 | spine | ENT-DC2-SPINE1 | Ethernet5/1 |
+| l3leaf | ENT-DC2-LEAF5 | Ethernet50/1 | spine | ENT-DC2-SPINE2 | Ethernet5/1 |
+| l3leaf | ENT-DC2-LEAF5 | Ethernet55/1 | mlag_peer | ENT-DC2-LEAF6 | Ethernet55/1 |
+| l3leaf | ENT-DC2-LEAF5 | Ethernet56/1 | mlag_peer | ENT-DC2-LEAF6 | Ethernet56/1 |
+| l3leaf | ENT-DC2-LEAF6 | Ethernet49/1 | spine | ENT-DC2-SPINE1 | Ethernet6/1 |
+| l3leaf | ENT-DC2-LEAF6 | Ethernet50/1 | spine | ENT-DC2-SPINE2 | Ethernet6/1 |
 
 ## Fabric IP Allocation
 
@@ -88,8 +104,8 @@
 
 | Uplink IPv4 Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ---------------- | ------------------- | ------------------ | ------------------ |
-| 10.1.0.0/23 | 512 | 24 | 4.69 % |
-| 10.2.0.0/23 | 512 | 24 | 4.69 % |
+| 10.1.0.0/23 | 512 | 32 | 6.25 % |
+| 10.2.0.0/23 | 512 | 32 | 6.25 % |
 
 ### Point-To-Point Links Node Allocation
 
@@ -107,6 +123,10 @@
 | ENT-DC1-LEAF3 | Ethernet50/1 | 10.1.0.11/31 | ENT-DC1-SPINE2 | Ethernet3/1 | 10.1.0.10/31 |
 | ENT-DC1-LEAF4 | Ethernet49/1 | 10.1.0.13/31 | ENT-DC1-SPINE1 | Ethernet4/1 | 10.1.0.12/31 |
 | ENT-DC1-LEAF4 | Ethernet50/1 | 10.1.0.15/31 | ENT-DC1-SPINE2 | Ethernet4/1 | 10.1.0.14/31 |
+| ENT-DC1-LEAF5 | Ethernet49/1 | 10.1.0.17/31 | ENT-DC1-SPINE1 | Ethernet5/1 | 10.1.0.16/31 |
+| ENT-DC1-LEAF5 | Ethernet50/1 | 10.1.0.19/31 | ENT-DC1-SPINE2 | Ethernet5/1 | 10.1.0.18/31 |
+| ENT-DC1-LEAF6 | Ethernet49/1 | 10.1.0.21/31 | ENT-DC1-SPINE1 | Ethernet6/1 | 10.1.0.20/31 |
+| ENT-DC1-LEAF6 | Ethernet50/1 | 10.1.0.23/31 | ENT-DC1-SPINE2 | Ethernet6/1 | 10.1.0.22/31 |
 | ENT-DC2-EDGE1 | Ethernet49/1 | 10.2.0.121/31 | ENT-DC2-SPINE1 | Ethernet7/1 | 10.2.0.120/31 |
 | ENT-DC2-EDGE1 | Ethernet50/1 | 10.2.0.123/31 | ENT-DC2-SPINE2 | Ethernet7/1 | 10.2.0.122/31 |
 | ENT-DC2-EDGE2 | Ethernet49/1 | 10.2.0.125/31 | ENT-DC2-SPINE1 | Ethernet8/1 | 10.2.0.124/31 |
@@ -119,15 +139,19 @@
 | ENT-DC2-LEAF3 | Ethernet50/1 | 10.2.0.11/31 | ENT-DC2-SPINE2 | Ethernet3/1 | 10.2.0.10/31 |
 | ENT-DC2-LEAF4 | Ethernet49/1 | 10.2.0.13/31 | ENT-DC2-SPINE1 | Ethernet4/1 | 10.2.0.12/31 |
 | ENT-DC2-LEAF4 | Ethernet50/1 | 10.2.0.15/31 | ENT-DC2-SPINE2 | Ethernet4/1 | 10.2.0.14/31 |
+| ENT-DC2-LEAF5 | Ethernet49/1 | 10.2.0.17/31 | ENT-DC2-SPINE1 | Ethernet5/1 | 10.2.0.16/31 |
+| ENT-DC2-LEAF5 | Ethernet50/1 | 10.2.0.19/31 | ENT-DC2-SPINE2 | Ethernet5/1 | 10.2.0.18/31 |
+| ENT-DC2-LEAF6 | Ethernet49/1 | 10.2.0.21/31 | ENT-DC2-SPINE1 | Ethernet6/1 | 10.2.0.20/31 |
+| ENT-DC2-LEAF6 | Ethernet50/1 | 10.2.0.23/31 | ENT-DC2-SPINE2 | Ethernet6/1 | 10.2.0.22/31 |
 
 ### Loopback Interfaces (BGP EVPN Peering)
 
 | Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ------------- | ------------------- | ------------------ | ------------------ |
 | 10.1.100.0/24 | 256 | 2 | 0.79 % |
-| 10.1.101.0/24 | 256 | 6 | 2.35 % |
+| 10.1.101.0/24 | 256 | 8 | 3.13 % |
 | 10.2.100.0/24 | 256 | 2 | 0.79 % |
-| 10.2.101.0/24 | 256 | 6 | 2.35 % |
+| 10.2.101.0/24 | 256 | 8 | 3.13 % |
 
 ### Loopback0 Interfaces Node Allocation
 
@@ -139,6 +163,8 @@
 | EnterpriseDC1 | ENT-DC1-LEAF2 | 10.1.101.2/32 |
 | EnterpriseDC1 | ENT-DC1-LEAF3 | 10.1.101.3/32 |
 | EnterpriseDC1 | ENT-DC1-LEAF4 | 10.1.101.4/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF5 | 10.1.101.5/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF6 | 10.1.101.6/32 |
 | EnterpriseDC1 | ENT-DC1-SPINE1 | 10.1.100.1/32 |
 | EnterpriseDC1 | ENT-DC1-SPINE2 | 10.1.100.2/32 |
 | EnterpriseDC2 | ENT-DC2-EDGE1 | 10.2.101.31/32 |
@@ -147,6 +173,8 @@
 | EnterpriseDC2 | ENT-DC2-LEAF2 | 10.2.101.2/32 |
 | EnterpriseDC2 | ENT-DC2-LEAF3 | 10.2.101.3/32 |
 | EnterpriseDC2 | ENT-DC2-LEAF4 | 10.2.101.4/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF5 | 10.2.101.5/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF6 | 10.2.101.6/32 |
 | EnterpriseDC2 | ENT-DC2-SPINE1 | 10.2.100.1/32 |
 | EnterpriseDC2 | ENT-DC2-SPINE2 | 10.2.100.2/32 |
 
@@ -154,8 +182,8 @@
 
 | VTEP Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | --------------------- | ------------------- | ------------------ | ------------------ |
-| 10.1.102.0/24 | 256 | 6 | 2.35 % |
-| 10.2.102.0/24 | 256 | 6 | 2.35 % |
+| 10.1.102.0/24 | 256 | 8 | 3.13 % |
+| 10.2.102.0/24 | 256 | 8 | 3.13 % |
 
 ### VTEP Loopback Node allocation
 
@@ -167,9 +195,13 @@
 | EnterpriseDC1 | ENT-DC1-LEAF2 | 10.1.102.1/32 |
 | EnterpriseDC1 | ENT-DC1-LEAF3 | 10.1.102.3/32 |
 | EnterpriseDC1 | ENT-DC1-LEAF4 | 10.1.102.3/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF5 | 10.1.102.5/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF6 | 10.1.102.5/32 |
 | EnterpriseDC2 | ENT-DC2-EDGE1 | 10.2.102.31/32 |
 | EnterpriseDC2 | ENT-DC2-EDGE2 | 10.2.102.31/32 |
 | EnterpriseDC2 | ENT-DC2-LEAF1 | 10.2.102.1/32 |
 | EnterpriseDC2 | ENT-DC2-LEAF2 | 10.2.102.1/32 |
 | EnterpriseDC2 | ENT-DC2-LEAF3 | 10.2.102.3/32 |
 | EnterpriseDC2 | ENT-DC2-LEAF4 | 10.2.102.3/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF5 | 10.2.102.5/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF6 | 10.2.102.5/32 |

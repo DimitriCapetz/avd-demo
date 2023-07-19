@@ -1185,6 +1185,6 @@ ip address virtual source-nat vrf CORP address 10.255.10.1
 ```eos
 !
 interface Management1
-no lldp transmit
-no lldp receive
+   no lldp transmit
+   no lldp receive
 ```
