@@ -17,12 +17,12 @@ tenants:
           loopback_ip_range: 10.255.10.0/24
         svis:
           - id: 10
-            name: CORP_DC1_SHARED
+            name: CORP_GLOBAL_SHARED_10
             tags: [GLOBAL_LEAVES]
             enabled: true
             ip_address_virtual: 10.10.10.1/24
           - id: 20
-            name: CORP_DC1_SHARED
+            name: CORP_GLOBAL_SHARED_20
             tags: [GLOBAL_LEAVES]
             enabled: true
             ip_address_virtual: 10.20.20.1/24
