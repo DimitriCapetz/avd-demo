@@ -5,73 +5,73 @@ all:
     CVP:
       hosts:
         cvp:
-    ENTERPRISE-DC:
+    ENTERPRISE DC:
       children:
-        ENT-DC1:
+        ENT DC1:
           children:
-            ENT-DC1-SPINES:
+            ENT DC1 SPINES:
               hosts:
                 ENT-DC1-SPINE1:
                 ENT-DC1-SPINE2:
-            ENT-DC1-LEAVES:
+            ENT DC1 LEAVES:
               children:
-                ENT-DC1-LEAF-DOMAIN-1:
+                ENT DC1 LEAF DOMAIN 1:
                   hosts:
                     ENT-DC1-LEAF1:
                     ENT-DC1-LEAF2:
-                ENT-DC1-LEAF-DOMAIN-2:
+                ENT DC1 LEAF DOMAIN 2:
                   hosts:
                     ENT-DC1-LEAF3:
                     ENT-DC1-LEAF4:
-#                ENT-DC1-LEAF-DOMAIN-3:
+#                ENT DC1 LEAF DOMAIN 3:
 #                  hosts:
 #                    ENT-DC1-LEAF5:
 #                    ENT-DC1-LEAF6:
-                ENT-DC1-EDGE-LEAVES:
+                ENT DC1 EDGE LEAVES:
                   hosts:
                     ENT-DC1-EDGE1:
                     ENT-DC1-EDGE2:
-        ENT-DC2:
+        ENT DC2:
           children:
-            ENT-DC2-SPINES:
+            ENT DC2 SPINES:
               hosts:
                 ENT-DC2-SPINE1:
                 ENT-DC2-SPINE2:
-            ENT-DC2-LEAVES:
+            ENT DC2 LEAVES:
               children:
-                ENT-DC2-LEAF-DOMAIN-1:
+                ENT DC2 LEAF DOMAIN 1:
                   hosts:
                     ENT-DC2-LEAF1:
                     ENT-DC2-LEAF2:
-                ENT-DC2-LEAF-DOMAIN-2:
+                ENT DC2 LEAF DOMAIN 2:
                   hosts:
                     ENT-DC2-LEAF3:
                     ENT-DC2-LEAF4:
-#                ENT-DC2-LEAF-DOMAIN-3:
+#                ENT DC2 LEAF DOMAIN 3:
 #                  hosts:
 #                    ENT-DC2-LEAF5:
 #                    ENT-DC2-LEAF6:
-                ENT-DC2-EDGE-LEAVES:
+                ENT DC2 EDGE LEAVES:
                   hosts:
                     ENT-DC2-EDGE1:
                     ENT-DC2-EDGE2:
     TENANT-NETWORKS:
       children:
-        ENT-DC1-LEAF-DOMAIN-1:
-        ENT-DC1-LEAF-DOMAIN-2:
-#        ENT-DC1-LEAF-DOMAIN-3:
-        ENT-DC1-EDGE-LEAVES:
-        ENT-DC2-LEAF-DOMAIN-1:
-        ENT-DC2-LEAF-DOMAIN-2:
-#        ENT-DC2-LEAF-DOMAIN-3:
+        ENT DC1 LEAF DOMAIN 1:
+        ENT DC1 LEAF DOMAIN 2:
+#        ENT DC1 LEAF DOMAIN 3:
+        ENT DC1 EDGE LEAVES:
+        ENT DC2 LEAF DOMAIN 1:
+        ENT DC2 LEAF DOMAIN 2:
+#        ENT DC2 LEAF DOMAIN 3:
         ENT-DC2-EDGE-LEAVES:
     CONNECTED-ENDPOINTS:
       children:
-        ENT-DC1-LEAF-DOMAIN-1:
-        ENT-DC1-LEAF-DOMAIN-2:
-#        ENT-DC1-LEAF-DOMAIN-3:
-        ENT-DC1-EDGE-LEAVES:
-        ENT-DC2-LEAF-DOMAIN-1:
-        ENT-DC2-LEAF-DOMAIN-2:
-#        ENT-DC2-LEAF-DOMAIN-3:
-        ENT-DC2-EDGE-LEAVES:
+        ENT DC1 LEAF DOMAIN 1:
+        ENT DC1 LEAF DOMAIN 2:
+#        ENT DC1 LEAF DOMAIN 3:
+        ENT DC1 EDGE LEAVES:
+        ENT DC2 LEAF DOMAIN 1:
+        ENT DC2 LEAF DOMAIN 2:
+#        ENT DC2 LEAF DOMAIN 3:
+        ENT DC2 EDGE LEAVES:
