@@ -55,21 +55,21 @@ l3leaf:
           uplink_switch_interfaces: ['Ethernet4/1', 'Ethernet4/1']
           filter:
             tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_2 ]
-    ENT-DC1-LEAF-DOMAIN-3:
-      bgp_as: 65103
-      nodes:
-        ENT-DC1-LEAF5:
-          id: 5
-          mgmt_ip: 10.99.99.47/24
-          uplink_switch_interfaces: ['Ethernet5/1', 'Ethernet5/1']
-          filter:
-            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
-        ENT-DC1-LEAF6:
-          id: 6
-          mgmt_ip: 10.99.99.48/24
-          uplink_switch_interfaces: ['Ethernet6/1', 'Ethernet6/1']
-          filter:
-            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
+#    ENT-DC1-LEAF-DOMAIN-3:
+#      bgp_as: 65103
+#      nodes:
+#        ENT-DC1-LEAF5:
+#          id: 5
+#          mgmt_ip: 10.99.99.47/24
+#          uplink_switch_interfaces: ['Ethernet5/1', 'Ethernet5/1']
+#          filter:
+#            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
+#        ENT-DC1-LEAF6:
+#          id: 6
+#          mgmt_ip: 10.99.99.48/24
+#          uplink_switch_interfaces: ['Ethernet6/1', 'Ethernet6/1']
+#          filter:
+#            tags: [ GLOBAL_LEAVES, DC1_COMPUTE_LEAVES, DC1_LEAF_DOMAIN_3 ]
     ENT-DC1-BORDER-LEAVES:
       bgp_as: 65116
       evpn_gateway:
