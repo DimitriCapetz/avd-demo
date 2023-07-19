@@ -70,7 +70,7 @@ l3leaf:
 #          uplink_switch_interfaces: ['Ethernet6/1', 'Ethernet6/1']
 #          filter:
 #            tags: [ GLOBAL_LEAVES, DC2_COMPUTE_LEAVES, DC2_LEAF_DOMAIN_3 ]
-    ENT-DC2-BORDER-LEAVES:
+    ENT-DC2-EDGE-LEAVES:
       bgp_as: 65216
       evpn_gateway:
         evpn_l2:
@@ -79,30 +79,30 @@ l3leaf:
           enabled: true
           inter_domain: true
       nodes:
-        ENT-DC2-BORDER1:
+        ENT-DC2-EDGE1:
           id: 31
           mgmt_ip: 10.99.99.57/24
           uplink_switch_interfaces: ['Ethernet7/1', 'Ethernet7/1']
           evpn_gateway:
             remote_peers:
-              - hostname: ENT-DC1-BORDER1
-              - hostname: ENT-DC1-BORDER2
+              - hostname: ENT-DC1-EDGE1
+              - hostname: ENT-DC1-EDGE2
           filter:
-            tags: [ GLOBAL_LEAVES, DC2_BORDER_LEAVES ]
-        ENT-DC2-BORDER2:
+            tags: [ GLOBAL_LEAVES, DC2_EDGE_LEAVES ]
+        ENT-DC2-EDGE2:
           id: 32
           mgmt_ip: 10.99.99.58/24
           uplink_switch_interfaces: ['Ethernet8/1', 'Ethernet8/1']
           evpn_gateway:
             remote_peers:
-              - hostname: ENT-DC1-BORDER1
-              - hostname: ENT-DC1-BORDER2
+              - hostname: ENT-DC1-EDGE1
+              - hostname: ENT-DC1-EDGE2
           filter:
-            tags: [ GLOBAL_LEAVES, DC2_BORDER_LEAVES ]
+            tags: [ GLOBAL_LEAVES, DC2_EDGE_LEAVES ]
 # Uplink to Core Definition for Underlay
 l3_edge:
   p2p_links:
-    - nodes: [ ENT-DC2-BORDER1, ENT-DC2-CORE1 ]
+    - nodes: [ ENT-DC2-EDGE1, ENT-DC2-CORE1 ]
       interfaces:
         - Ethernet51/1
         - Ethernet51/1
@@ -115,7 +115,7 @@ l3_edge:
       include_in_underlay_protocol: true
       mtu: '9214'
       raw_eos_cli: 'sflow enable'
-    - nodes: [ ENT-DC2-BORDER1, ENT-DC2-CORE2 ]
+    - nodes: [ ENT-DC2-EDGE1, ENT-DC2-CORE2 ]
       interfaces:
         - Ethernet52/1
         - Ethernet51/1
@@ -128,7 +128,7 @@ l3_edge:
       include_in_underlay_protocol: true
       mtu: '9214'
       raw_eos_cli: 'sflow enable'
-    - nodes: [ ENT-DC2-BORDER2, ENT-DC2-CORE1 ]
+    - nodes: [ ENT-DC2-EDGE2, ENT-DC2-CORE1 ]
       interfaces:
         - Ethernet51/1
         - Ethernet52/1
@@ -141,7 +141,7 @@ l3_edge:
       include_in_underlay_protocol: true
       mtu: '9214'
       raw_eos_cli: 'sflow enable'
-    - nodes: [ ENT-DC2-BORDER2, ENT-DC2-CORE2 ]
+    - nodes: [ ENT-DC2-EDGE2, ENT-DC2-CORE2 ]
       interfaces:
         - Ethernet52/1
         - Ethernet52/1

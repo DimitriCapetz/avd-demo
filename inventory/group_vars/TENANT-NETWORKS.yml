@@ -66,43 +66,43 @@ tenants:
 #            tags: [DC2_LEAF_DOMAIN_3]
 #            enabled: true
 #            ip_address_virtual: 10.213.213.1/24
-#        # WAN Peering Config to Border Leaves
+#        # WAN Peering Config to EDGE Leaves
 #        l3_interfaces:
 #          - interfaces: [ Ethernet1 ]
 #            ip_addresses: [ 33.33.33.2/30 ]
-#            nodes: [ DC3-BORDER1 ]
+#            nodes: [ DC3-EDGE1 ]
 #            description: L3 Uplink to WAN for CORP VRF
 #            enabled: true
 #          - interfaces: [ Ethernet1 ]
 #            ip_addresses: [ 33.33.33.6/30 ]
-#            nodes: [ DC3-BORDER2 ]
+#            nodes: [ DC3-EDGE2 ]
 #            description: L3 Uplink to WAN for CORP VRF
 #            enabled: true
 #        bgp_peers:
 #          33.33.33.1:
 #            peer_group: WAN
 #            remote_as: 11111
-#            nodes: [ DC3-BORDER1 ]
+#            nodes: [ DC3-EDGE1 ]
 #          33.33.33.5:
 #            peer_group: WAN
 #            remote_as: 22222
-#            nodes: [ DC3-BORDER2 ]
+#            nodes: [ DC3-EDGE2 ]
 #        bgp_peer_groups:
 #          - name: WAN
 #            send_community: all
 #            maximum_routes: 100000
-#            nodes: [ DC3-BORDER1,DC3-BORDER2 ]
+#            nodes: [ DC3-EDGE1,DC3-EDGE2 ]
 #        static_routes:
 #          - destination_address_prefix: 0.0.0.0/0
 #            gateway: 192.168.110.1
 #            name: DEFAULT_TO_WAN
 #            interface: Ethernet51/1.110
-#            nodes: [ DC-BORDER1 ]
+#            nodes: [ DC-EDGE1 ]
 #          - destination_address_prefix: 0.0.0.0/0
 #            gateway: 192.168.110.3
 #            name: DEFAULT_TO_WAN
 #            interface: Ethernet51/1.110
-#            nodes: [ DC-BORDER2 ]
+#            nodes: [ DC-EDGE2 ]
 #        redistribute_static: true
 #    l2vlans:
 #      14:
@@ -120,13 +120,13 @@ tenants:
 #        svis:
 #          29:
 #            name: Tenant_20_OP_Zone_FW
-#            tags: [border]
+#            tags: [EDGE]
 #            enabled: true
 #            ip_virtual_router_addresses:
 #              - 10.20.29.1
 #            nodes:
-#              DC-BORDER1:
+#              DC-EDGE1:
 #                ip_address: 10.20.29.2/24
-#              DC-BORDER2:
+#              DC-EDGE2:
 #                ip_address: 10.20.29.3/24
 #

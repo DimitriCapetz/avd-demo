@@ -27,10 +27,10 @@ all:
 #                  hosts:
 #                    ENT-DC1-LEAF5:
 #                    ENT-DC1-LEAF6:
-                ENT-DC1-BORDER-LEAVES:
+                ENT-DC1-EDGE-LEAVES:
                   hosts:
-                    ENT-DC1-BORDER1:
-                    ENT-DC1-BORDER2:
+                    ENT-DC1-EDGE1:
+                    ENT-DC1-EDGE2:
         ENT-DC2:
           children:
             ENT-DC2-SPINES:
@@ -51,27 +51,27 @@ all:
 #                  hosts:
 #                    ENT-DC2-LEAF5:
 #                    ENT-DC2-LEAF6:
-                ENT-DC2-BORDER-LEAVES:
+                ENT-DC2-EDGE-LEAVES:
                   hosts:
-                    ENT-DC2-BORDER1:
-                    ENT-DC2-BORDER2:
+                    ENT-DC2-EDGE1:
+                    ENT-DC2-EDGE2:
     TENANT-NETWORKS:
       children:
         ENT-DC1-LEAF-DOMAIN-1:
         ENT-DC1-LEAF-DOMAIN-2:
 #        ENT-DC1-LEAF-DOMAIN-3:
-        ENT-DC1-BORDER-LEAVES:
+        ENT-DC1-EDGE-LEAVES:
         ENT-DC2-LEAF-DOMAIN-1:
         ENT-DC2-LEAF-DOMAIN-2:
 #        ENT-DC2-LEAF-DOMAIN-3:
-        ENT-DC2-BORDER-LEAVES:
+        ENT-DC2-EDGE-LEAVES:
     CONNECTED-ENDPOINTS:
       children:
         ENT-DC1-LEAF-DOMAIN-1:
         ENT-DC1-LEAF-DOMAIN-2:
 #        ENT-DC1-LEAF-DOMAIN-3:
-        ENT-DC1-BORDER-LEAVES:
+        ENT-DC1-EDGE-LEAVES:
         ENT-DC2-LEAF-DOMAIN-1:
         ENT-DC2-LEAF-DOMAIN-2:
 #        ENT-DC2-LEAF-DOMAIN-3:
-        ENT-DC2-BORDER-LEAVES:
+        ENT-DC2-EDGE-LEAVES:
