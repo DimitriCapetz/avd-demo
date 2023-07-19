@@ -1,93 +1,93 @@
 ---
 cvp_devices:
-  - fqdn: ENT-DC1-BORDER1
-    parentContainerName: ENT-DC1-BORDER-LEAVES
+  - fqdn: ENT-DC1-EDGE1
+    parentContainerName: ENT DC1 EDGE LEAVES
     configlets:
-      - AVD-L3LSV_ENT-DC1-BORDER1
-  - fqdn: ENT-DC1-BORDER2
-    parentContainerName: ENT-DC1-BORDER-LEAVES
+      - AVD-L3LSV_ENT-DC1-EDGE1
+  - fqdn: ENT-DC1-EDGE2
+    parentContainerName: ENT DC1 EDGE LEAVES
     configlets:
-      - AVD-L3LSV_ENT-DC1-BORDER2
+      - AVD-L3LSV_ENT-DC1-EDGE2
   - fqdn: ENT-DC1-LEAF1
-    parentContainerName: ENT-DC1-LEAF-DOMAIN-1
+    parentContainerName: ENT DC1 LEAF DOMAIN 1
     configlets:
       - AVD-L3LSV_ENT-DC1-LEAF1
   - fqdn: ENT-DC1-LEAF2
-    parentContainerName: ENT-DC1-LEAF-DOMAIN-1
+    parentContainerName: ENT DC1 LEAF DOMAIN 1
     configlets:
       - AVD-L3LSV_ENT-DC1-LEAF2
   - fqdn: ENT-DC1-LEAF3
-    parentContainerName: ENT-DC1-LEAF-DOMAIN-2
+    parentContainerName: ENT DC1 LEAF DOMAIN 2
     configlets:
       - AVD-L3LSV_ENT-DC1-LEAF3
   - fqdn: ENT-DC1-LEAF4
-    parentContainerName: ENT-DC1-LEAF-DOMAIN-2
+    parentContainerName: ENT DC1 LEAF DOMAIN 2
     configlets:
       - AVD-L3LSV_ENT-DC1-LEAF4
   - fqdn: ENT-DC1-SPINE1
-    parentContainerName: ENT-DC1-SPINES
+    parentContainerName: ENT DC1 SPINES
     configlets:
       - AVD-L3LSV_ENT-DC1-SPINE1
   - fqdn: ENT-DC1-SPINE2
-    parentContainerName: ENT-DC1-SPINES
+    parentContainerName: ENT DC1 SPINES
     configlets:
       - AVD-L3LSV_ENT-DC1-SPINE2
-  - fqdn: ENT-DC2-BORDER1
-    parentContainerName: ENT-DC2-BORDER-LEAVES
+  - fqdn: ENT-DC2-EDGE1
+    parentContainerName: ENT DC2 EDGE LEAVES
     configlets:
-      - AVD-L3LSV_ENT-DC2-BORDER1
-  - fqdn: ENT-DC2-BORDER2
-    parentContainerName: ENT-DC2-BORDER-LEAVES
+      - AVD-L3LSV_ENT-DC2-EDGE1
+  - fqdn: ENT-DC2-EDGE2
+    parentContainerName: ENT DC2 EDGE LEAVES
     configlets:
-      - AVD-L3LSV_ENT-DC2-BORDER2
+      - AVD-L3LSV_ENT-DC2-EDGE2
   - fqdn: ENT-DC2-LEAF1
-    parentContainerName: ENT-DC2-LEAF-DOMAIN-1
+    parentContainerName: ENT DC2 LEAF DOMAIN 1
     configlets:
       - AVD-L3LSV_ENT-DC2-LEAF1
   - fqdn: ENT-DC2-LEAF2
-    parentContainerName: ENT-DC2-LEAF-DOMAIN-1
+    parentContainerName: ENT DC2 LEAF DOMAIN 1
     configlets:
       - AVD-L3LSV_ENT-DC2-LEAF2
   - fqdn: ENT-DC2-LEAF3
-    parentContainerName: ENT-DC2-LEAF-DOMAIN-2
+    parentContainerName: ENT DC2 LEAF DOMAIN 2
     configlets:
       - AVD-L3LSV_ENT-DC2-LEAF3
   - fqdn: ENT-DC2-LEAF4
-    parentContainerName: ENT-DC2-LEAF-DOMAIN-2
+    parentContainerName: ENT DC2 LEAF DOMAIN 2
     configlets:
       - AVD-L3LSV_ENT-DC2-LEAF4
   - fqdn: ENT-DC2-SPINE1
-    parentContainerName: ENT-DC2-SPINES
+    parentContainerName: ENT DC2 SPINES
     configlets:
       - AVD-L3LSV_ENT-DC2-SPINE1
   - fqdn: ENT-DC2-SPINE2
-    parentContainerName: ENT-DC2-SPINES
+    parentContainerName: ENT DC2 SPINES
     configlets:
       - AVD-L3LSV_ENT-DC2-SPINE2
 cvp_containers:
-  ENT-DC1:
-    parentContainerName: ENTERPRISE-DC
-  ENT-DC1-BORDER-LEAVES:
-    parentContainerName: ENT-DC1-LEAVES
-  ENT-DC1-LEAF-DOMAIN-1:
-    parentContainerName: ENT-DC1-LEAVES
-  ENT-DC1-LEAF-DOMAIN-2:
-    parentContainerName: ENT-DC1-LEAVES
-  ENT-DC1-LEAVES:
-    parentContainerName: ENT-DC1
-  ENT-DC1-SPINES:
-    parentContainerName: ENT-DC1
-  ENT-DC2:
-    parentContainerName: ENTERPRISE-DC
-  ENT-DC2-BORDER-LEAVES:
-    parentContainerName: ENT-DC2-LEAVES
-  ENT-DC2-LEAF-DOMAIN-1:
-    parentContainerName: ENT-DC2-LEAVES
-  ENT-DC2-LEAF-DOMAIN-2:
-    parentContainerName: ENT-DC2-LEAVES
-  ENT-DC2-LEAVES:
-    parentContainerName: ENT-DC2
-  ENT-DC2-SPINES:
-    parentContainerName: ENT-DC2
-  ENTERPRISE-DC:
+  ENT DC1 EDGE LEAVES:
+    parentContainerName: ENT DC1 LEAVES
+  ENT DC1 LEAF DOMAIN 1:
+    parentContainerName: ENT DC1 LEAVES
+  ENT DC1 LEAF DOMAIN 2:
+    parentContainerName: ENT DC1 LEAVES
+  ENT DC1 LEAVES:
+    parentContainerName: ENT DC1
+  ENT DC1 SPINES:
+    parentContainerName: ENT DC1
+  ENT DC1:
+    parentContainerName: ENTERPRISE DC
+  ENT DC2 EDGE LEAVES:
+    parentContainerName: ENT DC2 LEAVES
+  ENT DC2 LEAF DOMAIN 1:
+    parentContainerName: ENT DC2 LEAVES
+  ENT DC2 LEAF DOMAIN 2:
+    parentContainerName: ENT DC2 LEAVES
+  ENT DC2 LEAVES:
+    parentContainerName: ENT DC2
+  ENT DC2 SPINES:
+    parentContainerName: ENT DC2
+  ENT DC2:
+    parentContainerName: ENTERPRISE DC
+  ENTERPRISE DC:
     parentContainerName: Tenant

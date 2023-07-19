@@ -2,7 +2,7 @@
 # L3LS Fabric Values - update these values with caution,
 # SOME CHANGES COULD BE DISRUPTIVE.
 
-fabric_name: ENTERPRISE-DC
+fabric_name: EnterpriseDC
 
 # TerminAttr Settings for CVaaS
 daemon_terminattr:

@@ -1916,58 +1916,58 @@ cvp_configlets:
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
     \     no shutdown\n!\nend\n"
 cvp_topology:
-  ENT-DC1:
+  ENT DC1:
     devices: []
-    parent_container: ENTERPRISE-DC
-  ENT-DC1-BORDER-LEAVES:
+    parent_container: ENTERPRISE DC
+  ENT DC1 EDGE LEAVES:
     devices:
-    - ENT-DC1-BORDER1
-    - ENT-DC1-BORDER2
-    parent_container: ENT-DC1-LEAVES
-  ENT-DC1-LEAF-DOMAIN-1:
+    - ENT-DC1-EDGE1
+    - ENT-DC1-EDGE2
+    parent_container: ENT DC1 LEAVES
+  ENT DC1 LEAF DOMAIN 1:
     devices:
     - ENT-DC1-LEAF1
     - ENT-DC1-LEAF2
-    parent_container: ENT-DC1-LEAVES
-  ENT-DC1-LEAF-DOMAIN-2:
+    parent_container: ENT DC1 LEAVES
+  ENT DC1 LEAF DOMAIN 2:
     devices:
     - ENT-DC1-LEAF3
     - ENT-DC1-LEAF4
-    parent_container: ENT-DC1-LEAVES
-  ENT-DC1-LEAVES:
+    parent_container: ENT DC1 LEAVES
+  ENT DC1 LEAVES:
     devices: []
-    parent_container: ENT-DC1
-  ENT-DC1-SPINES:
+    parent_container: ENT DC1
+  ENT DC1 SPINES:
     devices:
     - ENT-DC1-SPINE1
     - ENT-DC1-SPINE2
-    parent_container: ENT-DC1
-  ENT-DC2:
+    parent_container: ENT DC1
+  ENT DC2:
     devices: []
-    parent_container: ENTERPRISE-DC
-  ENT-DC2-BORDER-LEAVES:
+    parent_container: ENTERPRISE DC
+  ENT DC2 EDGE LEAVES:
     devices:
-    - ENT-DC2-BORDER1
-    - ENT-DC2-BORDER2
-    parent_container: ENT-DC2-LEAVES
-  ENT-DC2-LEAF-DOMAIN-1:
+    - ENT-DC2-EDGE1
+    - ENT-DC2-EDGE2
+    parent_container: ENT DC2 LEAVES
+  ENT DC2 LEAF DOMAIN 1:
     devices:
     - ENT-DC2-LEAF1
     - ENT-DC2-LEAF2
-    parent_container: ENT-DC2-LEAVES
-  ENT-DC2-LEAF-DOMAIN-2:
+    parent_container: ENT DC2 LEAVES
+  ENT DC2 LEAF DOMAIN 2:
     devices:
     - ENT-DC2-LEAF3
     - ENT-DC2-LEAF4
-    parent_container: ENT-DC2-LEAVES
-  ENT-DC2-LEAVES:
+    parent_container: ENT DC2 LEAVES
+  ENT DC2 LEAVES:
     devices: []
-    parent_container: ENT-DC2
-  ENT-DC2-SPINES:
+    parent_container: ENT DC2
+  ENT DC2 SPINES:
     devices:
     - ENT-DC2-SPINE1
     - ENT-DC2-SPINE2
-    parent_container: ENT-DC2
-  ENTERPRISE-DC:
+    parent_container: ENT DC2
+  ENTERPRISE DC:
     devices: []
     parent_container: Tenant
