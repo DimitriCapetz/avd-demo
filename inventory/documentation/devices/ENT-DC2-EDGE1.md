@@ -68,6 +68,7 @@
 - [Virtual Source NAT](#virtual-source-nat)
   - [Virtual Source NAT Summary](#virtual-source-nat-summary)
   - [Virtual Source NAT Configuration](#virtual-source-nat-configuration)
+- [EOS CLI](#eos-cli)
 
 ## Management
 
@@ -655,7 +656,7 @@ interface Port-Channel551
 | --------- | ----------- | --- | ---------- |
 | Loopback0 | EVPN_Overlay_Peering | default | 10.2.101.31/32 |
 | Loopback1 | VTEP_VXLAN_Tunnel_Source | default | 10.2.102.31/32 |
-| Loopback10 | CORP_VTEP_DIAGNOSTICS | CORP | 10.255.10.31/32 |
+| Loopback10 | CORP_VTEP_DIAGNOSTICS | CORP | 10.255.20.31/32 |
 
 ##### IPv6
 
@@ -684,7 +685,7 @@ interface Loopback10
    description CORP_VTEP_DIAGNOSTICS
    no shutdown
    vrf CORP
-   ip address 10.255.10.31/32
+   ip address 10.255.20.31/32
 ```
 
 ### VLAN Interfaces
@@ -1062,14 +1063,14 @@ router bgp 65216
 
 | Interval | Minimum RX | Multiplier |
 | -------- | ---------- | ---------- |
-| 1200 | 1200 | 3 |
+| 15000 | 15000 | 5 |
 
 #### Router BFD Device Configuration
 
 ```eos
 !
 router bfd
-   multihop interval 1200 min-rx 1200 multiplier 3
+   multihop interval 15000 min-rx 15000 multiplier 5
 ```
 
 ## Multicast
@@ -1181,11 +1182,20 @@ vrf instance management
 
 | Source NAT VRF | Source NAT IP Address |
 | -------------- | --------------------- |
-| CORP | 10.255.10.31 |
+| CORP | 10.255.20.31 |
 
 ### Virtual Source NAT Configuration
 
 ```eos
 !
-ip address virtual source-nat vrf CORP address 10.255.10.31
+ip address virtual source-nat vrf CORP address 10.255.20.31
+```
+
+## EOS CLI
+
+```eos
+!
+interface Management1
+no lldp transmit
+no lldp receive
 ```

@@ -132,6 +132,11 @@ management_api_http:
   enable_vrfs:
   - name: management
   enable_https: true
+eos_cli: 'interface Management1
+
+  no lldp transmit
+
+  no lldp receive'
 ethernet_interfaces:
 - name: Ethernet1/1
   peer: ENT-DC1-LEAF1
@@ -206,6 +211,6 @@ route_maps:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
 router_bfd:
   multihop:
-    interval: 1200
-    min_rx: 1200
-    multiplier: 3
+    interval: 15000
+    min_rx: 15000
+    multiplier: 5

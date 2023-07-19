@@ -17,22 +17,22 @@
 
 | POD | Type | Node | Management IP | Platform | Provisioned in CloudVision | Serial Number |
 | --- | ---- | ---- | ------------- | -------- | -------------------------- | ------------- |
-| EnterpriseDC | l3leaf | ENT-DC1-EDGE1 | 10.99.99.55/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC1-EDGE2 | 10.99.99.56/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC1-LEAF1 | 10.99.99.43/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC1-LEAF2 | 10.99.99.44/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC1-LEAF3 | 10.99.99.45/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC1-LEAF4 | 10.99.99.46/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | spine | ENT-DC1-SPINE1 | 10.99.99.39/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | spine | ENT-DC1-SPINE2 | 10.99.99.40/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC2-EDGE1 | 10.99.99.57/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC2-EDGE2 | 10.99.99.58/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC2-LEAF1 | 10.99.99.49/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC2-LEAF2 | 10.99.99.50/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC2-LEAF3 | 10.99.99.51/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | l3leaf | ENT-DC2-LEAF4 | 10.99.99.52/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | spine | ENT-DC2-SPINE1 | 10.99.99.41/24 | cEOSLab | Provisioned | - |
-| EnterpriseDC | spine | ENT-DC2-SPINE2 | 10.99.99.42/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-EDGE1 | 10.99.99.55/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-EDGE2 | 10.99.99.56/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-LEAF1 | 10.99.99.43/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-LEAF2 | 10.99.99.44/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-LEAF3 | 10.99.99.45/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | l3leaf | ENT-DC1-LEAF4 | 10.99.99.46/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | spine | ENT-DC1-SPINE1 | 10.99.99.39/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC1 | spine | ENT-DC1-SPINE2 | 10.99.99.40/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-EDGE1 | 10.99.99.57/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-EDGE2 | 10.99.99.58/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-LEAF1 | 10.99.99.49/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-LEAF2 | 10.99.99.50/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-LEAF3 | 10.99.99.51/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | l3leaf | ENT-DC2-LEAF4 | 10.99.99.52/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | spine | ENT-DC2-SPINE1 | 10.99.99.41/24 | cEOSLab | Provisioned | - |
+| EnterpriseDC2 | spine | ENT-DC2-SPINE2 | 10.99.99.42/24 | cEOSLab | Provisioned | - |
 
 > Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
 
@@ -133,22 +133,22 @@
 
 | POD | Node | Loopback0 |
 | --- | ---- | --------- |
-| EnterpriseDC | ENT-DC1-EDGE1 | 10.1.101.31/32 |
-| EnterpriseDC | ENT-DC1-EDGE2 | 10.1.101.32/32 |
-| EnterpriseDC | ENT-DC1-LEAF1 | 10.1.101.1/32 |
-| EnterpriseDC | ENT-DC1-LEAF2 | 10.1.101.2/32 |
-| EnterpriseDC | ENT-DC1-LEAF3 | 10.1.101.3/32 |
-| EnterpriseDC | ENT-DC1-LEAF4 | 10.1.101.4/32 |
-| EnterpriseDC | ENT-DC1-SPINE1 | 10.1.100.1/32 |
-| EnterpriseDC | ENT-DC1-SPINE2 | 10.1.100.2/32 |
-| EnterpriseDC | ENT-DC2-EDGE1 | 10.2.101.31/32 |
-| EnterpriseDC | ENT-DC2-EDGE2 | 10.2.101.32/32 |
-| EnterpriseDC | ENT-DC2-LEAF1 | 10.2.101.1/32 |
-| EnterpriseDC | ENT-DC2-LEAF2 | 10.2.101.2/32 |
-| EnterpriseDC | ENT-DC2-LEAF3 | 10.2.101.3/32 |
-| EnterpriseDC | ENT-DC2-LEAF4 | 10.2.101.4/32 |
-| EnterpriseDC | ENT-DC2-SPINE1 | 10.2.100.1/32 |
-| EnterpriseDC | ENT-DC2-SPINE2 | 10.2.100.2/32 |
+| EnterpriseDC1 | ENT-DC1-EDGE1 | 10.1.101.31/32 |
+| EnterpriseDC1 | ENT-DC1-EDGE2 | 10.1.101.32/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF1 | 10.1.101.1/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF2 | 10.1.101.2/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF3 | 10.1.101.3/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF4 | 10.1.101.4/32 |
+| EnterpriseDC1 | ENT-DC1-SPINE1 | 10.1.100.1/32 |
+| EnterpriseDC1 | ENT-DC1-SPINE2 | 10.1.100.2/32 |
+| EnterpriseDC2 | ENT-DC2-EDGE1 | 10.2.101.31/32 |
+| EnterpriseDC2 | ENT-DC2-EDGE2 | 10.2.101.32/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF1 | 10.2.101.1/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF2 | 10.2.101.2/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF3 | 10.2.101.3/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF4 | 10.2.101.4/32 |
+| EnterpriseDC2 | ENT-DC2-SPINE1 | 10.2.100.1/32 |
+| EnterpriseDC2 | ENT-DC2-SPINE2 | 10.2.100.2/32 |
 
 ### VTEP Loopback VXLAN Tunnel Source Interfaces (VTEPs Only)
 
@@ -161,15 +161,15 @@
 
 | POD | Node | Loopback1 |
 | --- | ---- | --------- |
-| EnterpriseDC | ENT-DC1-EDGE1 | 10.1.102.31/32 |
-| EnterpriseDC | ENT-DC1-EDGE2 | 10.1.102.31/32 |
-| EnterpriseDC | ENT-DC1-LEAF1 | 10.1.102.1/32 |
-| EnterpriseDC | ENT-DC1-LEAF2 | 10.1.102.1/32 |
-| EnterpriseDC | ENT-DC1-LEAF3 | 10.1.102.3/32 |
-| EnterpriseDC | ENT-DC1-LEAF4 | 10.1.102.3/32 |
-| EnterpriseDC | ENT-DC2-EDGE1 | 10.2.102.31/32 |
-| EnterpriseDC | ENT-DC2-EDGE2 | 10.2.102.31/32 |
-| EnterpriseDC | ENT-DC2-LEAF1 | 10.2.102.1/32 |
-| EnterpriseDC | ENT-DC2-LEAF2 | 10.2.102.1/32 |
-| EnterpriseDC | ENT-DC2-LEAF3 | 10.2.102.3/32 |
-| EnterpriseDC | ENT-DC2-LEAF4 | 10.2.102.3/32 |
+| EnterpriseDC1 | ENT-DC1-EDGE1 | 10.1.102.31/32 |
+| EnterpriseDC1 | ENT-DC1-EDGE2 | 10.1.102.31/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF1 | 10.1.102.1/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF2 | 10.1.102.1/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF3 | 10.1.102.3/32 |
+| EnterpriseDC1 | ENT-DC1-LEAF4 | 10.1.102.3/32 |
+| EnterpriseDC2 | ENT-DC2-EDGE1 | 10.2.102.31/32 |
+| EnterpriseDC2 | ENT-DC2-EDGE2 | 10.2.102.31/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF1 | 10.2.102.1/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF2 | 10.2.102.1/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF3 | 10.2.102.3/32 |
+| EnterpriseDC2 | ENT-DC2-LEAF4 | 10.2.102.3/32 |

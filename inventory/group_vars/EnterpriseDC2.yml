@@ -3,6 +3,7 @@
 # SOME CHANGES COULD BE DISRUPTIVE.
 
 fabric_name: EnterpriseDC
+pod_name: EnterpriseDC2
 
 # TerminAttr Settings for CVaaS
 daemon_terminattr:
@@ -193,9 +194,9 @@ p2p_uplinks_mtu: 1500
 
 # Adjust default bfd values, to avoid high CPU.
 bfd_multihop:
-  interval: 1200
-  min_rx: 1200
-  multiplier: 3
+  interval: 15000
+  min_rx: 15000
+  multiplier: 5
 
 # List of additional CVP configlets to bind to devices and containers
 # Configlets MUST be configured on CVP before running AVD playbooks.

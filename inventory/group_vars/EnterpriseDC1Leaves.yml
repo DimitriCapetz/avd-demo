@@ -24,6 +24,10 @@ l3leaf:
       - 'graceful-restart restart-time 300'
       - 'graceful-restart'
     spanning_tree_mode: mstp
+    raw_eos_cli: |-
+      interface Management1
+      no lldp transmit
+      no lldp receive
   node_groups:
     EnterpriseDC1LeafDomain1:
       bgp_as: 65101

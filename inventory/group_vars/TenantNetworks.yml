@@ -14,7 +14,12 @@ tenants:
         vrf_vni: 10
         vtep_diagnostic:
           loopback: 10
-          loopback_ip_range: 10.255.10.0/24
+          #loopback_ip_range: 10.255.10.0/24
+          loopback_ip_pools:
+            - pod: EnterpriseDC1
+              ipv4_pool: 10.255.10.0/24
+            - pod: EnterpriseDC2
+              ipv4_pool: 10.255.20.0/24
         svis:
           - id: 10
             name: CORP_GLOBAL_SHARED_10

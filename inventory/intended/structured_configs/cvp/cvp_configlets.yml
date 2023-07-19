@@ -71,7 +71,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
     \  description Make routes learned over MLAG Peer-link less preferred on spines
     to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
-    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65116\n   router-id 10.1.101.31\n
+    interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65116\n   router-id 10.1.101.31\n
     \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
     200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
     EVPN-OVERLAY-CORE peer group\n   neighbor EVPN-OVERLAY-CORE update-source Loopback0\n
@@ -132,7 +132,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC1-EDGE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -205,7 +205,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
     \  description Make routes learned over MLAG Peer-link less preferred on spines
     to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
-    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65116\n   router-id 10.1.101.32\n
+    interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65116\n   router-id 10.1.101.32\n
     \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
     200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
     EVPN-OVERLAY-CORE peer group\n   neighbor EVPN-OVERLAY-CORE update-source Loopback0\n
@@ -266,7 +266,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC1-LEAF1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -343,7 +343,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65101\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65101\n
     \  router-id 10.1.101.1\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -391,7 +391,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC1-LEAF2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -468,7 +468,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65101\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65101\n
     \  router-id 10.1.101.2\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -516,7 +516,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC1-LEAF3: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -593,7 +593,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65102\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65102\n
     \  router-id 10.1.101.3\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -641,7 +641,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC1-LEAF4: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -718,7 +718,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65102\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65102\n
     \  router-id 10.1.101.4\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -766,7 +766,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC1-SPINE1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
     last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -813,7 +813,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.100.0/24 eq 32\n!\nip
     route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map
     RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65100\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65100\n
     \  router-id 10.1.100.1\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS next-hop-unchanged\n
@@ -861,7 +861,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC1-SPINE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
     last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -908,7 +908,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.1.100.0/24 eq 32\n!\nip
     route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map
     RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65100\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65100\n
     \  router-id 10.1.100.2\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS next-hop-unchanged\n
@@ -956,7 +956,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-EDGE1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1004,7 +1004,7 @@ cvp_configlets:
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.31/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
     10.2.102.31/32\n!\ninterface Loopback10\n   description CORP_VTEP_DIAGNOSTICS\n
-    \  no shutdown\n   vrf CORP\n   ip address 10.255.10.31/32\n!\ninterface Management1\n
+    \  no shutdown\n   vrf CORP\n   ip address 10.255.20.31/32\n!\ninterface Management1\n
     \  description oob_management\n   no shutdown\n   vrf management\n   ip address
     10.99.99.57/24\n!\ninterface Vlan10\n   description CORP_GLOBAL_SHARED_10\n   no
     shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface Vlan20\n
@@ -1018,7 +1018,7 @@ cvp_configlets:
     \  vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vrf CORP
     vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address
-    00:1c:73:00:00:01\n!\nip address virtual source-nat vrf CORP address 10.255.10.31\n!\nip
+    00:1c:73:00:00:01\n!\nip address virtual source-nat vrf CORP address 10.255.20.31\n!\nip
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
@@ -1029,7 +1029,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
     \  description Make routes learned over MLAG Peer-link less preferred on spines
     to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
-    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65216\n   router-id 10.2.101.31\n
+    interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65216\n   router-id 10.2.101.31\n
     \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
     200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
     EVPN-OVERLAY-CORE peer group\n   neighbor EVPN-OVERLAY-CORE update-source Loopback0\n
@@ -1090,7 +1090,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-EDGE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1138,7 +1138,7 @@ cvp_configlets:
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.32/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
     10.2.102.31/32\n!\ninterface Loopback10\n   description CORP_VTEP_DIAGNOSTICS\n
-    \  no shutdown\n   vrf CORP\n   ip address 10.255.10.32/32\n!\ninterface Management1\n
+    \  no shutdown\n   vrf CORP\n   ip address 10.255.20.32/32\n!\ninterface Management1\n
     \  description oob_management\n   no shutdown\n   vrf management\n   ip address
     10.99.99.58/24\n!\ninterface Vlan10\n   description CORP_GLOBAL_SHARED_10\n   no
     shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface Vlan20\n
@@ -1152,7 +1152,7 @@ cvp_configlets:
     \  vxlan virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vrf CORP
     vni 10\n!\nmac address-table aging-time 1300\n!\nip virtual-router mac-address
-    00:1c:73:00:00:01\n!\nip address virtual source-nat vrf CORP address 10.255.10.32\n!\nip
+    00:1c:73:00:00:01\n!\nip address virtual source-nat vrf CORP address 10.255.20.32\n!\nip
     access-list standard SNMP-ACL\n   10 permit 10.0.0.0/8\n!\nip routing\nip routing
     vrf CORP\nno ip routing vrf management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 10.2.101.0/24 eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag
@@ -1163,7 +1163,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map RM-MLAG-PEER-IN permit 10\n
     \  description Make routes learned over MLAG Peer-link less preferred on spines
     to ensure optimal routing\n   set origin incomplete\n!\nrouter bfd\n   multihop
-    interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65216\n   router-id 10.2.101.32\n
+    interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65216\n   router-id 10.2.101.32\n
     \  maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n   distance bgp 20
     200 200\n   graceful-restart restart-time 300\n   graceful-restart\n   neighbor
     EVPN-OVERLAY-CORE peer group\n   neighbor EVPN-OVERLAY-CORE update-source Loopback0\n
@@ -1224,7 +1224,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-LEAF1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1273,7 +1273,7 @@ cvp_configlets:
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.1/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
     10.2.102.1/32\n!\ninterface Loopback10\n   description CORP_VTEP_DIAGNOSTICS\n
-    \  no shutdown\n   vrf CORP\n   ip address 10.255.10.1/32\n!\ninterface Management1\n
+    \  no shutdown\n   vrf CORP\n   ip address 10.255.20.1/32\n!\ninterface Management1\n
     \  description oob_management\n   no shutdown\n   vrf management\n   ip address
     10.99.99.49/24\n!\ninterface Vlan10\n   description CORP_GLOBAL_SHARED_10\n   no
     shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface Vlan20\n
@@ -1291,7 +1291,7 @@ cvp_configlets:
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vlan 210
     vni 10210\n   vxlan vlan 211 vni 10211\n   vxlan vrf CORP vni 10\n!\nmac address-table
     aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip address
-    virtual source-nat vrf CORP address 10.255.10.1\n!\nip access-list standard SNMP-ACL\n
+    virtual source-nat vrf CORP address 10.255.20.1\n!\nip access-list standard SNMP-ACL\n
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
@@ -1301,7 +1301,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65201\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65201\n
     \  router-id 10.2.101.1\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -1349,7 +1349,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-LEAF2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1398,7 +1398,7 @@ cvp_configlets:
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.2/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
     10.2.102.1/32\n!\ninterface Loopback10\n   description CORP_VTEP_DIAGNOSTICS\n
-    \  no shutdown\n   vrf CORP\n   ip address 10.255.10.2/32\n!\ninterface Management1\n
+    \  no shutdown\n   vrf CORP\n   ip address 10.255.20.2/32\n!\ninterface Management1\n
     \  description oob_management\n   no shutdown\n   vrf management\n   ip address
     10.99.99.50/24\n!\ninterface Vlan10\n   description CORP_GLOBAL_SHARED_10\n   no
     shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface Vlan20\n
@@ -1416,7 +1416,7 @@ cvp_configlets:
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vlan 210
     vni 10210\n   vxlan vlan 211 vni 10211\n   vxlan vrf CORP vni 10\n!\nmac address-table
     aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip address
-    virtual source-nat vrf CORP address 10.255.10.2\n!\nip access-list standard SNMP-ACL\n
+    virtual source-nat vrf CORP address 10.255.20.2\n!\nip access-list standard SNMP-ACL\n
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
@@ -1426,7 +1426,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65201\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65201\n
     \  router-id 10.2.101.2\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -1474,7 +1474,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-LEAF3: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1523,7 +1523,7 @@ cvp_configlets:
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.3/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
     10.2.102.3/32\n!\ninterface Loopback10\n   description CORP_VTEP_DIAGNOSTICS\n
-    \  no shutdown\n   vrf CORP\n   ip address 10.255.10.3/32\n!\ninterface Management1\n
+    \  no shutdown\n   vrf CORP\n   ip address 10.255.20.3/32\n!\ninterface Management1\n
     \  description oob_management\n   no shutdown\n   vrf management\n   ip address
     10.99.99.51/24\n!\ninterface Vlan10\n   description CORP_GLOBAL_SHARED_10\n   no
     shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface Vlan20\n
@@ -1541,7 +1541,7 @@ cvp_configlets:
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vlan 210
     vni 10210\n   vxlan vlan 212 vni 10212\n   vxlan vrf CORP vni 10\n!\nmac address-table
     aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip address
-    virtual source-nat vrf CORP address 10.255.10.3\n!\nip access-list standard SNMP-ACL\n
+    virtual source-nat vrf CORP address 10.255.20.3\n!\nip access-list standard SNMP-ACL\n
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
@@ -1551,7 +1551,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65202\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65202\n
     \  router-id 10.2.101.3\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -1599,7 +1599,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-LEAF4: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log last
     1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1648,7 +1648,7 @@ cvp_configlets:
     EVPN_Overlay_Peering\n   no shutdown\n   ip address 10.2.101.4/32\n!\ninterface
     Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
     10.2.102.3/32\n!\ninterface Loopback10\n   description CORP_VTEP_DIAGNOSTICS\n
-    \  no shutdown\n   vrf CORP\n   ip address 10.255.10.4/32\n!\ninterface Management1\n
+    \  no shutdown\n   vrf CORP\n   ip address 10.255.20.4/32\n!\ninterface Management1\n
     \  description oob_management\n   no shutdown\n   vrf management\n   ip address
     10.99.99.52/24\n!\ninterface Vlan10\n   description CORP_GLOBAL_SHARED_10\n   no
     shutdown\n   vrf CORP\n   ip address virtual 10.10.10.1/24\n!\ninterface Vlan20\n
@@ -1666,7 +1666,7 @@ cvp_configlets:
     4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vlan 210
     vni 10210\n   vxlan vlan 212 vni 10212\n   vxlan vrf CORP vni 10\n!\nmac address-table
     aging-time 1300\n!\nip virtual-router mac-address 00:1c:73:00:00:01\n!\nip address
-    virtual source-nat vrf CORP address 10.255.10.4\n!\nip access-list standard SNMP-ACL\n
+    virtual source-nat vrf CORP address 10.255.20.4\n!\nip access-list standard SNMP-ACL\n
     \  10 permit 10.0.0.0/8\n!\nip routing\nip routing vrf CORP\nno ip routing vrf
     management\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.101.0/24
     eq 32\n   seq 20 permit 10.2.102.0/24 eq 32\n!\nmlag configuration\n   domain-id
@@ -1676,7 +1676,7 @@ cvp_configlets:
     900\n!\nroute-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map
     RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link
     less preferred on spines to ensure optimal routing\n   set origin incomplete\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65202\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65202\n
     \  router-id 10.2.101.4\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS update-source
@@ -1724,7 +1724,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-SPINE1: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
     last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1771,7 +1771,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.100.0/24 eq 32\n!\nip
     route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map
     RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65200\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65200\n
     \  router-id 10.2.100.1\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS next-hop-unchanged\n
@@ -1819,7 +1819,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
   AVD-L3LSV_ENT-DC2-SPINE2: "!RANCID-CONTENT-TYPE: arista\n!\nalias 1min show log
     last 1 minute\nalias tail bash sudo tail -f /var/log/messages\n!\ndaemon TerminAttr\n
     \  exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token
@@ -1866,7 +1866,7 @@ cvp_configlets:
     prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 10.2.100.0/24 eq 32\n!\nip
     route vrf management 0.0.0.0/0 10.99.99.1\n!\narp aging timeout default 900\n!\nroute-map
     RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nrouter
-    bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65200\n
+    bfd\n   multihop interval 15000 min-rx 15000 multiplier 5\n!\nrouter bgp 65200\n
     \  router-id 10.2.100.2\n   maximum-paths 4 ecmp 4\n   no bgp default ipv4-unicast\n
     \  distance bgp 20 200 200\n   graceful-restart restart-time 300\n   graceful-restart\n
     \  neighbor EVPN-OVERLAY-PEERS peer group\n   neighbor EVPN-OVERLAY-PEERS next-hop-unchanged\n
@@ -1914,7 +1914,7 @@ cvp_configlets:
     only.\n            Unauthorized access is a violation of state and federal,\n
     \           civil and criminal laws.\n\n**************************************************************************\nEOF\n\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf management\n
-    \     no shutdown\n!\nend\n"
+    \     no shutdown\n!\ninterface Management1\nno lldp transmit\nno lldp receive\n!\nend\n"
 cvp_topology:
   EnterpriseDC:
     devices: []

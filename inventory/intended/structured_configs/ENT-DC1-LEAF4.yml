@@ -170,6 +170,11 @@ management_api_http:
   enable_vrfs:
   - name: management
   enable_https: true
+eos_cli: 'interface Management1
+
+  no lldp transmit
+
+  no lldp receive'
 vlans:
 - id: 4093
   tenant: system
@@ -362,9 +367,9 @@ prefix_lists:
     action: permit 10.1.102.0/24 eq 32
 router_bfd:
   multihop:
-    interval: 1200
-    min_rx: 1200
-    multiplier: 3
+    interval: 15000
+    min_rx: 15000
+    multiplier: 5
 ip_igmp_snooping:
   globally_enabled: true
 ip_virtual_router_mac_address: 00:1c:73:00:00:01

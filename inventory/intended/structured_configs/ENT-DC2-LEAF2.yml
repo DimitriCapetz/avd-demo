@@ -170,6 +170,11 @@ management_api_http:
   enable_vrfs:
   - name: management
   enable_https: true
+eos_cli: 'interface Management1
+
+  no lldp transmit
+
+  no lldp receive'
 vlans:
 - id: 4093
   tenant: system
@@ -352,7 +357,7 @@ loopback_interfaces:
   description: CORP_VTEP_DIAGNOSTICS
   shutdown: false
   vrf: CORP
-  ip_address: 10.255.10.2/32
+  ip_address: 10.255.20.2/32
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:
@@ -362,9 +367,9 @@ prefix_lists:
     action: permit 10.2.102.0/24 eq 32
 router_bfd:
   multihop:
-    interval: 1200
-    min_rx: 1200
-    multiplier: 3
+    interval: 15000
+    min_rx: 15000
+    multiplier: 5
 ip_igmp_snooping:
   globally_enabled: true
 ip_virtual_router_mac_address: 00:1c:73:00:00:01
@@ -389,4 +394,4 @@ vxlan_interface:
         vni: 10
 virtual_source_nat_vrfs:
 - name: CORP
-  ip_address: 10.255.10.2
+  ip_address: 10.255.20.2

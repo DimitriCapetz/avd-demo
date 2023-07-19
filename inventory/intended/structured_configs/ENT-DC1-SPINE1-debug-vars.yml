@@ -1,4 +1,5 @@
 fabric_name: EnterpriseDC
+pod_name: EnterpriseDC1
 daemon_terminattr:
   cvaddrs:
   - apiserver.arista.io:443
@@ -135,9 +136,9 @@ aliases: 'alias 1min show log last 1 minute
   alias tail bash sudo tail -f /var/log/messages'
 p2p_uplinks_mtu: 1500
 bfd_multihop:
-  interval: 1200
-  min_rx: 1200
-  multiplier: 3
+  interval: 15000
+  min_rx: 15000
+  multiplier: 5
 type: spine
 spine:
   defaults:
@@ -149,6 +150,11 @@ spine:
     - distance bgp 20 200 200
     - graceful-restart restart-time 300
     - graceful-restart
+    raw_eos_cli: 'interface Management1
+
+      no lldp transmit
+
+      no lldp receive'
   nodes:
     ENT-DC1-SPINE1:
       id: 1
@@ -2098,7 +2104,7 @@ groups:
   - ENT-DC2-LEAF4
   - ENT-DC2-EDGE1
   - ENT-DC2-EDGE2
-omit: __omit_place_holder__aa8a0430361a8678e8c97510f7ca689dbdde9931
+omit: __omit_place_holder__7a91eceaa851204c40e4e72d1b3b10441baedbea
 ansible_version:
   string: 2.14.8
   full: 2.14.8

@@ -68,6 +68,7 @@
 - [Virtual Source NAT](#virtual-source-nat)
   - [Virtual Source NAT Summary](#virtual-source-nat-summary)
   - [Virtual Source NAT Configuration](#virtual-source-nat-configuration)
+- [EOS CLI](#eos-cli)
 
 ## Management
 
@@ -1062,14 +1063,14 @@ router bgp 65116
 
 | Interval | Minimum RX | Multiplier |
 | -------- | ---------- | ---------- |
-| 1200 | 1200 | 3 |
+| 15000 | 15000 | 5 |
 
 #### Router BFD Device Configuration
 
 ```eos
 !
 router bfd
-   multihop interval 1200 min-rx 1200 multiplier 3
+   multihop interval 15000 min-rx 15000 multiplier 5
 ```
 
 ## Multicast
@@ -1188,4 +1189,13 @@ vrf instance management
 ```eos
 !
 ip address virtual source-nat vrf CORP address 10.255.10.31
+```
+
+## EOS CLI
+
+```eos
+!
+interface Management1
+no lldp transmit
+no lldp receive
 ```
