@@ -50,14 +50,6 @@ router_bgp:
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65102'
     description: ENT-DC1-LEAF4_Ethernet49/1
-  - ip_address: 10.1.0.17
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65103'
-    description: ENT-DC1-LEAF5_Ethernet49/1
-  - ip_address: 10.1.0.21
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65103'
-    description: ENT-DC1-LEAF6_Ethernet49/1
   - ip_address: 10.1.0.121
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65116'
@@ -90,14 +82,6 @@ router_bgp:
     peer_group: EVPN-OVERLAY-PEERS
     description: ENT-DC1-LEAF4
     remote_as: '65102'
-  - ip_address: 10.1.101.5
-    peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC1-LEAF5
-    remote_as: '65103'
-  - ip_address: 10.1.101.6
-    peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC1-LEAF6
-    remote_as: '65103'
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -185,24 +169,6 @@ ethernet_interfaces:
   mtu: 1500
   type: routed
   ip_address: 10.1.0.12/31
-- name: Ethernet5/1
-  peer: ENT-DC1-LEAF5
-  peer_interface: Ethernet49/1
-  peer_type: l3leaf
-  description: P2P_LINK_TO_ENT-DC1-LEAF5_Ethernet49/1
-  shutdown: false
-  mtu: 1500
-  type: routed
-  ip_address: 10.1.0.16/31
-- name: Ethernet6/1
-  peer: ENT-DC1-LEAF6
-  peer_interface: Ethernet49/1
-  peer_type: l3leaf
-  description: P2P_LINK_TO_ENT-DC1-LEAF6_Ethernet49/1
-  shutdown: false
-  mtu: 1500
-  type: routed
-  ip_address: 10.1.0.20/31
 - name: Ethernet7/1
   peer: ENT-DC1-BORDER1
   peer_interface: Ethernet49/1

@@ -489,8 +489,6 @@ mac address-table aging-time 1300
 | Ethernet2/1 | P2P_LINK_TO_ENT-DC1-LEAF2_Ethernet50/1 | routed | - | 10.1.0.6/31 | default | 1500 | False | - | - |
 | Ethernet3/1 | P2P_LINK_TO_ENT-DC1-LEAF3_Ethernet50/1 | routed | - | 10.1.0.10/31 | default | 1500 | False | - | - |
 | Ethernet4/1 | P2P_LINK_TO_ENT-DC1-LEAF4_Ethernet50/1 | routed | - | 10.1.0.14/31 | default | 1500 | False | - | - |
-| Ethernet5/1 | P2P_LINK_TO_ENT-DC1-LEAF5_Ethernet50/1 | routed | - | 10.1.0.18/31 | default | 1500 | False | - | - |
-| Ethernet6/1 | P2P_LINK_TO_ENT-DC1-LEAF6_Ethernet50/1 | routed | - | 10.1.0.22/31 | default | 1500 | False | - | - |
 | Ethernet7/1 | P2P_LINK_TO_ENT-DC1-BORDER1_Ethernet50/1 | routed | - | 10.1.0.122/31 | default | 1500 | False | - | - |
 | Ethernet8/1 | P2P_LINK_TO_ENT-DC1-BORDER2_Ethernet50/1 | routed | - | 10.1.0.126/31 | default | 1500 | False | - | - |
 
@@ -525,20 +523,6 @@ interface Ethernet4/1
    mtu 1500
    no switchport
    ip address 10.1.0.14/31
-!
-interface Ethernet5/1
-   description P2P_LINK_TO_ENT-DC1-LEAF5_Ethernet50/1
-   no shutdown
-   mtu 1500
-   no switchport
-   ip address 10.1.0.18/31
-!
-interface Ethernet6/1
-   description P2P_LINK_TO_ENT-DC1-LEAF6_Ethernet50/1
-   no shutdown
-   mtu 1500
-   no switchport
-   ip address 10.1.0.22/31
 !
 interface Ethernet7/1
    description P2P_LINK_TO_ENT-DC1-BORDER1_Ethernet50/1
@@ -684,16 +668,12 @@ Global ARP timeout: 900
 | 10.1.0.7 | 65101 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
 | 10.1.0.11 | 65102 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
 | 10.1.0.15 | 65102 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
-| 10.1.0.19 | 65103 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
-| 10.1.0.23 | 65103 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
 | 10.1.0.123 | 65116 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
 | 10.1.0.127 | 65116 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
 | 10.1.101.1 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
 | 10.1.101.2 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
 | 10.1.101.3 | 65102 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
 | 10.1.101.4 | 65102 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
-| 10.1.101.5 | 65103 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
-| 10.1.101.6 | 65103 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
 | 10.1.101.31 | 65116 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
 | 10.1.101.32 | 65116 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
 
@@ -738,12 +718,6 @@ router bgp 65100
    neighbor 10.1.0.15 peer group IPv4-UNDERLAY-PEERS
    neighbor 10.1.0.15 remote-as 65102
    neighbor 10.1.0.15 description ENT-DC1-LEAF4_Ethernet50/1
-   neighbor 10.1.0.19 peer group IPv4-UNDERLAY-PEERS
-   neighbor 10.1.0.19 remote-as 65103
-   neighbor 10.1.0.19 description ENT-DC1-LEAF5_Ethernet50/1
-   neighbor 10.1.0.23 peer group IPv4-UNDERLAY-PEERS
-   neighbor 10.1.0.23 remote-as 65103
-   neighbor 10.1.0.23 description ENT-DC1-LEAF6_Ethernet50/1
    neighbor 10.1.0.123 peer group IPv4-UNDERLAY-PEERS
    neighbor 10.1.0.123 remote-as 65116
    neighbor 10.1.0.123 description ENT-DC1-BORDER1_Ethernet50/1
@@ -762,12 +736,6 @@ router bgp 65100
    neighbor 10.1.101.4 peer group EVPN-OVERLAY-PEERS
    neighbor 10.1.101.4 remote-as 65102
    neighbor 10.1.101.4 description ENT-DC1-LEAF4
-   neighbor 10.1.101.5 peer group EVPN-OVERLAY-PEERS
-   neighbor 10.1.101.5 remote-as 65103
-   neighbor 10.1.101.5 description ENT-DC1-LEAF5
-   neighbor 10.1.101.6 peer group EVPN-OVERLAY-PEERS
-   neighbor 10.1.101.6 remote-as 65103
-   neighbor 10.1.101.6 description ENT-DC1-LEAF6
    neighbor 10.1.101.31 peer group EVPN-OVERLAY-PEERS
    neighbor 10.1.101.31 remote-as 65116
    neighbor 10.1.101.31 description ENT-DC1-BORDER1

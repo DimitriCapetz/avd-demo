@@ -511,8 +511,8 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
-| 10 | CORP_DC1_SHARED | - |
-| 20 | CORP_DC1_SHARED | - |
+| 10 | CORP_GLOBAL_SHARED_10 | - |
+| 20 | CORP_GLOBAL_SHARED_20 | - |
 | 210 | CORP_DC2_SHARED | - |
 | 211 | CORP_DC2_RACK1 | - |
 | 3009 | MLAG_iBGP_CORP | LEAF_PEER_L3 |
@@ -524,10 +524,10 @@ vlan internal order ascending range 1006 1199
 ```eos
 !
 vlan 10
-   name CORP_DC1_SHARED
+   name CORP_GLOBAL_SHARED_10
 !
 vlan 20
-   name CORP_DC1_SHARED
+   name CORP_GLOBAL_SHARED_20
 !
 vlan 210
    name CORP_DC2_SHARED
@@ -700,8 +700,8 @@ interface Loopback10
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
-| Vlan10 | CORP_DC1_SHARED | CORP | - | False |
-| Vlan20 | CORP_DC1_SHARED | CORP | - | False |
+| Vlan10 | CORP_GLOBAL_SHARED_10 | CORP | - | False |
+| Vlan20 | CORP_GLOBAL_SHARED_20 | CORP | - | False |
 | Vlan210 | CORP_DC2_SHARED | CORP | - | False |
 | Vlan211 | CORP_DC2_RACK1 | CORP | - | False |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf CORP | CORP | 1500 | False |
@@ -725,13 +725,13 @@ interface Loopback10
 ```eos
 !
 interface Vlan10
-   description CORP_DC1_SHARED
+   description CORP_GLOBAL_SHARED_10
    no shutdown
    vrf CORP
    ip address virtual 10.10.10.1/24
 !
 interface Vlan20
-   description CORP_DC1_SHARED
+   description CORP_GLOBAL_SHARED_20
    no shutdown
    vrf CORP
    ip address virtual 10.20.20.1/24

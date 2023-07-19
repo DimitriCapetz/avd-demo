@@ -24,14 +24,6 @@ cvp_devices:
     parentContainerName: ENT-DC1-LEAF-DOMAIN-2
     configlets:
       - AVD-L3LSV_ENT-DC1-LEAF4
-  - fqdn: ENT-DC1-LEAF5
-    parentContainerName: ENT-DC1-LEAF-DOMAIN-3
-    configlets:
-      - AVD-L3LSV_ENT-DC1-LEAF5
-  - fqdn: ENT-DC1-LEAF6
-    parentContainerName: ENT-DC1-LEAF-DOMAIN-3
-    configlets:
-      - AVD-L3LSV_ENT-DC1-LEAF6
   - fqdn: ENT-DC1-SPINE1
     parentContainerName: ENT-DC1-SPINES
     configlets:
@@ -64,14 +56,6 @@ cvp_devices:
     parentContainerName: ENT-DC2-LEAF-DOMAIN-2
     configlets:
       - AVD-L3LSV_ENT-DC2-LEAF4
-  - fqdn: ENT-DC2-LEAF5
-    parentContainerName: ENT-DC2-LEAF-DOMAIN-3
-    configlets:
-      - AVD-L3LSV_ENT-DC2-LEAF5
-  - fqdn: ENT-DC2-LEAF6
-    parentContainerName: ENT-DC2-LEAF-DOMAIN-3
-    configlets:
-      - AVD-L3LSV_ENT-DC2-LEAF6
   - fqdn: ENT-DC2-SPINE1
     parentContainerName: ENT-DC2-SPINES
     configlets:
@@ -89,8 +73,6 @@ cvp_containers:
     parentContainerName: ENT-DC1-LEAVES
   ENT-DC1-LEAF-DOMAIN-2:
     parentContainerName: ENT-DC1-LEAVES
-  ENT-DC1-LEAF-DOMAIN-3:
-    parentContainerName: ENT-DC1-LEAVES
   ENT-DC1-LEAVES:
     parentContainerName: ENT-DC1
   ENT-DC1-SPINES:
@@ -102,8 +84,6 @@ cvp_containers:
   ENT-DC2-LEAF-DOMAIN-1:
     parentContainerName: ENT-DC2-LEAVES
   ENT-DC2-LEAF-DOMAIN-2:
-    parentContainerName: ENT-DC2-LEAVES
-  ENT-DC2-LEAF-DOMAIN-3:
     parentContainerName: ENT-DC2-LEAVES
   ENT-DC2-LEAVES:
     parentContainerName: ENT-DC2
