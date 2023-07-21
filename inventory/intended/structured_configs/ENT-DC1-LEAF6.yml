@@ -101,6 +101,14 @@ router_bgp:
       - 10020:10020
     redistribute_routes:
     - learned
+  - id: 30
+    tenant: CORP
+    rd: 10.1.101.6:10030
+    route_targets:
+      both:
+      - 10030:10030
+    redistribute_routes:
+    - learned
   - id: 110
     tenant: CORP
     rd: 10.1.101.6:10110
@@ -188,6 +196,9 @@ vlans:
 - id: 20
   name: CORP_GLOBAL_SHARED_20
   tenant: CORP
+- id: 30
+  name: CORP_GLOBAL_SHARED_30
+  tenant: CORP
 - id: 110
   name: CORP_DC1_SHARED
   tenant: CORP
@@ -227,6 +238,14 @@ vlan_interfaces:
   shutdown: false
   ip_address_virtual: 10.20.20.1/24
   vrf: CORP
+- name: Vlan30
+  tenant: CORP
+  tags:
+  - GLOBAL_LEAVES
+  description: CORP_GLOBAL_SHARED_30
+  shutdown: false
+  ip_address_virtual: 10.30.30.1/24
+  vrf: CORP
 - name: Vlan110
   tenant: CORP
   tags:
@@ -260,6 +279,15 @@ port_channel_interfaces:
   trunk_groups:
   - LEAF_PEER_L3
   - MLAG
+- name: Port-Channel1
+  description: ENT-DC1-HOST3_PortChannel1
+  type: switched
+  shutdown: false
+  eos_cli: sflow enable
+  mode: trunk
+  vlans: 10,20,110,113
+  spanning_tree_portfast: edge
+  mlag: 1
 ethernet_interfaces:
 - name: Ethernet55/1
   peer: ENT-DC1-LEAF5
@@ -299,6 +327,17 @@ ethernet_interfaces:
   mtu: 1500
   type: routed
   ip_address: 10.1.0.23/31
+- name: Ethernet1
+  peer: ENT-DC1-HOST3
+  peer_interface: Et2
+  peer_type: server
+  port_profile: DC1_RACK3_SERVER
+  description: ENT-DC1-HOST3_Et2
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 1
+    mode: active
 mlag_configuration:
   domain_id: EnterpriseDC1LeafDomain3
   local_interface: Vlan4094
@@ -361,6 +400,8 @@ vxlan_interface:
         vni: 10010
       - id: 20
         vni: 10020
+      - id: 30
+        vni: 10030
       - id: 110
         vni: 10110
       - id: 113

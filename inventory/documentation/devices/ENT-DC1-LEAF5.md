@@ -514,6 +514,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | CORP_GLOBAL_SHARED_10 | - |
 | 20 | CORP_GLOBAL_SHARED_20 | - |
+| 30 | CORP_GLOBAL_SHARED_30 | - |
 | 110 | CORP_DC1_SHARED | - |
 | 113 | CORP_DC1_RACK3 | - |
 | 3009 | MLAG_iBGP_CORP | LEAF_PEER_L3 |
@@ -529,6 +530,9 @@ vlan 10
 !
 vlan 20
    name CORP_GLOBAL_SHARED_20
+!
+vlan 30
+   name CORP_GLOBAL_SHARED_30
 !
 vlan 110
    name CORP_DC1_SHARED
@@ -572,6 +576,7 @@ mac address-table aging-time 1300
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
+| Ethernet1 | ENT-DC1-HOST3_Et1 | *trunk | *10,20,110,113 | *- | *- | 1 |
 | Ethernet55/1 | MLAG_PEER_ENT-DC1-LEAF6_Ethernet55/1 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 551 |
 | Ethernet56/1 | MLAG_PEER_ENT-DC1-LEAF6_Ethernet56/1 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 551 |
 
@@ -587,6 +592,11 @@ mac address-table aging-time 1300
 #### Ethernet Interfaces Device Configuration
 
 ```eos
+!
+interface Ethernet1
+   description ENT-DC1-HOST3_Et1
+   no shutdown
+   channel-group 1 mode active
 !
 interface Ethernet49/1
    description P2P_LINK_TO_ENT-DC1-SPINE1_Ethernet5/1
@@ -621,11 +631,22 @@ interface Ethernet56/1
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
+| Port-Channel1 | ENT-DC1-HOST3_PortChannel1 | switched | trunk | 10,20,110,113 | - | - | - | - | 1 | - |
 | Port-Channel551 | MLAG_PEER_ENT-DC1-LEAF6_Po551 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
 
 ```eos
+!
+interface Port-Channel1
+   description ENT-DC1-HOST3_PortChannel1
+   no shutdown
+   switchport
+   switchport trunk allowed vlan 10,20,110,113
+   switchport mode trunk
+   mlag 1
+   spanning-tree portfast
+   sflow enable
 !
 interface Port-Channel551
    description MLAG_PEER_ENT-DC1-LEAF6_Po551
@@ -686,6 +707,7 @@ interface Loopback10
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | CORP_GLOBAL_SHARED_10 | CORP | - | False |
 | Vlan20 | CORP_GLOBAL_SHARED_20 | CORP | - | False |
+| Vlan30 | CORP_GLOBAL_SHARED_30 | CORP | - | False |
 | Vlan110 | CORP_DC1_SHARED | CORP | - | False |
 | Vlan113 | CORP_DC1_RACK3 | CORP | - | False |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf CORP | CORP | 1500 | False |
@@ -698,6 +720,7 @@ interface Loopback10
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  CORP  |  -  |  10.10.10.1/24  |  -  |  -  |  -  |  -  |
 | Vlan20 |  CORP  |  -  |  10.20.20.1/24  |  -  |  -  |  -  |  -  |
+| Vlan30 |  CORP  |  -  |  10.30.30.1/24  |  -  |  -  |  -  |  -  |
 | Vlan110 |  CORP  |  -  |  10.110.110.1/24  |  -  |  -  |  -  |  -  |
 | Vlan113 |  CORP  |  -  |  10.113.113.1/24  |  -  |  -  |  -  |  -  |
 | Vlan3009 |  CORP  |  10.255.251.8/31  |  -  |  -  |  -  |  -  |  -  |
@@ -719,6 +742,12 @@ interface Vlan20
    no shutdown
    vrf CORP
    ip address virtual 10.20.20.1/24
+!
+interface Vlan30
+   description CORP_GLOBAL_SHARED_30
+   no shutdown
+   vrf CORP
+   ip address virtual 10.30.30.1/24
 !
 interface Vlan110
    description CORP_DC1_SHARED
@@ -769,6 +798,7 @@ interface Vlan4094
 | ---- | --- | ---------- | --------------- |
 | 10 | 10010 | - | - |
 | 20 | 10020 | - | - |
+| 30 | 10030 | - | - |
 | 110 | 10110 | - | - |
 | 113 | 10113 | - | - |
 
@@ -789,6 +819,7 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 20 vni 10020
+   vxlan vlan 30 vni 10030
    vxlan vlan 110 vni 10110
    vxlan vlan 113 vni 10113
    vxlan vrf CORP vni 10
@@ -938,6 +969,7 @@ Global ARP timeout: 900
 | ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
 | 10 | 10.1.101.5:10010 | 10010:10010 | - | - | learned |
 | 20 | 10.1.101.5:10020 | 10020:10020 | - | - | learned |
+| 30 | 10.1.101.5:10030 | 10030:10030 | - | - | learned |
 | 110 | 10.1.101.5:10110 | 10110:10110 | - | - | learned |
 | 113 | 10.1.101.5:10113 | 10113:10113 | - | - | learned |
 
@@ -1008,6 +1040,11 @@ router bgp 65103
    vlan 20
       rd 10.1.101.5:10020
       route-target both 10020:10020
+      redistribute learned
+   !
+   vlan 30
+      rd 10.1.101.5:10030
+      route-target both 10030:10030
       redistribute learned
    !
    address-family evpn
