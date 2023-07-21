@@ -105,3 +105,17 @@ servers:
           mode: active
           raw_eos_cli: |-
             sflow enable
+  - name: ENT-DC2-HOST3
+    rack: DC2_LEAF_DOMAIN_3
+    adapters:
+      # MLAG dual-homed connection from Et1 to ENT-DC2-LEAF5_Eth1
+      #                            from Et2 to ENT-DC2-LEAF6_Eth1
+      - endpoint_ports: [ Et1, Et2 ]
+        switch_ports: [ Ethernet1, Ethernet1 ]
+        switches: [ ENT-DC2-LEAF5, ENT-DC2-LEAF6 ]
+        profile: DC2_RACK3_SERVER
+        port_channel:
+          description: PortChannel1
+          mode: active
+          raw_eos_cli: |-
+            sflow enable

@@ -70,6 +70,11 @@ tenants:
             tags: [DC2_LEAF_DOMAIN_2]
             enabled: true
             ip_address_virtual: 10.212.212.1/24
+          - id: 213
+            name: CORP_DC2_RACK3
+            tags: [DC2_LEAF_DOMAIN_3]
+            enabled: true
+            ip_address_virtual: 10.213.213.1/24
 #        # WAN Peering Config to EDGE Leaves
 #        l3_interfaces:
 #          - interfaces: [ Ethernet1 ]
