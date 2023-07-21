@@ -30,11 +30,6 @@ tenants:
             tags: [GLOBAL_LEAVES]
             enabled: true
             ip_address_virtual: 10.20.20.1/24
-          - id: 30
-            name: CORP_GLOBAL_SHARED_30
-            tags: [GLOBAL_LEAVES]
-            enabled: true
-            ip_address_virtual: 10.30.30.1/24
           - id: 110
             name: CORP_DC1_SHARED
             tags: [DC1_COMPUTE_LEAVES]
@@ -70,11 +65,6 @@ tenants:
             tags: [DC2_LEAF_DOMAIN_2]
             enabled: true
             ip_address_virtual: 10.212.212.1/24
-          - id: 213
-            name: CORP_DC2_RACK3
-            tags: [DC2_LEAF_DOMAIN_3]
-            enabled: true
-            ip_address_virtual: 10.213.213.1/24
 #        # WAN Peering Config to EDGE Leaves
 #        l3_interfaces:
 #          - interfaces: [ Ethernet1 ]

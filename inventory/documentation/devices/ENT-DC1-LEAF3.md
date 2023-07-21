@@ -514,7 +514,6 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | CORP_GLOBAL_SHARED_10 | - |
 | 20 | CORP_GLOBAL_SHARED_20 | - |
-| 30 | CORP_GLOBAL_SHARED_30 | - |
 | 110 | CORP_DC1_SHARED | - |
 | 112 | CORP_DC1_RACK2 | - |
 | 3009 | MLAG_iBGP_CORP | LEAF_PEER_L3 |
@@ -530,9 +529,6 @@ vlan 10
 !
 vlan 20
    name CORP_GLOBAL_SHARED_20
-!
-vlan 30
-   name CORP_GLOBAL_SHARED_30
 !
 vlan 110
    name CORP_DC1_SHARED
@@ -707,7 +703,6 @@ interface Loopback10
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | CORP_GLOBAL_SHARED_10 | CORP | - | False |
 | Vlan20 | CORP_GLOBAL_SHARED_20 | CORP | - | False |
-| Vlan30 | CORP_GLOBAL_SHARED_30 | CORP | - | False |
 | Vlan110 | CORP_DC1_SHARED | CORP | - | False |
 | Vlan112 | CORP_DC1_RACK2 | CORP | - | False |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf CORP | CORP | 1500 | False |
@@ -720,7 +715,6 @@ interface Loopback10
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  CORP  |  -  |  10.10.10.1/24  |  -  |  -  |  -  |  -  |
 | Vlan20 |  CORP  |  -  |  10.20.20.1/24  |  -  |  -  |  -  |  -  |
-| Vlan30 |  CORP  |  -  |  10.30.30.1/24  |  -  |  -  |  -  |  -  |
 | Vlan110 |  CORP  |  -  |  10.110.110.1/24  |  -  |  -  |  -  |  -  |
 | Vlan112 |  CORP  |  -  |  10.112.112.1/24  |  -  |  -  |  -  |  -  |
 | Vlan3009 |  CORP  |  10.255.251.4/31  |  -  |  -  |  -  |  -  |  -  |
@@ -742,12 +736,6 @@ interface Vlan20
    no shutdown
    vrf CORP
    ip address virtual 10.20.20.1/24
-!
-interface Vlan30
-   description CORP_GLOBAL_SHARED_30
-   no shutdown
-   vrf CORP
-   ip address virtual 10.30.30.1/24
 !
 interface Vlan110
    description CORP_DC1_SHARED
@@ -798,7 +786,6 @@ interface Vlan4094
 | ---- | --- | ---------- | --------------- |
 | 10 | 10010 | - | - |
 | 20 | 10020 | - | - |
-| 30 | 10030 | - | - |
 | 110 | 10110 | - | - |
 | 112 | 10112 | - | - |
 
@@ -819,7 +806,6 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 20 vni 10020
-   vxlan vlan 30 vni 10030
    vxlan vlan 110 vni 10110
    vxlan vlan 112 vni 10112
    vxlan vrf CORP vni 10
@@ -969,7 +955,6 @@ Global ARP timeout: 900
 | ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
 | 10 | 10.1.101.3:10010 | 10010:10010 | - | - | learned |
 | 20 | 10.1.101.3:10020 | 10020:10020 | - | - | learned |
-| 30 | 10.1.101.3:10030 | 10030:10030 | - | - | learned |
 | 110 | 10.1.101.3:10110 | 10110:10110 | - | - | learned |
 | 112 | 10.1.101.3:10112 | 10112:10112 | - | - | learned |
 
@@ -1040,11 +1025,6 @@ router bgp 65102
    vlan 20
       rd 10.1.101.3:10020
       route-target both 10020:10020
-      redistribute learned
-   !
-   vlan 30
-      rd 10.1.101.3:10030
-      route-target both 10030:10030
       redistribute learned
    !
    address-family evpn

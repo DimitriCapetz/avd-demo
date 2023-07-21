@@ -101,14 +101,6 @@ router_bgp:
       - 10020:10020
     redistribute_routes:
     - learned
-  - id: 30
-    tenant: CORP
-    rd: 10.1.101.2:10030
-    route_targets:
-      both:
-      - 10030:10030
-    redistribute_routes:
-    - learned
   - id: 110
     tenant: CORP
     rd: 10.1.101.2:10110
@@ -196,9 +188,6 @@ vlans:
 - id: 20
   name: CORP_GLOBAL_SHARED_20
   tenant: CORP
-- id: 30
-  name: CORP_GLOBAL_SHARED_30
-  tenant: CORP
 - id: 110
   name: CORP_DC1_SHARED
   tenant: CORP
@@ -237,14 +226,6 @@ vlan_interfaces:
   description: CORP_GLOBAL_SHARED_20
   shutdown: false
   ip_address_virtual: 10.20.20.1/24
-  vrf: CORP
-- name: Vlan30
-  tenant: CORP
-  tags:
-  - GLOBAL_LEAVES
-  description: CORP_GLOBAL_SHARED_30
-  shutdown: false
-  ip_address_virtual: 10.30.30.1/24
   vrf: CORP
 - name: Vlan110
   tenant: CORP
@@ -400,8 +381,6 @@ vxlan_interface:
         vni: 10010
       - id: 20
         vni: 10020
-      - id: 30
-        vni: 10030
       - id: 110
         vni: 10110
       - id: 111

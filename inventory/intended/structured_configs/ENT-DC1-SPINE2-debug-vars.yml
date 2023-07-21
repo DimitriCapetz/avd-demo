@@ -327,7 +327,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC2-SPINE1
         - ENT-DC2-SPINE2
-        vlans: 10,20,30,210-211
+        vlans: 10,20,210-211
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC2-LEAF2:
@@ -389,7 +389,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC2-SPINE1
         - ENT-DC2-SPINE2
-        vlans: 10,20,30,210-211
+        vlans: 10,20,210-211
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC2-LEAF3:
@@ -451,7 +451,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC2-SPINE1
         - ENT-DC2-SPINE2
-        vlans: 10,20,30,210,212
+        vlans: 10,20,210,212
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC2-LEAF4:
@@ -513,7 +513,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC2-SPINE1
         - ENT-DC2-SPINE2
-        vlans: 10,20,30,210,212
+        vlans: 10,20,210,212
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC2-EDGE1:
@@ -575,7 +575,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC2-SPINE1
         - ENT-DC2-SPINE2
-        vlans: 10,20,30
+        vlans: 10,20
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC2-EDGE2:
@@ -637,7 +637,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC2-SPINE1
         - ENT-DC2-SPINE2
-        vlans: 10,20,30
+        vlans: 10,20
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF1:
@@ -699,7 +699,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30,110-111
+        vlans: 10,20,110-111
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF2:
@@ -761,7 +761,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30,110-111
+        vlans: 10,20,110-111
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF3:
@@ -823,7 +823,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30,110,112
+        vlans: 10,20,110,112
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF4:
@@ -885,7 +885,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30,110,112
+        vlans: 10,20,110,112
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF5:
@@ -947,7 +947,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30,110,113
+        vlans: 10,20,110,113
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF6:
@@ -1009,7 +1009,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30,110,113
+        vlans: 10,20,110,113
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-EDGE1:
@@ -1071,7 +1071,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30
+        vlans: 10,20
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-EDGE2:
@@ -1133,7 +1133,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,30
+        vlans: 10,20
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
   avd_overlay_peers:
@@ -1362,7 +1362,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC2-SPINE1
       - ENT-DC2-SPINE2
-      vlans: 10,20,30,210-211
+      vlans: 10,20,210-211
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC2-LEAF2:
@@ -1424,7 +1424,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC2-SPINE1
       - ENT-DC2-SPINE2
-      vlans: 10,20,30,210-211
+      vlans: 10,20,210-211
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC2-LEAF3:
@@ -1486,7 +1486,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC2-SPINE1
       - ENT-DC2-SPINE2
-      vlans: 10,20,30,210,212
+      vlans: 10,20,210,212
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC2-LEAF4:
@@ -1548,7 +1548,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC2-SPINE1
       - ENT-DC2-SPINE2
-      vlans: 10,20,30,210,212
+      vlans: 10,20,210,212
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC2-EDGE1:
@@ -1610,7 +1610,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC2-SPINE1
       - ENT-DC2-SPINE2
-      vlans: 10,20,30
+      vlans: 10,20
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC2-EDGE2:
@@ -1672,7 +1672,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC2-SPINE1
       - ENT-DC2-SPINE2
-      vlans: 10,20,30
+      vlans: 10,20
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF1:
@@ -1734,7 +1734,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30,110-111
+      vlans: 10,20,110-111
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF2:
@@ -1796,7 +1796,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30,110-111
+      vlans: 10,20,110-111
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF3:
@@ -1858,7 +1858,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30,110,112
+      vlans: 10,20,110,112
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF4:
@@ -1920,7 +1920,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30,110,112
+      vlans: 10,20,110,112
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF5:
@@ -1982,7 +1982,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30,110,113
+      vlans: 10,20,110,113
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF6:
@@ -2044,7 +2044,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30,110,113
+      vlans: 10,20,110,113
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-EDGE1:
@@ -2106,7 +2106,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30
+      vlans: 10,20
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-EDGE2:
@@ -2168,7 +2168,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,30
+      vlans: 10,20
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
 avd_overlay_peers:
@@ -2379,7 +2379,7 @@ groups:
   - ENT-DC2-LEAF4
   - ENT-DC2-EDGE1
   - ENT-DC2-EDGE2
-omit: __omit_place_holder__6f9bfe2cb001256dfebe17918d43e849a3b2431c
+omit: __omit_place_holder__0351d4818a6b41596c04f5dadef310858e0241c4
 ansible_version:
   string: 2.14.8
   full: 2.14.8

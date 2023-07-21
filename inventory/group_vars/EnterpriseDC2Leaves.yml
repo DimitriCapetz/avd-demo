@@ -59,21 +59,6 @@ l3leaf:
           uplink_switch_interfaces: ['Ethernet4/1', 'Ethernet4/1']
           filter:
             tags: [ GLOBAL_LEAVES, DC2_COMPUTE_LEAVES, DC2_LEAF_DOMAIN_2 ]
-    EnterpriseDC2LeafDomain3:
-      bgp_as: 65203
-      nodes:
-        ENT-DC2-LEAF5:
-          id: 5
-          mgmt_ip: 10.99.99.53/24
-          uplink_switch_interfaces: ['Ethernet5/1', 'Ethernet5/1']
-          filter:
-            tags: [ GLOBAL_LEAVES, DC2_COMPUTE_LEAVES, DC2_LEAF_DOMAIN_3 ]
-        ENT-DC2-LEAF6:
-          id: 6
-          mgmt_ip: 10.99.99.54/24
-          uplink_switch_interfaces: ['Ethernet6/1', 'Ethernet6/1']
-          filter:
-            tags: [ GLOBAL_LEAVES, DC2_COMPUTE_LEAVES, DC2_LEAF_DOMAIN_3 ]
     EnterpriseDC2EdgeLeaves:
       bgp_as: 65216
       evpn_gateway:
