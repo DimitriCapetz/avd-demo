@@ -47,6 +47,10 @@ all:
                   hosts:
                     ENT-DC2-LEAF3:
                     ENT-DC2-LEAF4:
+                EnterpriseDC2LeafDomain3:
+                  hosts:
+                    ENT-DC2-LEAF5:
+                    ENT-DC2-LEAF6:
                 EnterpriseDC2EdgeLeaves:
                   hosts:
                     ENT-DC2-EDGE1:
@@ -59,6 +63,7 @@ all:
         EnterpriseDC1EdgeLeaves:
         EnterpriseDC2LeafDomain1:
         EnterpriseDC2LeafDomain2:
+        EnterpriseDC2LeafDomain3:
         EnterpriseDC2EdgeLeaves:
     ConnectedEndpoints:
       children:
@@ -68,4 +73,5 @@ all:
         EnterpriseDC1EdgeLeaves:
         EnterpriseDC2LeafDomain1:
         EnterpriseDC2LeafDomain2:
+        EnterpriseDC2LeafDomain3:
         EnterpriseDC2EdgeLeaves:
