@@ -15,8 +15,8 @@ spine:
       - 'graceful-restart'
     raw_eos_cli: |-
       interface Management1
-      no lldp transmit
-      no lldp receive
+         no lldp transmit
+         no lldp receive
   nodes:
     ENT-DC2-SPINE1:
       id: 1

@@ -881,6 +881,6 @@ vrf instance management
 ```eos
 !
 interface Management1
-no lldp transmit
-no lldp receive
+   no lldp transmit
+   no lldp receive
 ```

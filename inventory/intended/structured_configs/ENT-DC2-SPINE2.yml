@@ -50,14 +50,6 @@ router_bgp:
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65202'
     description: ENT-DC2-LEAF4_Ethernet50/1
-  - ip_address: 10.2.0.19
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65203'
-    description: ENT-DC2-LEAF5_Ethernet50/1
-  - ip_address: 10.2.0.23
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65203'
-    description: ENT-DC2-LEAF6_Ethernet50/1
   - ip_address: 10.2.0.123
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65216'
@@ -90,14 +82,6 @@ router_bgp:
     peer_group: EVPN-OVERLAY-PEERS
     description: ENT-DC2-LEAF4
     remote_as: '65202'
-  - ip_address: 10.2.101.5
-    peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC2-LEAF5
-    remote_as: '65203'
-  - ip_address: 10.2.101.6
-    peer_group: EVPN-OVERLAY-PEERS
-    description: ENT-DC2-LEAF6
-    remote_as: '65203'
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -148,11 +132,7 @@ management_api_http:
   enable_vrfs:
   - name: management
   enable_https: true
-eos_cli: 'interface Management1
-
-  no lldp transmit
-
-  no lldp receive'
+eos_cli: "interface Management1\n   no lldp transmit\n   no lldp receive"
 ethernet_interfaces:
 - name: Ethernet1/1
   peer: ENT-DC2-LEAF1
@@ -190,24 +170,6 @@ ethernet_interfaces:
   mtu: 1500
   type: routed
   ip_address: 10.2.0.14/31
-- name: Ethernet5/1
-  peer: ENT-DC2-LEAF5
-  peer_interface: Ethernet50/1
-  peer_type: l3leaf
-  description: P2P_LINK_TO_ENT-DC2-LEAF5_Ethernet50/1
-  shutdown: false
-  mtu: 1500
-  type: routed
-  ip_address: 10.2.0.18/31
-- name: Ethernet6/1
-  peer: ENT-DC2-LEAF6
-  peer_interface: Ethernet50/1
-  peer_type: l3leaf
-  description: P2P_LINK_TO_ENT-DC2-LEAF6_Ethernet50/1
-  shutdown: false
-  mtu: 1500
-  type: routed
-  ip_address: 10.2.0.22/31
 - name: Ethernet7/1
   peer: ENT-DC2-EDGE1
   peer_interface: Ethernet50/1
