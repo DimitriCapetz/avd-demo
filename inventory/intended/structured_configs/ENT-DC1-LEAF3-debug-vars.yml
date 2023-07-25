@@ -61,6 +61,23 @@ servers:
       description: PortChannel1
       mode: active
       raw_eos_cli: sflow enable
+- name: ENT-DC1-HOST3
+  rack: DC1_LEAF_DOMAIN_3
+  adapters:
+  - endpoint_ports:
+    - Et1
+    - Et2
+    switch_ports:
+    - Ethernet1
+    - Ethernet1
+    switches:
+    - ENT-DC1-LEAF5
+    - ENT-DC1-LEAF6
+    profile: DC1_RACK3_SERVER
+    port_channel:
+      description: PortChannel1
+      mode: active
+      raw_eos_cli: sflow enable
 - name: ENT-DC2-HOST1
   rack: DC2_LEAF_DOMAIN_1
   adapters:
@@ -2731,7 +2748,7 @@ groups:
   - ENT-DC2-LEAF4
   - ENT-DC2-EDGE1
   - ENT-DC2-EDGE2
-omit: __omit_place_holder__0351d4818a6b41596c04f5dadef310858e0241c4
+omit: __omit_place_holder__cec8fa6475215d85a6e0bdf8d327b9a584d8a877
 ansible_version:
   string: 2.14.8
   full: 2.14.8
