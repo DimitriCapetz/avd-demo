@@ -799,13 +799,9 @@ cvp_configlets:
     113\n   name CORP_DC1_RACK3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group
     LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan
     4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\nvrf instance
-    management\n!\ninterface Port-Channel1\n   description ENT-DC1-HOST3_PortChannel1\n
-    \  no shutdown\n   switchport\n   switchport trunk allowed vlan 10,20,110,113\n
-    \  switchport mode trunk\n   mlag 1\n   spanning-tree portfast\n   sflow enable\n!\ninterface
-    Port-Channel551\n   description MLAG_PEER_ENT-DC1-LEAF6_Po551\n   no shutdown\n
-    \  switchport\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n
-    \  switchport trunk group MLAG\n!\ninterface Ethernet1\n   description ENT-DC1-HOST3_Et1\n
-    \  no shutdown\n   channel-group 1 mode active\n!\ninterface Ethernet49/1\n   description
+    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC1-LEAF6_Po551\n
+    \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
+    LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description
     P2P_LINK_TO_ENT-DC1-SPINE1_Ethernet5/1\n   no shutdown\n   mtu 1500\n   no switchport\n
     \  ip address 10.1.0.17/31\n!\ninterface Ethernet50/1\n   description P2P_LINK_TO_ENT-DC1-SPINE2_Ethernet5/1\n
     \  no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.1.0.19/31\n!\ninterface
@@ -924,13 +920,9 @@ cvp_configlets:
     113\n   name CORP_DC1_RACK3\n!\nvlan 3009\n   name MLAG_iBGP_CORP\n   trunk group
     LEAF_PEER_L3\n!\nvlan 4093\n   name LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan
     4094\n   name MLAG_PEER\n   trunk group MLAG\n!\nvrf instance CORP\n!\nvrf instance
-    management\n!\ninterface Port-Channel1\n   description ENT-DC1-HOST3_PortChannel1\n
-    \  no shutdown\n   switchport\n   switchport trunk allowed vlan 10,20,110,113\n
-    \  switchport mode trunk\n   mlag 1\n   spanning-tree portfast\n   sflow enable\n!\ninterface
-    Port-Channel551\n   description MLAG_PEER_ENT-DC1-LEAF5_Po551\n   no shutdown\n
-    \  switchport\n   switchport mode trunk\n   switchport trunk group LEAF_PEER_L3\n
-    \  switchport trunk group MLAG\n!\ninterface Ethernet1\n   description ENT-DC1-HOST3_Et2\n
-    \  no shutdown\n   channel-group 1 mode active\n!\ninterface Ethernet49/1\n   description
+    management\n!\ninterface Port-Channel551\n   description MLAG_PEER_ENT-DC1-LEAF5_Po551\n
+    \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
+    LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet49/1\n   description
     P2P_LINK_TO_ENT-DC1-SPINE1_Ethernet6/1\n   no shutdown\n   mtu 1500\n   no switchport\n
     \  ip address 10.1.0.21/31\n!\ninterface Ethernet50/1\n   description P2P_LINK_TO_ENT-DC1-SPINE2_Ethernet6/1\n
     \  no shutdown\n   mtu 1500\n   no switchport\n   ip address 10.1.0.23/31\n!\ninterface
