@@ -123,6 +123,12 @@ tenants:
       - GLOBAL_LEAVES
       enabled: true
       ip_address_virtual: 10.20.20.1/24
+    - id: 30
+      name: CORP_GLOBAL_SHARED_30
+      tags:
+      - GLOBAL_LEAVES
+      enabled: true
+      ip_address_virtual: 10.30.30.1/24
     - id: 110
       name: CORP_DC1_SHARED
       tags:
@@ -495,56 +501,6 @@ group_names:
 - TenantNetworks
 ansible_facts:
   avd_switch_facts:
-    ENT-DC1-SPINE1:
-      switch:
-        id: 1
-        type: spine
-        platform: cEOSLab
-        is_deployed: true
-        mgmt_interface: Management1
-        mgmt_ip: 10.99.99.39/24
-        mpls_lsr: false
-        loopback_ipv4_pool: 10.1.100.0/24
-        bgp_as: '65100'
-        underlay_routing_protocol: ebgp
-        router_id: 10.1.100.1
-        evpn_role: server
-        mpls_overlay_role: none
-        overlay:
-          peering_address: 10.1.100.1
-          evpn_mpls: false
-        max_parallel_uplinks: 1
-        max_uplink_switches: 0
-        uplinks: []
-        uplink_peers: []
-        vlans: ''
-        local_endpoint_trunk_groups: []
-        endpoint_trunk_groups: []
-    ENT-DC1-SPINE2:
-      switch:
-        id: 2
-        type: spine
-        platform: cEOSLab
-        is_deployed: true
-        mgmt_interface: Management1
-        mgmt_ip: 10.99.99.40/24
-        mpls_lsr: false
-        loopback_ipv4_pool: 10.1.100.0/24
-        bgp_as: '65100'
-        underlay_routing_protocol: ebgp
-        router_id: 10.1.100.2
-        evpn_role: server
-        mpls_overlay_role: none
-        overlay:
-          peering_address: 10.1.100.2
-          evpn_mpls: false
-        max_parallel_uplinks: 1
-        max_uplink_switches: 0
-        uplinks: []
-        uplink_peers: []
-        vlans: ''
-        local_endpoint_trunk_groups: []
-        endpoint_trunk_groups: []
     ENT-DC2-SPINE1:
       switch:
         id: 1
@@ -595,376 +551,54 @@ ansible_facts:
         vlans: ''
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-    ENT-DC2-LEAF1:
+    ENT-DC1-SPINE1:
       switch:
         id: 1
-        type: l3leaf
+        type: spine
         platform: cEOSLab
         is_deployed: true
         mgmt_interface: Management1
-        mgmt_ip: 10.99.99.49/24
+        mgmt_ip: 10.99.99.39/24
         mpls_lsr: false
-        loopback_ipv4_pool: 10.2.101.0/24
-        uplink_ipv4_pool: 10.2.0.0/23
-        bgp_as: '65201'
+        loopback_ipv4_pool: 10.1.100.0/24
+        bgp_as: '65100'
         underlay_routing_protocol: ebgp
-        vtep_loopback_ipv4_pool: 10.2.102.0/24
-        group: EnterpriseDC2LeafDomain1
-        router_id: 10.2.101.1
-        mlag_peer: ENT-DC2-LEAF2
-        mlag_port_channel_id: 551
-        mlag_interfaces:
-        - Ethernet55/1
-        - Ethernet56/1
-        mlag_ip: 10.255.255.0
-        mlag_l3_ip: 10.255.252.0
-        mlag_switch_ids:
-          primary: 1
-          secondary: 2
-        evpn_role: client
+        router_id: 10.1.100.1
+        evpn_role: server
         mpls_overlay_role: none
-        evpn_route_servers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
         overlay:
-          peering_address: 10.2.101.1
+          peering_address: 10.1.100.1
           evpn_mpls: false
-        vtep_ip: 10.2.102.1
         max_parallel_uplinks: 1
-        max_uplink_switches: 2
-        uplinks:
-        - interface: Ethernet49/1
-          peer: ENT-DC2-SPINE1
-          peer_interface: Ethernet1/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.1
-          peer_ip_address: 10.2.0.0
-        - interface: Ethernet50/1
-          peer: ENT-DC2-SPINE2
-          peer_interface: Ethernet1/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.3
-          peer_ip_address: 10.2.0.2
-        uplink_peers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        vlans: 10,20,210-211
+        max_uplink_switches: 0
+        uplinks: []
+        uplink_peers: []
+        vlans: ''
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
-    ENT-DC2-LEAF2:
+    ENT-DC1-SPINE2:
       switch:
         id: 2
-        type: l3leaf
+        type: spine
         platform: cEOSLab
         is_deployed: true
         mgmt_interface: Management1
-        mgmt_ip: 10.99.99.50/24
+        mgmt_ip: 10.99.99.40/24
         mpls_lsr: false
-        loopback_ipv4_pool: 10.2.101.0/24
-        uplink_ipv4_pool: 10.2.0.0/23
-        bgp_as: '65201'
+        loopback_ipv4_pool: 10.1.100.0/24
+        bgp_as: '65100'
         underlay_routing_protocol: ebgp
-        vtep_loopback_ipv4_pool: 10.2.102.0/24
-        group: EnterpriseDC2LeafDomain1
-        router_id: 10.2.101.2
-        mlag_peer: ENT-DC2-LEAF1
-        mlag_port_channel_id: 551
-        mlag_interfaces:
-        - Ethernet55/1
-        - Ethernet56/1
-        mlag_ip: 10.255.255.1
-        mlag_l3_ip: 10.255.252.1
-        mlag_switch_ids:
-          primary: 1
-          secondary: 2
-        evpn_role: client
+        router_id: 10.1.100.2
+        evpn_role: server
         mpls_overlay_role: none
-        evpn_route_servers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
         overlay:
-          peering_address: 10.2.101.2
+          peering_address: 10.1.100.2
           evpn_mpls: false
-        vtep_ip: 10.2.102.1
         max_parallel_uplinks: 1
-        max_uplink_switches: 2
-        uplinks:
-        - interface: Ethernet49/1
-          peer: ENT-DC2-SPINE1
-          peer_interface: Ethernet2/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.5
-          peer_ip_address: 10.2.0.4
-        - interface: Ethernet50/1
-          peer: ENT-DC2-SPINE2
-          peer_interface: Ethernet2/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.7
-          peer_ip_address: 10.2.0.6
-        uplink_peers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        vlans: 10,20,210-211
-        local_endpoint_trunk_groups: []
-        endpoint_trunk_groups: []
-    ENT-DC2-LEAF3:
-      switch:
-        id: 3
-        type: l3leaf
-        platform: cEOSLab
-        is_deployed: true
-        mgmt_interface: Management1
-        mgmt_ip: 10.99.99.51/24
-        mpls_lsr: false
-        loopback_ipv4_pool: 10.2.101.0/24
-        uplink_ipv4_pool: 10.2.0.0/23
-        bgp_as: '65202'
-        underlay_routing_protocol: ebgp
-        vtep_loopback_ipv4_pool: 10.2.102.0/24
-        group: EnterpriseDC2LeafDomain2
-        router_id: 10.2.101.3
-        mlag_peer: ENT-DC2-LEAF4
-        mlag_port_channel_id: 551
-        mlag_interfaces:
-        - Ethernet55/1
-        - Ethernet56/1
-        mlag_ip: 10.255.255.4
-        mlag_l3_ip: 10.255.252.4
-        mlag_switch_ids:
-          primary: 3
-          secondary: 4
-        evpn_role: client
-        mpls_overlay_role: none
-        evpn_route_servers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        overlay:
-          peering_address: 10.2.101.3
-          evpn_mpls: false
-        vtep_ip: 10.2.102.3
-        max_parallel_uplinks: 1
-        max_uplink_switches: 2
-        uplinks:
-        - interface: Ethernet49/1
-          peer: ENT-DC2-SPINE1
-          peer_interface: Ethernet3/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.9
-          peer_ip_address: 10.2.0.8
-        - interface: Ethernet50/1
-          peer: ENT-DC2-SPINE2
-          peer_interface: Ethernet3/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.11
-          peer_ip_address: 10.2.0.10
-        uplink_peers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        vlans: 10,20,210,212
-        local_endpoint_trunk_groups: []
-        endpoint_trunk_groups: []
-    ENT-DC2-LEAF4:
-      switch:
-        id: 4
-        type: l3leaf
-        platform: cEOSLab
-        is_deployed: true
-        mgmt_interface: Management1
-        mgmt_ip: 10.99.99.52/24
-        mpls_lsr: false
-        loopback_ipv4_pool: 10.2.101.0/24
-        uplink_ipv4_pool: 10.2.0.0/23
-        bgp_as: '65202'
-        underlay_routing_protocol: ebgp
-        vtep_loopback_ipv4_pool: 10.2.102.0/24
-        group: EnterpriseDC2LeafDomain2
-        router_id: 10.2.101.4
-        mlag_peer: ENT-DC2-LEAF3
-        mlag_port_channel_id: 551
-        mlag_interfaces:
-        - Ethernet55/1
-        - Ethernet56/1
-        mlag_ip: 10.255.255.5
-        mlag_l3_ip: 10.255.252.5
-        mlag_switch_ids:
-          primary: 3
-          secondary: 4
-        evpn_role: client
-        mpls_overlay_role: none
-        evpn_route_servers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        overlay:
-          peering_address: 10.2.101.4
-          evpn_mpls: false
-        vtep_ip: 10.2.102.3
-        max_parallel_uplinks: 1
-        max_uplink_switches: 2
-        uplinks:
-        - interface: Ethernet49/1
-          peer: ENT-DC2-SPINE1
-          peer_interface: Ethernet4/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.13
-          peer_ip_address: 10.2.0.12
-        - interface: Ethernet50/1
-          peer: ENT-DC2-SPINE2
-          peer_interface: Ethernet4/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.15
-          peer_ip_address: 10.2.0.14
-        uplink_peers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        vlans: 10,20,210,212
-        local_endpoint_trunk_groups: []
-        endpoint_trunk_groups: []
-    ENT-DC2-EDGE1:
-      switch:
-        id: 31
-        type: l3leaf
-        platform: cEOSLab
-        is_deployed: true
-        mgmt_interface: Management1
-        mgmt_ip: 10.99.99.57/24
-        mpls_lsr: false
-        loopback_ipv4_pool: 10.2.101.0/24
-        uplink_ipv4_pool: 10.2.0.0/23
-        bgp_as: '65216'
-        underlay_routing_protocol: ebgp
-        vtep_loopback_ipv4_pool: 10.2.102.0/24
-        group: EnterpriseDC2EdgeLeaves
-        router_id: 10.2.101.31
-        mlag_peer: ENT-DC2-EDGE2
-        mlag_port_channel_id: 551
-        mlag_interfaces:
-        - Ethernet55/1
-        - Ethernet56/1
-        mlag_ip: 10.255.255.60
-        mlag_l3_ip: 10.255.252.60
-        mlag_switch_ids:
-          primary: 31
-          secondary: 32
-        evpn_role: client
-        mpls_overlay_role: none
-        evpn_route_servers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        overlay:
-          peering_address: 10.2.101.31
-          evpn_mpls: false
-        vtep_ip: 10.2.102.31
-        max_parallel_uplinks: 1
-        max_uplink_switches: 2
-        uplinks:
-        - interface: Ethernet49/1
-          peer: ENT-DC2-SPINE1
-          peer_interface: Ethernet7/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.121
-          peer_ip_address: 10.2.0.120
-        - interface: Ethernet50/1
-          peer: ENT-DC2-SPINE2
-          peer_interface: Ethernet7/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.123
-          peer_ip_address: 10.2.0.122
-        uplink_peers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        vlans: 10,20
-        local_endpoint_trunk_groups: []
-        endpoint_trunk_groups: []
-    ENT-DC2-EDGE2:
-      switch:
-        id: 32
-        type: l3leaf
-        platform: cEOSLab
-        is_deployed: true
-        mgmt_interface: Management1
-        mgmt_ip: 10.99.99.58/24
-        mpls_lsr: false
-        loopback_ipv4_pool: 10.2.101.0/24
-        uplink_ipv4_pool: 10.2.0.0/23
-        bgp_as: '65216'
-        underlay_routing_protocol: ebgp
-        vtep_loopback_ipv4_pool: 10.2.102.0/24
-        group: EnterpriseDC2EdgeLeaves
-        router_id: 10.2.101.32
-        mlag_peer: ENT-DC2-EDGE1
-        mlag_port_channel_id: 551
-        mlag_interfaces:
-        - Ethernet55/1
-        - Ethernet56/1
-        mlag_ip: 10.255.255.61
-        mlag_l3_ip: 10.255.252.61
-        mlag_switch_ids:
-          primary: 31
-          secondary: 32
-        evpn_role: client
-        mpls_overlay_role: none
-        evpn_route_servers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        overlay:
-          peering_address: 10.2.101.32
-          evpn_mpls: false
-        vtep_ip: 10.2.102.31
-        max_parallel_uplinks: 1
-        max_uplink_switches: 2
-        uplinks:
-        - interface: Ethernet49/1
-          peer: ENT-DC2-SPINE1
-          peer_interface: Ethernet8/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.125
-          peer_ip_address: 10.2.0.124
-        - interface: Ethernet50/1
-          peer: ENT-DC2-SPINE2
-          peer_interface: Ethernet8/1
-          peer_type: spine
-          peer_is_deployed: true
-          peer_bgp_as: '65200'
-          type: underlay_p2p
-          ip_address: 10.2.0.127
-          peer_ip_address: 10.2.0.126
-        uplink_peers:
-        - ENT-DC2-SPINE1
-        - ENT-DC2-SPINE2
-        vlans: 10,20
+        max_uplink_switches: 0
+        uplinks: []
+        uplink_peers: []
+        vlans: ''
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF1:
@@ -1026,7 +660,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,110-111
+        vlans: 10,20,30,110-111
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF2:
@@ -1088,7 +722,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,110-111
+        vlans: 10,20,30,110-111
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF3:
@@ -1150,7 +784,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,110,112
+        vlans: 10,20,30,110,112
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF4:
@@ -1212,7 +846,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,110,112
+        vlans: 10,20,30,110,112
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF5:
@@ -1274,7 +908,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,110,113
+        vlans: 10,20,30,110,113
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-LEAF6:
@@ -1336,7 +970,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20,110,113
+        vlans: 10,20,30,110,113
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-EDGE1:
@@ -1398,7 +1032,7 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20
+        vlans: 10,20,30
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
     ENT-DC1-EDGE2:
@@ -1460,24 +1094,382 @@ ansible_facts:
         uplink_peers:
         - ENT-DC1-SPINE1
         - ENT-DC1-SPINE2
-        vlans: 10,20
+        vlans: 10,20,30
+        local_endpoint_trunk_groups: []
+        endpoint_trunk_groups: []
+    ENT-DC2-LEAF1:
+      switch:
+        id: 1
+        type: l3leaf
+        platform: cEOSLab
+        is_deployed: true
+        mgmt_interface: Management1
+        mgmt_ip: 10.99.99.49/24
+        mpls_lsr: false
+        loopback_ipv4_pool: 10.2.101.0/24
+        uplink_ipv4_pool: 10.2.0.0/23
+        bgp_as: '65201'
+        underlay_routing_protocol: ebgp
+        vtep_loopback_ipv4_pool: 10.2.102.0/24
+        group: EnterpriseDC2LeafDomain1
+        router_id: 10.2.101.1
+        mlag_peer: ENT-DC2-LEAF2
+        mlag_port_channel_id: 551
+        mlag_interfaces:
+        - Ethernet55/1
+        - Ethernet56/1
+        mlag_ip: 10.255.255.0
+        mlag_l3_ip: 10.255.252.0
+        mlag_switch_ids:
+          primary: 1
+          secondary: 2
+        evpn_role: client
+        mpls_overlay_role: none
+        evpn_route_servers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        overlay:
+          peering_address: 10.2.101.1
+          evpn_mpls: false
+        vtep_ip: 10.2.102.1
+        max_parallel_uplinks: 1
+        max_uplink_switches: 2
+        uplinks:
+        - interface: Ethernet49/1
+          peer: ENT-DC2-SPINE1
+          peer_interface: Ethernet1/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.1
+          peer_ip_address: 10.2.0.0
+        - interface: Ethernet50/1
+          peer: ENT-DC2-SPINE2
+          peer_interface: Ethernet1/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.3
+          peer_ip_address: 10.2.0.2
+        uplink_peers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        vlans: 10,20,30,210-211
+        local_endpoint_trunk_groups: []
+        endpoint_trunk_groups: []
+    ENT-DC2-LEAF2:
+      switch:
+        id: 2
+        type: l3leaf
+        platform: cEOSLab
+        is_deployed: true
+        mgmt_interface: Management1
+        mgmt_ip: 10.99.99.50/24
+        mpls_lsr: false
+        loopback_ipv4_pool: 10.2.101.0/24
+        uplink_ipv4_pool: 10.2.0.0/23
+        bgp_as: '65201'
+        underlay_routing_protocol: ebgp
+        vtep_loopback_ipv4_pool: 10.2.102.0/24
+        group: EnterpriseDC2LeafDomain1
+        router_id: 10.2.101.2
+        mlag_peer: ENT-DC2-LEAF1
+        mlag_port_channel_id: 551
+        mlag_interfaces:
+        - Ethernet55/1
+        - Ethernet56/1
+        mlag_ip: 10.255.255.1
+        mlag_l3_ip: 10.255.252.1
+        mlag_switch_ids:
+          primary: 1
+          secondary: 2
+        evpn_role: client
+        mpls_overlay_role: none
+        evpn_route_servers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        overlay:
+          peering_address: 10.2.101.2
+          evpn_mpls: false
+        vtep_ip: 10.2.102.1
+        max_parallel_uplinks: 1
+        max_uplink_switches: 2
+        uplinks:
+        - interface: Ethernet49/1
+          peer: ENT-DC2-SPINE1
+          peer_interface: Ethernet2/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.5
+          peer_ip_address: 10.2.0.4
+        - interface: Ethernet50/1
+          peer: ENT-DC2-SPINE2
+          peer_interface: Ethernet2/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.7
+          peer_ip_address: 10.2.0.6
+        uplink_peers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        vlans: 10,20,30,210-211
+        local_endpoint_trunk_groups: []
+        endpoint_trunk_groups: []
+    ENT-DC2-LEAF3:
+      switch:
+        id: 3
+        type: l3leaf
+        platform: cEOSLab
+        is_deployed: true
+        mgmt_interface: Management1
+        mgmt_ip: 10.99.99.51/24
+        mpls_lsr: false
+        loopback_ipv4_pool: 10.2.101.0/24
+        uplink_ipv4_pool: 10.2.0.0/23
+        bgp_as: '65202'
+        underlay_routing_protocol: ebgp
+        vtep_loopback_ipv4_pool: 10.2.102.0/24
+        group: EnterpriseDC2LeafDomain2
+        router_id: 10.2.101.3
+        mlag_peer: ENT-DC2-LEAF4
+        mlag_port_channel_id: 551
+        mlag_interfaces:
+        - Ethernet55/1
+        - Ethernet56/1
+        mlag_ip: 10.255.255.4
+        mlag_l3_ip: 10.255.252.4
+        mlag_switch_ids:
+          primary: 3
+          secondary: 4
+        evpn_role: client
+        mpls_overlay_role: none
+        evpn_route_servers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        overlay:
+          peering_address: 10.2.101.3
+          evpn_mpls: false
+        vtep_ip: 10.2.102.3
+        max_parallel_uplinks: 1
+        max_uplink_switches: 2
+        uplinks:
+        - interface: Ethernet49/1
+          peer: ENT-DC2-SPINE1
+          peer_interface: Ethernet3/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.9
+          peer_ip_address: 10.2.0.8
+        - interface: Ethernet50/1
+          peer: ENT-DC2-SPINE2
+          peer_interface: Ethernet3/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.11
+          peer_ip_address: 10.2.0.10
+        uplink_peers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        vlans: 10,20,30,210,212
+        local_endpoint_trunk_groups: []
+        endpoint_trunk_groups: []
+    ENT-DC2-LEAF4:
+      switch:
+        id: 4
+        type: l3leaf
+        platform: cEOSLab
+        is_deployed: true
+        mgmt_interface: Management1
+        mgmt_ip: 10.99.99.52/24
+        mpls_lsr: false
+        loopback_ipv4_pool: 10.2.101.0/24
+        uplink_ipv4_pool: 10.2.0.0/23
+        bgp_as: '65202'
+        underlay_routing_protocol: ebgp
+        vtep_loopback_ipv4_pool: 10.2.102.0/24
+        group: EnterpriseDC2LeafDomain2
+        router_id: 10.2.101.4
+        mlag_peer: ENT-DC2-LEAF3
+        mlag_port_channel_id: 551
+        mlag_interfaces:
+        - Ethernet55/1
+        - Ethernet56/1
+        mlag_ip: 10.255.255.5
+        mlag_l3_ip: 10.255.252.5
+        mlag_switch_ids:
+          primary: 3
+          secondary: 4
+        evpn_role: client
+        mpls_overlay_role: none
+        evpn_route_servers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        overlay:
+          peering_address: 10.2.101.4
+          evpn_mpls: false
+        vtep_ip: 10.2.102.3
+        max_parallel_uplinks: 1
+        max_uplink_switches: 2
+        uplinks:
+        - interface: Ethernet49/1
+          peer: ENT-DC2-SPINE1
+          peer_interface: Ethernet4/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.13
+          peer_ip_address: 10.2.0.12
+        - interface: Ethernet50/1
+          peer: ENT-DC2-SPINE2
+          peer_interface: Ethernet4/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.15
+          peer_ip_address: 10.2.0.14
+        uplink_peers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        vlans: 10,20,30,210,212
+        local_endpoint_trunk_groups: []
+        endpoint_trunk_groups: []
+    ENT-DC2-EDGE1:
+      switch:
+        id: 31
+        type: l3leaf
+        platform: cEOSLab
+        is_deployed: true
+        mgmt_interface: Management1
+        mgmt_ip: 10.99.99.57/24
+        mpls_lsr: false
+        loopback_ipv4_pool: 10.2.101.0/24
+        uplink_ipv4_pool: 10.2.0.0/23
+        bgp_as: '65216'
+        underlay_routing_protocol: ebgp
+        vtep_loopback_ipv4_pool: 10.2.102.0/24
+        group: EnterpriseDC2EdgeLeaves
+        router_id: 10.2.101.31
+        mlag_peer: ENT-DC2-EDGE2
+        mlag_port_channel_id: 551
+        mlag_interfaces:
+        - Ethernet55/1
+        - Ethernet56/1
+        mlag_ip: 10.255.255.60
+        mlag_l3_ip: 10.255.252.60
+        mlag_switch_ids:
+          primary: 31
+          secondary: 32
+        evpn_role: client
+        mpls_overlay_role: none
+        evpn_route_servers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        overlay:
+          peering_address: 10.2.101.31
+          evpn_mpls: false
+        vtep_ip: 10.2.102.31
+        max_parallel_uplinks: 1
+        max_uplink_switches: 2
+        uplinks:
+        - interface: Ethernet49/1
+          peer: ENT-DC2-SPINE1
+          peer_interface: Ethernet7/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.121
+          peer_ip_address: 10.2.0.120
+        - interface: Ethernet50/1
+          peer: ENT-DC2-SPINE2
+          peer_interface: Ethernet7/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.123
+          peer_ip_address: 10.2.0.122
+        uplink_peers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        vlans: 10,20,30
+        local_endpoint_trunk_groups: []
+        endpoint_trunk_groups: []
+    ENT-DC2-EDGE2:
+      switch:
+        id: 32
+        type: l3leaf
+        platform: cEOSLab
+        is_deployed: true
+        mgmt_interface: Management1
+        mgmt_ip: 10.99.99.58/24
+        mpls_lsr: false
+        loopback_ipv4_pool: 10.2.101.0/24
+        uplink_ipv4_pool: 10.2.0.0/23
+        bgp_as: '65216'
+        underlay_routing_protocol: ebgp
+        vtep_loopback_ipv4_pool: 10.2.102.0/24
+        group: EnterpriseDC2EdgeLeaves
+        router_id: 10.2.101.32
+        mlag_peer: ENT-DC2-EDGE1
+        mlag_port_channel_id: 551
+        mlag_interfaces:
+        - Ethernet55/1
+        - Ethernet56/1
+        mlag_ip: 10.255.255.61
+        mlag_l3_ip: 10.255.252.61
+        mlag_switch_ids:
+          primary: 31
+          secondary: 32
+        evpn_role: client
+        mpls_overlay_role: none
+        evpn_route_servers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        overlay:
+          peering_address: 10.2.101.32
+          evpn_mpls: false
+        vtep_ip: 10.2.102.31
+        max_parallel_uplinks: 1
+        max_uplink_switches: 2
+        uplinks:
+        - interface: Ethernet49/1
+          peer: ENT-DC2-SPINE1
+          peer_interface: Ethernet8/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.125
+          peer_ip_address: 10.2.0.124
+        - interface: Ethernet50/1
+          peer: ENT-DC2-SPINE2
+          peer_interface: Ethernet8/1
+          peer_type: spine
+          peer_is_deployed: true
+          peer_bgp_as: '65200'
+          type: underlay_p2p
+          ip_address: 10.2.0.127
+          peer_ip_address: 10.2.0.126
+        uplink_peers:
+        - ENT-DC2-SPINE1
+        - ENT-DC2-SPINE2
+        vlans: 10,20,30
         local_endpoint_trunk_groups: []
         endpoint_trunk_groups: []
   avd_overlay_peers:
-    ENT-DC2-SPINE1:
-    - ENT-DC2-LEAF1
-    - ENT-DC2-LEAF2
-    - ENT-DC2-LEAF3
-    - ENT-DC2-LEAF4
-    - ENT-DC2-EDGE1
-    - ENT-DC2-EDGE2
-    ENT-DC2-SPINE2:
-    - ENT-DC2-LEAF1
-    - ENT-DC2-LEAF2
-    - ENT-DC2-LEAF3
-    - ENT-DC2-LEAF4
-    - ENT-DC2-EDGE1
-    - ENT-DC2-EDGE2
     ENT-DC1-SPINE1:
     - ENT-DC1-LEAF1
     - ENT-DC1-LEAF2
@@ -1496,21 +1488,21 @@ ansible_facts:
     - ENT-DC1-LEAF6
     - ENT-DC1-EDGE1
     - ENT-DC1-EDGE2
+    ENT-DC2-SPINE1:
+    - ENT-DC2-LEAF1
+    - ENT-DC2-LEAF2
+    - ENT-DC2-LEAF3
+    - ENT-DC2-LEAF4
+    - ENT-DC2-EDGE1
+    - ENT-DC2-EDGE2
+    ENT-DC2-SPINE2:
+    - ENT-DC2-LEAF1
+    - ENT-DC2-LEAF2
+    - ENT-DC2-LEAF3
+    - ENT-DC2-LEAF4
+    - ENT-DC2-EDGE1
+    - ENT-DC2-EDGE2
   avd_topology_peers:
-    ENT-DC2-SPINE1:
-    - ENT-DC2-LEAF1
-    - ENT-DC2-LEAF2
-    - ENT-DC2-LEAF3
-    - ENT-DC2-LEAF4
-    - ENT-DC2-EDGE1
-    - ENT-DC2-EDGE2
-    ENT-DC2-SPINE2:
-    - ENT-DC2-LEAF1
-    - ENT-DC2-LEAF2
-    - ENT-DC2-LEAF3
-    - ENT-DC2-LEAF4
-    - ENT-DC2-EDGE1
-    - ENT-DC2-EDGE2
     ENT-DC1-SPINE1:
     - ENT-DC1-LEAF1
     - ENT-DC1-LEAF2
@@ -1529,57 +1521,21 @@ ansible_facts:
     - ENT-DC1-LEAF6
     - ENT-DC1-EDGE1
     - ENT-DC1-EDGE2
+    ENT-DC2-SPINE1:
+    - ENT-DC2-LEAF1
+    - ENT-DC2-LEAF2
+    - ENT-DC2-LEAF3
+    - ENT-DC2-LEAF4
+    - ENT-DC2-EDGE1
+    - ENT-DC2-EDGE2
+    ENT-DC2-SPINE2:
+    - ENT-DC2-LEAF1
+    - ENT-DC2-LEAF2
+    - ENT-DC2-LEAF3
+    - ENT-DC2-LEAF4
+    - ENT-DC2-EDGE1
+    - ENT-DC2-EDGE2
 avd_switch_facts:
-  ENT-DC1-SPINE1:
-    switch:
-      id: 1
-      type: spine
-      platform: cEOSLab
-      is_deployed: true
-      mgmt_interface: Management1
-      mgmt_ip: 10.99.99.39/24
-      mpls_lsr: false
-      loopback_ipv4_pool: 10.1.100.0/24
-      bgp_as: '65100'
-      underlay_routing_protocol: ebgp
-      router_id: 10.1.100.1
-      evpn_role: server
-      mpls_overlay_role: none
-      overlay:
-        peering_address: 10.1.100.1
-        evpn_mpls: false
-      max_parallel_uplinks: 1
-      max_uplink_switches: 0
-      uplinks: []
-      uplink_peers: []
-      vlans: ''
-      local_endpoint_trunk_groups: []
-      endpoint_trunk_groups: []
-  ENT-DC1-SPINE2:
-    switch:
-      id: 2
-      type: spine
-      platform: cEOSLab
-      is_deployed: true
-      mgmt_interface: Management1
-      mgmt_ip: 10.99.99.40/24
-      mpls_lsr: false
-      loopback_ipv4_pool: 10.1.100.0/24
-      bgp_as: '65100'
-      underlay_routing_protocol: ebgp
-      router_id: 10.1.100.2
-      evpn_role: server
-      mpls_overlay_role: none
-      overlay:
-        peering_address: 10.1.100.2
-        evpn_mpls: false
-      max_parallel_uplinks: 1
-      max_uplink_switches: 0
-      uplinks: []
-      uplink_peers: []
-      vlans: ''
-      local_endpoint_trunk_groups: []
-      endpoint_trunk_groups: []
   ENT-DC2-SPINE1:
     switch:
       id: 1
@@ -1630,376 +1586,54 @@ avd_switch_facts:
       vlans: ''
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-  ENT-DC2-LEAF1:
+  ENT-DC1-SPINE1:
     switch:
       id: 1
-      type: l3leaf
+      type: spine
       platform: cEOSLab
       is_deployed: true
       mgmt_interface: Management1
-      mgmt_ip: 10.99.99.49/24
+      mgmt_ip: 10.99.99.39/24
       mpls_lsr: false
-      loopback_ipv4_pool: 10.2.101.0/24
-      uplink_ipv4_pool: 10.2.0.0/23
-      bgp_as: '65201'
+      loopback_ipv4_pool: 10.1.100.0/24
+      bgp_as: '65100'
       underlay_routing_protocol: ebgp
-      vtep_loopback_ipv4_pool: 10.2.102.0/24
-      group: EnterpriseDC2LeafDomain1
-      router_id: 10.2.101.1
-      mlag_peer: ENT-DC2-LEAF2
-      mlag_port_channel_id: 551
-      mlag_interfaces:
-      - Ethernet55/1
-      - Ethernet56/1
-      mlag_ip: 10.255.255.0
-      mlag_l3_ip: 10.255.252.0
-      mlag_switch_ids:
-        primary: 1
-        secondary: 2
-      evpn_role: client
+      router_id: 10.1.100.1
+      evpn_role: server
       mpls_overlay_role: none
-      evpn_route_servers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
       overlay:
-        peering_address: 10.2.101.1
+        peering_address: 10.1.100.1
         evpn_mpls: false
-      vtep_ip: 10.2.102.1
       max_parallel_uplinks: 1
-      max_uplink_switches: 2
-      uplinks:
-      - interface: Ethernet49/1
-        peer: ENT-DC2-SPINE1
-        peer_interface: Ethernet1/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.1
-        peer_ip_address: 10.2.0.0
-      - interface: Ethernet50/1
-        peer: ENT-DC2-SPINE2
-        peer_interface: Ethernet1/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.3
-        peer_ip_address: 10.2.0.2
-      uplink_peers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      vlans: 10,20,210-211
+      max_uplink_switches: 0
+      uplinks: []
+      uplink_peers: []
+      vlans: ''
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
-  ENT-DC2-LEAF2:
+  ENT-DC1-SPINE2:
     switch:
       id: 2
-      type: l3leaf
+      type: spine
       platform: cEOSLab
       is_deployed: true
       mgmt_interface: Management1
-      mgmt_ip: 10.99.99.50/24
+      mgmt_ip: 10.99.99.40/24
       mpls_lsr: false
-      loopback_ipv4_pool: 10.2.101.0/24
-      uplink_ipv4_pool: 10.2.0.0/23
-      bgp_as: '65201'
+      loopback_ipv4_pool: 10.1.100.0/24
+      bgp_as: '65100'
       underlay_routing_protocol: ebgp
-      vtep_loopback_ipv4_pool: 10.2.102.0/24
-      group: EnterpriseDC2LeafDomain1
-      router_id: 10.2.101.2
-      mlag_peer: ENT-DC2-LEAF1
-      mlag_port_channel_id: 551
-      mlag_interfaces:
-      - Ethernet55/1
-      - Ethernet56/1
-      mlag_ip: 10.255.255.1
-      mlag_l3_ip: 10.255.252.1
-      mlag_switch_ids:
-        primary: 1
-        secondary: 2
-      evpn_role: client
+      router_id: 10.1.100.2
+      evpn_role: server
       mpls_overlay_role: none
-      evpn_route_servers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
       overlay:
-        peering_address: 10.2.101.2
+        peering_address: 10.1.100.2
         evpn_mpls: false
-      vtep_ip: 10.2.102.1
       max_parallel_uplinks: 1
-      max_uplink_switches: 2
-      uplinks:
-      - interface: Ethernet49/1
-        peer: ENT-DC2-SPINE1
-        peer_interface: Ethernet2/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.5
-        peer_ip_address: 10.2.0.4
-      - interface: Ethernet50/1
-        peer: ENT-DC2-SPINE2
-        peer_interface: Ethernet2/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.7
-        peer_ip_address: 10.2.0.6
-      uplink_peers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      vlans: 10,20,210-211
-      local_endpoint_trunk_groups: []
-      endpoint_trunk_groups: []
-  ENT-DC2-LEAF3:
-    switch:
-      id: 3
-      type: l3leaf
-      platform: cEOSLab
-      is_deployed: true
-      mgmt_interface: Management1
-      mgmt_ip: 10.99.99.51/24
-      mpls_lsr: false
-      loopback_ipv4_pool: 10.2.101.0/24
-      uplink_ipv4_pool: 10.2.0.0/23
-      bgp_as: '65202'
-      underlay_routing_protocol: ebgp
-      vtep_loopback_ipv4_pool: 10.2.102.0/24
-      group: EnterpriseDC2LeafDomain2
-      router_id: 10.2.101.3
-      mlag_peer: ENT-DC2-LEAF4
-      mlag_port_channel_id: 551
-      mlag_interfaces:
-      - Ethernet55/1
-      - Ethernet56/1
-      mlag_ip: 10.255.255.4
-      mlag_l3_ip: 10.255.252.4
-      mlag_switch_ids:
-        primary: 3
-        secondary: 4
-      evpn_role: client
-      mpls_overlay_role: none
-      evpn_route_servers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      overlay:
-        peering_address: 10.2.101.3
-        evpn_mpls: false
-      vtep_ip: 10.2.102.3
-      max_parallel_uplinks: 1
-      max_uplink_switches: 2
-      uplinks:
-      - interface: Ethernet49/1
-        peer: ENT-DC2-SPINE1
-        peer_interface: Ethernet3/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.9
-        peer_ip_address: 10.2.0.8
-      - interface: Ethernet50/1
-        peer: ENT-DC2-SPINE2
-        peer_interface: Ethernet3/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.11
-        peer_ip_address: 10.2.0.10
-      uplink_peers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      vlans: 10,20,210,212
-      local_endpoint_trunk_groups: []
-      endpoint_trunk_groups: []
-  ENT-DC2-LEAF4:
-    switch:
-      id: 4
-      type: l3leaf
-      platform: cEOSLab
-      is_deployed: true
-      mgmt_interface: Management1
-      mgmt_ip: 10.99.99.52/24
-      mpls_lsr: false
-      loopback_ipv4_pool: 10.2.101.0/24
-      uplink_ipv4_pool: 10.2.0.0/23
-      bgp_as: '65202'
-      underlay_routing_protocol: ebgp
-      vtep_loopback_ipv4_pool: 10.2.102.0/24
-      group: EnterpriseDC2LeafDomain2
-      router_id: 10.2.101.4
-      mlag_peer: ENT-DC2-LEAF3
-      mlag_port_channel_id: 551
-      mlag_interfaces:
-      - Ethernet55/1
-      - Ethernet56/1
-      mlag_ip: 10.255.255.5
-      mlag_l3_ip: 10.255.252.5
-      mlag_switch_ids:
-        primary: 3
-        secondary: 4
-      evpn_role: client
-      mpls_overlay_role: none
-      evpn_route_servers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      overlay:
-        peering_address: 10.2.101.4
-        evpn_mpls: false
-      vtep_ip: 10.2.102.3
-      max_parallel_uplinks: 1
-      max_uplink_switches: 2
-      uplinks:
-      - interface: Ethernet49/1
-        peer: ENT-DC2-SPINE1
-        peer_interface: Ethernet4/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.13
-        peer_ip_address: 10.2.0.12
-      - interface: Ethernet50/1
-        peer: ENT-DC2-SPINE2
-        peer_interface: Ethernet4/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.15
-        peer_ip_address: 10.2.0.14
-      uplink_peers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      vlans: 10,20,210,212
-      local_endpoint_trunk_groups: []
-      endpoint_trunk_groups: []
-  ENT-DC2-EDGE1:
-    switch:
-      id: 31
-      type: l3leaf
-      platform: cEOSLab
-      is_deployed: true
-      mgmt_interface: Management1
-      mgmt_ip: 10.99.99.57/24
-      mpls_lsr: false
-      loopback_ipv4_pool: 10.2.101.0/24
-      uplink_ipv4_pool: 10.2.0.0/23
-      bgp_as: '65216'
-      underlay_routing_protocol: ebgp
-      vtep_loopback_ipv4_pool: 10.2.102.0/24
-      group: EnterpriseDC2EdgeLeaves
-      router_id: 10.2.101.31
-      mlag_peer: ENT-DC2-EDGE2
-      mlag_port_channel_id: 551
-      mlag_interfaces:
-      - Ethernet55/1
-      - Ethernet56/1
-      mlag_ip: 10.255.255.60
-      mlag_l3_ip: 10.255.252.60
-      mlag_switch_ids:
-        primary: 31
-        secondary: 32
-      evpn_role: client
-      mpls_overlay_role: none
-      evpn_route_servers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      overlay:
-        peering_address: 10.2.101.31
-        evpn_mpls: false
-      vtep_ip: 10.2.102.31
-      max_parallel_uplinks: 1
-      max_uplink_switches: 2
-      uplinks:
-      - interface: Ethernet49/1
-        peer: ENT-DC2-SPINE1
-        peer_interface: Ethernet7/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.121
-        peer_ip_address: 10.2.0.120
-      - interface: Ethernet50/1
-        peer: ENT-DC2-SPINE2
-        peer_interface: Ethernet7/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.123
-        peer_ip_address: 10.2.0.122
-      uplink_peers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      vlans: 10,20
-      local_endpoint_trunk_groups: []
-      endpoint_trunk_groups: []
-  ENT-DC2-EDGE2:
-    switch:
-      id: 32
-      type: l3leaf
-      platform: cEOSLab
-      is_deployed: true
-      mgmt_interface: Management1
-      mgmt_ip: 10.99.99.58/24
-      mpls_lsr: false
-      loopback_ipv4_pool: 10.2.101.0/24
-      uplink_ipv4_pool: 10.2.0.0/23
-      bgp_as: '65216'
-      underlay_routing_protocol: ebgp
-      vtep_loopback_ipv4_pool: 10.2.102.0/24
-      group: EnterpriseDC2EdgeLeaves
-      router_id: 10.2.101.32
-      mlag_peer: ENT-DC2-EDGE1
-      mlag_port_channel_id: 551
-      mlag_interfaces:
-      - Ethernet55/1
-      - Ethernet56/1
-      mlag_ip: 10.255.255.61
-      mlag_l3_ip: 10.255.252.61
-      mlag_switch_ids:
-        primary: 31
-        secondary: 32
-      evpn_role: client
-      mpls_overlay_role: none
-      evpn_route_servers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      overlay:
-        peering_address: 10.2.101.32
-        evpn_mpls: false
-      vtep_ip: 10.2.102.31
-      max_parallel_uplinks: 1
-      max_uplink_switches: 2
-      uplinks:
-      - interface: Ethernet49/1
-        peer: ENT-DC2-SPINE1
-        peer_interface: Ethernet8/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.125
-        peer_ip_address: 10.2.0.124
-      - interface: Ethernet50/1
-        peer: ENT-DC2-SPINE2
-        peer_interface: Ethernet8/1
-        peer_type: spine
-        peer_is_deployed: true
-        peer_bgp_as: '65200'
-        type: underlay_p2p
-        ip_address: 10.2.0.127
-        peer_ip_address: 10.2.0.126
-      uplink_peers:
-      - ENT-DC2-SPINE1
-      - ENT-DC2-SPINE2
-      vlans: 10,20
+      max_uplink_switches: 0
+      uplinks: []
+      uplink_peers: []
+      vlans: ''
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF1:
@@ -2061,7 +1695,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,110-111
+      vlans: 10,20,30,110-111
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF2:
@@ -2123,7 +1757,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,110-111
+      vlans: 10,20,30,110-111
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF3:
@@ -2185,7 +1819,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,110,112
+      vlans: 10,20,30,110,112
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF4:
@@ -2247,7 +1881,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,110,112
+      vlans: 10,20,30,110,112
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF5:
@@ -2309,7 +1943,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,110,113
+      vlans: 10,20,30,110,113
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-LEAF6:
@@ -2371,7 +2005,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20,110,113
+      vlans: 10,20,30,110,113
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-EDGE1:
@@ -2433,7 +2067,7 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20
+      vlans: 10,20,30
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
   ENT-DC1-EDGE2:
@@ -2495,24 +2129,382 @@ avd_switch_facts:
       uplink_peers:
       - ENT-DC1-SPINE1
       - ENT-DC1-SPINE2
-      vlans: 10,20
+      vlans: 10,20,30
+      local_endpoint_trunk_groups: []
+      endpoint_trunk_groups: []
+  ENT-DC2-LEAF1:
+    switch:
+      id: 1
+      type: l3leaf
+      platform: cEOSLab
+      is_deployed: true
+      mgmt_interface: Management1
+      mgmt_ip: 10.99.99.49/24
+      mpls_lsr: false
+      loopback_ipv4_pool: 10.2.101.0/24
+      uplink_ipv4_pool: 10.2.0.0/23
+      bgp_as: '65201'
+      underlay_routing_protocol: ebgp
+      vtep_loopback_ipv4_pool: 10.2.102.0/24
+      group: EnterpriseDC2LeafDomain1
+      router_id: 10.2.101.1
+      mlag_peer: ENT-DC2-LEAF2
+      mlag_port_channel_id: 551
+      mlag_interfaces:
+      - Ethernet55/1
+      - Ethernet56/1
+      mlag_ip: 10.255.255.0
+      mlag_l3_ip: 10.255.252.0
+      mlag_switch_ids:
+        primary: 1
+        secondary: 2
+      evpn_role: client
+      mpls_overlay_role: none
+      evpn_route_servers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      overlay:
+        peering_address: 10.2.101.1
+        evpn_mpls: false
+      vtep_ip: 10.2.102.1
+      max_parallel_uplinks: 1
+      max_uplink_switches: 2
+      uplinks:
+      - interface: Ethernet49/1
+        peer: ENT-DC2-SPINE1
+        peer_interface: Ethernet1/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.1
+        peer_ip_address: 10.2.0.0
+      - interface: Ethernet50/1
+        peer: ENT-DC2-SPINE2
+        peer_interface: Ethernet1/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.3
+        peer_ip_address: 10.2.0.2
+      uplink_peers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      vlans: 10,20,30,210-211
+      local_endpoint_trunk_groups: []
+      endpoint_trunk_groups: []
+  ENT-DC2-LEAF2:
+    switch:
+      id: 2
+      type: l3leaf
+      platform: cEOSLab
+      is_deployed: true
+      mgmt_interface: Management1
+      mgmt_ip: 10.99.99.50/24
+      mpls_lsr: false
+      loopback_ipv4_pool: 10.2.101.0/24
+      uplink_ipv4_pool: 10.2.0.0/23
+      bgp_as: '65201'
+      underlay_routing_protocol: ebgp
+      vtep_loopback_ipv4_pool: 10.2.102.0/24
+      group: EnterpriseDC2LeafDomain1
+      router_id: 10.2.101.2
+      mlag_peer: ENT-DC2-LEAF1
+      mlag_port_channel_id: 551
+      mlag_interfaces:
+      - Ethernet55/1
+      - Ethernet56/1
+      mlag_ip: 10.255.255.1
+      mlag_l3_ip: 10.255.252.1
+      mlag_switch_ids:
+        primary: 1
+        secondary: 2
+      evpn_role: client
+      mpls_overlay_role: none
+      evpn_route_servers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      overlay:
+        peering_address: 10.2.101.2
+        evpn_mpls: false
+      vtep_ip: 10.2.102.1
+      max_parallel_uplinks: 1
+      max_uplink_switches: 2
+      uplinks:
+      - interface: Ethernet49/1
+        peer: ENT-DC2-SPINE1
+        peer_interface: Ethernet2/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.5
+        peer_ip_address: 10.2.0.4
+      - interface: Ethernet50/1
+        peer: ENT-DC2-SPINE2
+        peer_interface: Ethernet2/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.7
+        peer_ip_address: 10.2.0.6
+      uplink_peers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      vlans: 10,20,30,210-211
+      local_endpoint_trunk_groups: []
+      endpoint_trunk_groups: []
+  ENT-DC2-LEAF3:
+    switch:
+      id: 3
+      type: l3leaf
+      platform: cEOSLab
+      is_deployed: true
+      mgmt_interface: Management1
+      mgmt_ip: 10.99.99.51/24
+      mpls_lsr: false
+      loopback_ipv4_pool: 10.2.101.0/24
+      uplink_ipv4_pool: 10.2.0.0/23
+      bgp_as: '65202'
+      underlay_routing_protocol: ebgp
+      vtep_loopback_ipv4_pool: 10.2.102.0/24
+      group: EnterpriseDC2LeafDomain2
+      router_id: 10.2.101.3
+      mlag_peer: ENT-DC2-LEAF4
+      mlag_port_channel_id: 551
+      mlag_interfaces:
+      - Ethernet55/1
+      - Ethernet56/1
+      mlag_ip: 10.255.255.4
+      mlag_l3_ip: 10.255.252.4
+      mlag_switch_ids:
+        primary: 3
+        secondary: 4
+      evpn_role: client
+      mpls_overlay_role: none
+      evpn_route_servers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      overlay:
+        peering_address: 10.2.101.3
+        evpn_mpls: false
+      vtep_ip: 10.2.102.3
+      max_parallel_uplinks: 1
+      max_uplink_switches: 2
+      uplinks:
+      - interface: Ethernet49/1
+        peer: ENT-DC2-SPINE1
+        peer_interface: Ethernet3/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.9
+        peer_ip_address: 10.2.0.8
+      - interface: Ethernet50/1
+        peer: ENT-DC2-SPINE2
+        peer_interface: Ethernet3/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.11
+        peer_ip_address: 10.2.0.10
+      uplink_peers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      vlans: 10,20,30,210,212
+      local_endpoint_trunk_groups: []
+      endpoint_trunk_groups: []
+  ENT-DC2-LEAF4:
+    switch:
+      id: 4
+      type: l3leaf
+      platform: cEOSLab
+      is_deployed: true
+      mgmt_interface: Management1
+      mgmt_ip: 10.99.99.52/24
+      mpls_lsr: false
+      loopback_ipv4_pool: 10.2.101.0/24
+      uplink_ipv4_pool: 10.2.0.0/23
+      bgp_as: '65202'
+      underlay_routing_protocol: ebgp
+      vtep_loopback_ipv4_pool: 10.2.102.0/24
+      group: EnterpriseDC2LeafDomain2
+      router_id: 10.2.101.4
+      mlag_peer: ENT-DC2-LEAF3
+      mlag_port_channel_id: 551
+      mlag_interfaces:
+      - Ethernet55/1
+      - Ethernet56/1
+      mlag_ip: 10.255.255.5
+      mlag_l3_ip: 10.255.252.5
+      mlag_switch_ids:
+        primary: 3
+        secondary: 4
+      evpn_role: client
+      mpls_overlay_role: none
+      evpn_route_servers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      overlay:
+        peering_address: 10.2.101.4
+        evpn_mpls: false
+      vtep_ip: 10.2.102.3
+      max_parallel_uplinks: 1
+      max_uplink_switches: 2
+      uplinks:
+      - interface: Ethernet49/1
+        peer: ENT-DC2-SPINE1
+        peer_interface: Ethernet4/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.13
+        peer_ip_address: 10.2.0.12
+      - interface: Ethernet50/1
+        peer: ENT-DC2-SPINE2
+        peer_interface: Ethernet4/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.15
+        peer_ip_address: 10.2.0.14
+      uplink_peers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      vlans: 10,20,30,210,212
+      local_endpoint_trunk_groups: []
+      endpoint_trunk_groups: []
+  ENT-DC2-EDGE1:
+    switch:
+      id: 31
+      type: l3leaf
+      platform: cEOSLab
+      is_deployed: true
+      mgmt_interface: Management1
+      mgmt_ip: 10.99.99.57/24
+      mpls_lsr: false
+      loopback_ipv4_pool: 10.2.101.0/24
+      uplink_ipv4_pool: 10.2.0.0/23
+      bgp_as: '65216'
+      underlay_routing_protocol: ebgp
+      vtep_loopback_ipv4_pool: 10.2.102.0/24
+      group: EnterpriseDC2EdgeLeaves
+      router_id: 10.2.101.31
+      mlag_peer: ENT-DC2-EDGE2
+      mlag_port_channel_id: 551
+      mlag_interfaces:
+      - Ethernet55/1
+      - Ethernet56/1
+      mlag_ip: 10.255.255.60
+      mlag_l3_ip: 10.255.252.60
+      mlag_switch_ids:
+        primary: 31
+        secondary: 32
+      evpn_role: client
+      mpls_overlay_role: none
+      evpn_route_servers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      overlay:
+        peering_address: 10.2.101.31
+        evpn_mpls: false
+      vtep_ip: 10.2.102.31
+      max_parallel_uplinks: 1
+      max_uplink_switches: 2
+      uplinks:
+      - interface: Ethernet49/1
+        peer: ENT-DC2-SPINE1
+        peer_interface: Ethernet7/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.121
+        peer_ip_address: 10.2.0.120
+      - interface: Ethernet50/1
+        peer: ENT-DC2-SPINE2
+        peer_interface: Ethernet7/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.123
+        peer_ip_address: 10.2.0.122
+      uplink_peers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      vlans: 10,20,30
+      local_endpoint_trunk_groups: []
+      endpoint_trunk_groups: []
+  ENT-DC2-EDGE2:
+    switch:
+      id: 32
+      type: l3leaf
+      platform: cEOSLab
+      is_deployed: true
+      mgmt_interface: Management1
+      mgmt_ip: 10.99.99.58/24
+      mpls_lsr: false
+      loopback_ipv4_pool: 10.2.101.0/24
+      uplink_ipv4_pool: 10.2.0.0/23
+      bgp_as: '65216'
+      underlay_routing_protocol: ebgp
+      vtep_loopback_ipv4_pool: 10.2.102.0/24
+      group: EnterpriseDC2EdgeLeaves
+      router_id: 10.2.101.32
+      mlag_peer: ENT-DC2-EDGE1
+      mlag_port_channel_id: 551
+      mlag_interfaces:
+      - Ethernet55/1
+      - Ethernet56/1
+      mlag_ip: 10.255.255.61
+      mlag_l3_ip: 10.255.252.61
+      mlag_switch_ids:
+        primary: 31
+        secondary: 32
+      evpn_role: client
+      mpls_overlay_role: none
+      evpn_route_servers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      overlay:
+        peering_address: 10.2.101.32
+        evpn_mpls: false
+      vtep_ip: 10.2.102.31
+      max_parallel_uplinks: 1
+      max_uplink_switches: 2
+      uplinks:
+      - interface: Ethernet49/1
+        peer: ENT-DC2-SPINE1
+        peer_interface: Ethernet8/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.125
+        peer_ip_address: 10.2.0.124
+      - interface: Ethernet50/1
+        peer: ENT-DC2-SPINE2
+        peer_interface: Ethernet8/1
+        peer_type: spine
+        peer_is_deployed: true
+        peer_bgp_as: '65200'
+        type: underlay_p2p
+        ip_address: 10.2.0.127
+        peer_ip_address: 10.2.0.126
+      uplink_peers:
+      - ENT-DC2-SPINE1
+      - ENT-DC2-SPINE2
+      vlans: 10,20,30
       local_endpoint_trunk_groups: []
       endpoint_trunk_groups: []
 avd_overlay_peers:
-  ENT-DC2-SPINE1:
-  - ENT-DC2-LEAF1
-  - ENT-DC2-LEAF2
-  - ENT-DC2-LEAF3
-  - ENT-DC2-LEAF4
-  - ENT-DC2-EDGE1
-  - ENT-DC2-EDGE2
-  ENT-DC2-SPINE2:
-  - ENT-DC2-LEAF1
-  - ENT-DC2-LEAF2
-  - ENT-DC2-LEAF3
-  - ENT-DC2-LEAF4
-  - ENT-DC2-EDGE1
-  - ENT-DC2-EDGE2
   ENT-DC1-SPINE1:
   - ENT-DC1-LEAF1
   - ENT-DC1-LEAF2
@@ -2531,21 +2523,21 @@ avd_overlay_peers:
   - ENT-DC1-LEAF6
   - ENT-DC1-EDGE1
   - ENT-DC1-EDGE2
+  ENT-DC2-SPINE1:
+  - ENT-DC2-LEAF1
+  - ENT-DC2-LEAF2
+  - ENT-DC2-LEAF3
+  - ENT-DC2-LEAF4
+  - ENT-DC2-EDGE1
+  - ENT-DC2-EDGE2
+  ENT-DC2-SPINE2:
+  - ENT-DC2-LEAF1
+  - ENT-DC2-LEAF2
+  - ENT-DC2-LEAF3
+  - ENT-DC2-LEAF4
+  - ENT-DC2-EDGE1
+  - ENT-DC2-EDGE2
 avd_topology_peers:
-  ENT-DC2-SPINE1:
-  - ENT-DC2-LEAF1
-  - ENT-DC2-LEAF2
-  - ENT-DC2-LEAF3
-  - ENT-DC2-LEAF4
-  - ENT-DC2-EDGE1
-  - ENT-DC2-EDGE2
-  ENT-DC2-SPINE2:
-  - ENT-DC2-LEAF1
-  - ENT-DC2-LEAF2
-  - ENT-DC2-LEAF3
-  - ENT-DC2-LEAF4
-  - ENT-DC2-EDGE1
-  - ENT-DC2-EDGE2
   ENT-DC1-SPINE1:
   - ENT-DC1-LEAF1
   - ENT-DC1-LEAF2
@@ -2564,6 +2556,20 @@ avd_topology_peers:
   - ENT-DC1-LEAF6
   - ENT-DC1-EDGE1
   - ENT-DC1-EDGE2
+  ENT-DC2-SPINE1:
+  - ENT-DC2-LEAF1
+  - ENT-DC2-LEAF2
+  - ENT-DC2-LEAF3
+  - ENT-DC2-LEAF4
+  - ENT-DC2-EDGE1
+  - ENT-DC2-EDGE2
+  ENT-DC2-SPINE2:
+  - ENT-DC2-LEAF1
+  - ENT-DC2-LEAF2
+  - ENT-DC2-LEAF3
+  - ENT-DC2-LEAF4
+  - ENT-DC2-EDGE1
+  - ENT-DC2-EDGE2
 avd_requirements:
   failed: false
   changed: false
@@ -2595,16 +2601,10 @@ groups:
   CVP:
   - cvp
   EnterpriseDC:
-  - ENT-DC1-SPINE1
-  - ENT-DC1-SPINE2
   - ENT-DC2-SPINE1
   - ENT-DC2-SPINE2
-  - ENT-DC2-LEAF1
-  - ENT-DC2-LEAF2
-  - ENT-DC2-LEAF3
-  - ENT-DC2-LEAF4
-  - ENT-DC2-EDGE1
-  - ENT-DC2-EDGE2
+  - ENT-DC1-SPINE1
+  - ENT-DC1-SPINE2
   - ENT-DC1-LEAF1
   - ENT-DC1-LEAF2
   - ENT-DC1-LEAF3
@@ -2613,6 +2613,12 @@ groups:
   - ENT-DC1-LEAF6
   - ENT-DC1-EDGE1
   - ENT-DC1-EDGE2
+  - ENT-DC2-LEAF1
+  - ENT-DC2-LEAF2
+  - ENT-DC2-LEAF3
+  - ENT-DC2-LEAF4
+  - ENT-DC2-EDGE1
+  - ENT-DC2-EDGE2
   EnterpriseDC1:
   - ENT-DC1-SPINE1
   - ENT-DC1-SPINE2
@@ -2706,7 +2712,7 @@ groups:
   - ENT-DC2-LEAF4
   - ENT-DC2-EDGE1
   - ENT-DC2-EDGE2
-omit: __omit_place_holder__89ce395f974c7b673b376ce431c120037a70773f
+omit: __omit_place_holder__1248819ab40aebb189c7384be185f9d82b3fcfa4
 ansible_version:
   string: 2.14.8
   full: 2.14.8

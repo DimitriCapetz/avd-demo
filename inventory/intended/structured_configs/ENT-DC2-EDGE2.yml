@@ -145,6 +145,20 @@ router_bgp:
     rd_evpn_domain:
       domain: remote
       rd: 10.2.101.32:10020
+  - id: 30
+    tenant: CORP
+    rd: 10.2.101.32:10030
+    route_targets:
+      both:
+      - 10030:10030
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10030:10030
+    redistribute_routes:
+    - learned
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.2.101.32:10030
 static_routes:
 - vrf: management
   destination_address_prefix: 0.0.0.0/0
@@ -216,6 +230,9 @@ vlans:
 - id: 20
   name: CORP_GLOBAL_SHARED_20
   tenant: CORP
+- id: 30
+  name: CORP_GLOBAL_SHARED_30
+  tenant: CORP
 - id: 3009
   name: MLAG_iBGP_CORP
   trunk_groups:
@@ -248,6 +265,14 @@ vlan_interfaces:
   description: CORP_GLOBAL_SHARED_20
   shutdown: false
   ip_address_virtual: 10.20.20.1/24
+  vrf: CORP
+- name: Vlan30
+  tenant: CORP
+  tags:
+  - GLOBAL_LEAVES
+  description: CORP_GLOBAL_SHARED_30
+  shutdown: false
+  ip_address_virtual: 10.30.30.1/24
   vrf: CORP
 - name: Vlan3009
   tenant: CORP
@@ -387,6 +412,8 @@ vxlan_interface:
         vni: 10010
       - id: 20
         vni: 10020
+      - id: 30
+        vni: 10030
       vrfs:
       - name: CORP
         vni: 10
